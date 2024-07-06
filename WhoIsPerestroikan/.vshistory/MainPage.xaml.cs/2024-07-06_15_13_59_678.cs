@@ -71,7 +71,7 @@ namespace WhoIsPerestroikan
                         //var center = new MPoint(Location.Longitude, Location.Latitude);
 
                         //Map.Map.Navigator.CenterOnAndZoomTo(new MPoint(2776952, 8442653), Map.Map.Navigator.Resolutions[18]); // Adjust the zoom level to 100m accuracy
-                        Map.Map.Navigator.CenterOnAndZoomTo(center, Map.Map.Navigator.Resolutions[19]);
+                        Map.Map.Navigator.CenterOnAndZoomTo(center, Map.Map.Navigator.Resolutions[15]);
 
                     }
                     else
