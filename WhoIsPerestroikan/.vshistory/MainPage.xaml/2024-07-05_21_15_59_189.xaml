@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhoIsPerestroikan.MainPage"
+             xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps"
+             x:Name="Page"
+             BindingContext="{x:Reference Page}">
+
+    <Grid RowDefinitions="auto, auto, auto" ColumnDefinitions="auto, *">
+        <Label Text="Latitude"/>
+        <Label Grid.Column="1" Text="{Binding Location.Latitude}"/>
+
+        <Label Grid.Row="1" Text="Longitude"/>
+        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Location.Longitude}"/>
+
+        <Label Grid.Row="2" Text="Altitude"/>
+        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Location.Altitude}"/>
+    </Grid>
+</ContentPage>
