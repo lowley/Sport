@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              x:Class="WhoIsPerestroikan.MainPage"
              x:Name="Page"
              BindingContext="{x:Reference Page}">
@@ -21,7 +22,7 @@
 
         <!--<mapsui:MapControl x:Name="mapView" Grid.Row="3" Grid.ColumnSpan="2"/>-->
         <Frame Grid.Row="3" Grid.ColumnSpan="2" x:Name="MapContainer"/>
-
+        <syncfusion:SfPopup x:Name="popup" />
 
     </Grid>
 </ContentPage>

@@ -1,6 +1,9 @@
-﻿using Mapsui;
+﻿using Android.App;
+using AndroidX.Navigation;
+using Mapsui;
 using Mapsui.Projections;
 using Mapsui.UI.Maui;
+using Microsoft.Maui.Controls;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 #if NET6_0_OR_GREATER
@@ -32,23 +35,48 @@ namespace WhoIsPerestroikan
 
         private async Task InitializeMap()
         {
-            Map = new Mapsui.UI.Maui.MapControl();
-            Map.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
-            MapContainer.Content = Map;
 
-            Location = await Geolocation.GetLastKnownLocationAsync();
-
-            if (Location != null)
+            try
             {
-                //var center = new MPoint(SphericalMercator.FromLonLat(Location.Longitude, Location.Latitude));
-                var center = new MPoint(Location.Longitude, Location.Latitude);
+                Map = new Mapsui.UI.Maui.MapControl();
+                Map.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
+                MapContainer.Content = Map;
 
-                //mapView.Map.Navigator.CenterOnAndZoomTo(new MPoint(2776952, 8442653), mapView.Map.Navigator.Resolutions[18]); // Adjust the zoom level to 100m accuracy
-                //mapView.Map.Navigator.CenterOnAndZoomTo(center, 1000); // Adjust the zoom level to 100m accuracy                                                                                                                                      
+                Location = await Geolocation.GetLastKnownLocationAsync();
+
+                if (Location != null)
+                {
+                    //var center = new MPoint(SphericalMercator.FromLonLat(Location.Longitude, Location.Latitude));
+                    //var center = new MPoint(Location.Longitude, Location.Latitude);
+
+                    //mapView.Map.Navigator.CenterOnAndZoomTo(new MPoint(2776952, 8442653), mapView.Map.Navigator.Resolutions[18]); // Adjust the zoom level to 100m accuracy
+                    //mapView.Map.Navigator.CenterOnAndZoomTo(center, 1000); // Adjust the zoom level to 100m accuracy                                                                                                                                      
+                    var center = new MPoint(SphericalMercator.FromLonLat(Location.Longitude, Location.Latitude));
+                    //mapView.Map.Navigator.CenterOnAndZoomTo(new MPoint(2776952, 8442653), mapView.Map.Navigator.Resolutions[18]); // Adjust the zoom level to 100m accuracy
+                    //var center = new MPoint(Location.Longitude, Location.Latitude);
+
+                    //Map.Map.Navigator.CenterOnAndZoomTo(new MPoint(2776952, 8442653), Map.Map.Navigator.Resolutions[18]); // Adjust the zoom level to 100m accuracy
+                    Map.Map.Navigator.CenterOnAndZoomTo(center, 10);
+                }
+
+                // Start the location update loop
+                StartLocationUpdates();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                DataTemplate templateView = new DataTemplate(() =>
+                {
+                    Label popupContent = new Label();
+                    popupContent.Text = $"{ex.Message}";
+                    popupContent.HorizontalTextAlignment = TextAlignment.Center;
+                    return popupContent;
+                });
 
-            // Start the location update loop
-            StartLocationUpdates();
+                // Adding ContentTemplate of the SfPopup
+                popup.ContentTemplate = templateView;
+                popup.Show();
+            }
         }
 
         private async Task UpdateLocationAsync(CancellationToken token)
@@ -71,8 +99,19 @@ namespace WhoIsPerestroikan
                         //var center = new MPoint(Location.Longitude, Location.Latitude);
 
                         //Map.Map.Navigator.CenterOnAndZoomTo(new MPoint(2776952, 8442653), Map.Map.Navigator.Resolutions[18]); // Adjust the zoom level to 100m accuracy
-                        Map.Map.Navigator.CenterOnAndZoomTo(center, Map.Map.Navigator.Resolutions[19]);
+                        Map.Map.Navigator.CenterOnAndZoomTo(center, 10);
 
+                        //DataTemplate templateView = new DataTemplate(() =>
+                        //{
+                        //    Label popupContent = new Label();
+                        //    popupContent.Text = $"{Map.Map.Navigator.Resolutions[18].ToString()}";
+                        //    popupContent.HorizontalTextAlignment = TextAlignment.Center;
+                        //    return popupContent;
+                        //});
+
+                        //// Adding ContentTemplate of the SfPopup
+                        //popup.ContentTemplate = templateView;
+                        //popup.Show();
                     }
                     else
                     {
@@ -82,6 +121,19 @@ namespace WhoIsPerestroikan
                 catch (Exception ex)
                 {
                     LocationStatus = $"An error occurred: {ex.Message}";
+                    Console.WriteLine(ex.ToString());
+                    DataTemplate templateView = new DataTemplate(() =>
+                    {
+                        Label popupContent = new Label();
+                        popupContent.Text = $"{ex.Message}";
+                        popupContent.HorizontalTextAlignment = TextAlignment.Center;
+                        return popupContent;
+                    });
+
+                    // Adding ContentTemplate of the SfPopup
+                    popup.ContentTemplate = templateView;
+                    popup.Show();
+
                 }
 
                 // Attendez 3 secondes avant de demander une nouvelle localisation
