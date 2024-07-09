@@ -10,9 +10,11 @@ using Android.Runtime;
 [assembly: UsesFeature("android.hardware.location.gps", Required = false)]
 [assembly: UsesFeature("android.hardware.location.network", Required = false)]
 
+
 namespace WhoIsPerestroikan
 {
     [Application]
+
     public class MainApplication : MauiApplication
     {
         public MainApplication(IntPtr handle, JniHandleOwnership ownership)

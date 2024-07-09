@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:local="WhoIsPerestroikan.DisplayPage"
+             xmlns:peres="clr-namespace:WhoIsPerestroikan"
+             xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             xmlns:vm="clr-namespace:WhoIsPerestroikan.VM"
+             x:Class="WhoIsPerestroikan.DisplayPage"
+             x:DataType="vm:DisplayVM"
+             x:Name="Page">
+
+    <Grid RowDefinitions="auto, auto, auto, auto, 150" ColumnDefinitions="auto, *">
+        <Label Text="Latitude"/>
+        <Label Grid.Column="1" Text="{Binding Location.Latitude}"
+               HorizontalOptions="End" TextColor="Red"/>
+
+        <Label Grid.Row="1" Text="Longitude"/>
+        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Location.Longitude}"
+               HorizontalOptions="End" TextColor="Red"/>
+
+        <Label Grid.Row="2" Text="Altitude"/>
+        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Location.Altitude}"
+               HorizontalOptions="End" TextColor="Red"/>
+
+        <Button Grid.Row="3" Grid.ColumnSpan="2"
+                Text="Move me" Clicked="MoveMe_Clicked"/>
+
+        <peres:MapEx Grid.Row="4" Grid.ColumnSpan="2" x:Name="GoogleMap"
+                        ItemsSource="{Binding Source={RelativeSource Mode=Self}, Path=CustomPins}">
+            <x:Arguments>
+                <maps:MapSpan>
+                    <x:Arguments>
+                        <sensors:Location>
+                            <x:Arguments>
+                                <x:Double>48.58432</x:Double>
+                                <x:Double>7.73750</x:Double>
+                            </x:Arguments>
+                        </sensors:Location>
+                        <x:Double>0.01</x:Double>
+                        <x:Double>0.01</x:Double>
+                    </x:Arguments>
+                </maps:MapSpan>
+            </x:Arguments>
+            <maps:Map.ItemTemplate>
+                <DataTemplate>
+                    <maps:Pin Location="{Binding Location}"
+                              Label="{Binding Label}" />
+                </DataTemplate>
+            </maps:Map.ItemTemplate>
+        </peres:MapEx>
+
+        <syncfusion:SfPopup x:Name="popup" />
+
+    </Grid>
+</ContentPage>

@@ -48,15 +48,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<MauiImage Remove="Resources\Images\greenpin.png" />
-		<MauiImage Remove="Resources\Images\personpin.png" />
-		<MauiImage Remove="Resources\Images\coffeepin.png" />
+	  <MauiImage Remove="Resources\Images\greenpin.png" />
+	  <MauiImage Remove="Resources\Images\greenpin0.bmp" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="Resources\Images\greenpin.png" />
-		<None Remove="Resources\Images\personpin.png" />
-		<None Remove="Resources\Images\coffeepin.png" />
+	  <None Remove="Resources\Images\greenpin.png" />
+	  <None Remove="Resources\Images\greenpin0.bmp" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,7 +69,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.70" />
 		<PackageReference Include="Onion.Maui.GoogleMaps" Version="5.0.0" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 
 		<PackageReference Include="Syncfusion.Maui.Cards" Version="26.1.40" />
@@ -81,31 +79,22 @@
 		<PackageReference Include="Syncfusion.Maui.Maps" Version="26.1.40" />
 		<PackageReference Include="Syncfusion.Maui.Popup" Version="26.1.40" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
-		<MauiAsset Update="Resources\Raw\AboutAssets.txt">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</MauiAsset>
+	  <MauiAsset Update="Resources\Raw\AboutAssets.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
 	</ItemGroup>
-
+	
 	<ItemGroup>
-		<MauiAsset Include="Platforms\Android\Resources\drawable\coffeepin.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</MauiAsset>
-		<MauiAsset Include="Platforms\Android\Resources\drawable\greenpin.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</MauiAsset>
-		<MauiAsset Include="Platforms\Android\Resources\drawable\personpin.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</MauiAsset>
+	  <MauiAsset Include="Platforms\Android\Resources\drawable\greenpin.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Include="Platforms\Android\Resources\drawable\greenpin0.bmp">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="ZoneDisplay\DisplayPage.xaml.cs">
-	    <DependentUpon>DisplayPage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
+	
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionWhoIsPerestroikanHideInfoBar="True" />
