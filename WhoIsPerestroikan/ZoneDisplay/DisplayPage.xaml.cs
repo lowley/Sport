@@ -130,9 +130,15 @@ public partial class DisplayPage : ContentPage
         LocationService.StopLocationUpdates();
     }
 
-    public async Task<Stream> ReadTextFile(string file)
-    => await FileSystem.Current.OpenAppPackageFileAsync(file);
-
+    private void MoveMe_Clicked(object sender, EventArgs e)
+    {
+        var handler = GoogleMap.Handler;
+        PinMoi.Location = new Location(
+            (PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
+            (PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2
+            );
+        (handler as CustomMapHandler).MovePin(PinMoi);
+    }
     public DisplayPage()
     {
         InitializeComponent();
@@ -160,16 +166,6 @@ public partial class DisplayPage : ContentPage
         GoogleMap.CustomPins.Add(PinPeres);
 
         InitializeMap();
-    }
-
-    private void MoveMe_Clicked(object sender, EventArgs e)
-    {
-        var handler = GoogleMap.Handler;
-        PinMoi.Location = new Location(
-            (PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
-            (PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2
-            );
-        (handler as CustomMapHandler).MovePin(PinMoi);
     }
 }
 
