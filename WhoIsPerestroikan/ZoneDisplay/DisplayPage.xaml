@@ -6,10 +6,9 @@
              xmlns:peres="clr-namespace:WhoIsPerestroikan"
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
-             xmlns:vm="clr-namespace:WhoIsPerestroikan.VM"
              x:Class="WhoIsPerestroikan.DisplayPage"
-             x:DataType="vm:DisplayVM"
-             x:Name="Page">
+             x:Name="Page"
+             BindingContext="{x:Reference Page}">
 
     <Grid RowDefinitions="auto, auto, auto, auto, 150" ColumnDefinitions="auto, *">
         <Label Text="Latitude"/>

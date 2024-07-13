@@ -1,14 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Android.Gms.Maps;
+using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Input;
-using WhoIsPerestroikan.VM;
 using MapSpan = Microsoft.Maui.Maps.MapSpan;
 
 namespace WhoIsPerestroikan;
 
 public partial class DisplayPage : ContentPage
 {
-    public DisplayVM ViewModel { get; set; }
-
     private LocationService LocationService;
     private CancellationTokenSource _cancelTokenSource;
     private bool _isCheckingLocation;
@@ -65,6 +64,7 @@ public partial class DisplayPage : ContentPage
                 });
 
                 Location.UpdateWith(newLocation);
+                OnPropertyChanged(nameof(Location));
 
                 AddPinMoiInfoIfNeededAndPossible(Location);
                 UpdatePin(PinMoi, Location);
@@ -91,6 +91,7 @@ public partial class DisplayPage : ContentPage
     {
         if (pin != null)
             pin.Location = location;
+        OnPropertyChanged(nameof(PinMoi));
         OnPropertyChanged(nameof(GoogleMap));
     }
 
@@ -130,12 +131,9 @@ public partial class DisplayPage : ContentPage
     public async Task<Stream> ReadTextFile(string file)
     => await FileSystem.Current.OpenAppPackageFileAsync(file);
 
-    public DisplayPage(DisplayVM vm)
+    public DisplayPage()
     {
         InitializeComponent();
-        ViewModel = vm;
-        BindingContext = ViewModel;
-
         StartLocationService();
 
         PinPeres = new MapPin
@@ -229,7 +227,7 @@ public partial class MapPin : ObservableObject
 
 public class MapEx : Microsoft.Maui.Controls.Maps.Map
 {
-    public MapEx(MapSpan region) : base(region) 
+    public MapEx(MapSpan region) : base(region)
     {
         CustomPins = [];
     }

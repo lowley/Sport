@@ -47,7 +47,6 @@ public class CustomMapHandler : MapHandler
             }
 
             mapHandler.MarkerMap.Clear();
-
             mapHandler.AddPins();
         }
     }
@@ -62,8 +61,8 @@ public class CustomMapHandler : MapHandler
                 markerOption.SetTitle(pin.Label);
                 markerOption.SetIcon(GetIcon(pin));
                 markerOption.SetPosition(new LatLng(pin.Location.Latitude, pin.Location.Longitude));
-                var marker = Map.AddMarker(markerOption);
 
+                var marker = Map.AddMarker(markerOption);
                 MarkerMap.Add(marker.Id, (marker, pin));
             }
         }
@@ -85,7 +84,7 @@ public class CustomMapHandler : MapHandler
 
         //var drawable = Context.Resources.GetIdentifier(icon, "drawable", Context.PackageName);
         //var bitmap = BitmapFactory.DecodeResource(Context.Resources, drawable);
-        var scaled = Bitmap.CreateScaledBitmap(bitmap, pin.IconWidth, pin.IconHeight, false);
+        var scaled = Bitmap.CreateScaledBitmap(bitmap, _iconSize, _iconSize, false);
         bitmap.Recycle();
         var descriptor = BitmapDescriptorFactory.FromBitmap(scaled);
 
@@ -103,7 +102,7 @@ public class CustomMapHandler : MapHandler
                 return;
 
             var marker = MarkerMap.FirstOrDefault(mm => mm.Value.Pin.Id == newPin.Id);
-            marker.Value.Marker.Position = new LatLng(newPin.Location.Latitude,newPin.Location.Longitude);
+            marker.Value.Marker.Position = new LatLng(newPin.Location.Latitude, newPin.Location.Longitude);
             marker.Value.Pin.Location = new Location(newPin.Location.Latitude, newPin.Location.Longitude);
         }
     }
