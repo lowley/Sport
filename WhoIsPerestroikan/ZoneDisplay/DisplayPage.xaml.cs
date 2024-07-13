@@ -4,12 +4,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using WhoIsPerestroikan.VM;
 using MapSpan = Microsoft.Maui.Maps.MapSpan;
 
 namespace WhoIsPerestroikan;
 
 public partial class DisplayPage : ContentPage
 {
+    public DisplayVM VM { get; set; }
+
     private LocationService LocationService;
     private CancellationTokenSource _cancelTokenSource;
     private bool _isCheckingLocation;
@@ -85,16 +88,17 @@ public partial class DisplayPage : ContentPage
 
     private void AddPinMoiInfoIfNeededAndPossible(Location location)
     {
-        if (GoogleMap.CustomPins.All(pin => pin.Label != PinMoi.Label) && location != null)
-            GoogleMap.CustomPins.Add(PinMoi);
+        if (VM.CustomPins.All(pin => pin.Label != PinMoi.Label) && location != null)
+            VM.CustomPins.Add(PinMoi);
     }
 
     void UpdatePin(MapPin pin, Location location)
     {
-        if (pin != null)
-            pin.Location = location;
-        OnPropertyChanged(nameof(PinMoi));
-        OnPropertyChanged(nameof(GoogleMap));
+        if (pin == null)
+            return;
+
+        pin.Location = location;
+        (GoogleMap.Handler as CustomMapHandler).MovePin(pin);
     }
 
     private void ShowPopupMessage(string message)
@@ -139,10 +143,13 @@ public partial class DisplayPage : ContentPage
             );
         (handler as CustomMapHandler).MovePin(PinMoi);
     }
-    public DisplayPage()
+    public DisplayPage(DisplayVM vm)
     {
         InitializeComponent();
         StartLocationService();
+        VM = vm;
+
+        GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
 
         PinPeres = new MapPin
         {
@@ -162,8 +169,8 @@ public partial class DisplayPage : ContentPage
             IconHeight = 80
         };
 
-        GoogleMap.CustomPins.Add(PinMoi);
-        GoogleMap.CustomPins.Add(PinPeres);
+        VM.CustomPins.Add(PinMoi);
+        VM.CustomPins.Add(PinPeres);
 
         InitializeMap();
     }
@@ -228,13 +235,8 @@ public class MapEx : Microsoft.Maui.Controls.Maps.Map
     public MapEx(MapSpan region) : base(region)
     {
         CustomPins = [];
-        CustomPins.ListChanged += 
+        CustomPins.ListChanged +=
             (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
-    }
-
-    private void CustomPins_ListChanged(object sender, ListChangedEventArgs e)
-    {
-        throw new NotImplementedException();
     }
 
     public BindingList<MapPin> CustomPins
