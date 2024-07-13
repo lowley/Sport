@@ -1,6 +1,8 @@
 ﻿using Android.Gms.Maps;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 using MapSpan = Microsoft.Maui.Maps.MapSpan;
 
@@ -230,14 +232,21 @@ public class MapEx : Microsoft.Maui.Controls.Maps.Map
     public MapEx(MapSpan region) : base(region)
     {
         CustomPins = [];
+        CustomPins.ListChanged += 
+            (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
     }
 
-    public List<MapPin> CustomPins
+    private void CustomPins_ListChanged(object sender, ListChangedEventArgs e)
     {
-        get { return (List<MapPin>)GetValue(CustomPinsProperty); }
+        throw new NotImplementedException();
+    }
+
+    public BindingList<MapPin> CustomPins
+    {
+        get { return (BindingList<MapPin>)GetValue(CustomPinsProperty); }
         set { SetValue(CustomPinsProperty, value); }
     }
 
-    public static readonly BindableProperty CustomPinsProperty = BindableProperty.Create(nameof(CustomPins), typeof(List<MapPin>), typeof(MapEx), null);
+    public static readonly BindableProperty CustomPinsProperty = BindableProperty.Create(nameof(CustomPins), typeof(BindingList<MapPin>), typeof(MapEx), null);
 }
 
