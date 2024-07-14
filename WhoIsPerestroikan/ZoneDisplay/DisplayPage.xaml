@@ -7,21 +7,21 @@
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
              xmlns:vm="clr-namespace:WhoIsPerestroikan.VM"
+             x:DataType="vm:DisplayVM"
              x:Class="WhoIsPerestroikan.DisplayPage"
-             BindingContext="{x:Reference Page}"
              x:Name="Page">
 
     <Grid RowDefinitions="auto, auto, auto, auto, 150" ColumnDefinitions="auto, *">
         <Label Text="Latitude"/>
-        <Label Grid.Column="1" Text="{Binding Location.Latitude}"
+        <Label Grid.Column="1" Text="{Binding CustomPins[0].Latitude}"
                HorizontalOptions="End" TextColor="Red"/>
 
         <Label Grid.Row="1" Text="Longitude"/>
-        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Location.Longitude}"
+        <Label Grid.Row="1" Grid.Column="1" Text="{Binding CustomPins[0].Longitude}"
                HorizontalOptions="End" TextColor="Red"/>
 
         <Label Grid.Row="2" Text="Altitude"/>
-        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Location.Altitude}"
+        <Label Grid.Row="2" Grid.Column="1" Text="{Binding CustomPins[0].Altitude}"
                HorizontalOptions="End" TextColor="Red"/>
 
         <Button Grid.Row="3" Grid.ColumnSpan="2"
@@ -44,7 +44,7 @@
                 </maps:MapSpan>
             </x:Arguments>
             <maps:Map.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="peres:MapPin">
                     <maps:Pin Location="{Binding Location}"
                               Label="{Binding Label}" />
                 </DataTemplate>

@@ -23,6 +23,7 @@ public partial class DisplayPage : ContentPage
     public Location PerestroikaPosition { get; set; } = new Location(48.58432d, 7.73750d);
     //public BitmapDescriptor MoiIcon { get; set; }
     public MapPin PinMoi { get; set; }
+    public double Lat => PinMoi?.Latitude ?? 48.58432;
     public MapPin PinPeres { get; set; }
 
     public void StopLocationUpdates()
@@ -148,13 +149,11 @@ public partial class DisplayPage : ContentPage
 
     public DisplayPage(DisplayVM vm)
     {
-        InitializeComponent();
-
-        StartLocationService();
-        VM = vm;
-
-        GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
-        BindingContext = VM;
+        PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(PinMoi))
+                OnPropertyChanged(nameof(Lat));
+        };
 
         PinPeres = new MapPin
         {
@@ -174,10 +173,18 @@ public partial class DisplayPage : ContentPage
             IconHeight = 80
         };
 
+        InitializeComponent();
+
+        StartLocationService();
+        VM = vm;
+
+        InitializeMap();
+        GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
+        BindingContext = VM;
+
         VM.CustomPins.Add(PinMoi);
         VM.CustomPins.Add(PinPeres);
 
-        InitializeMap();
     }
 }
 
@@ -210,6 +217,9 @@ public partial class MapPin : ObservableObject
     public string _id;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Latitude))]
+    [NotifyPropertyChangedFor(nameof(Longitude))]
+    [NotifyPropertyChangedFor(nameof(Altitude))]
     public Location _location;
 
     [ObservableProperty]
@@ -223,6 +233,10 @@ public partial class MapPin : ObservableObject
 
     [ObservableProperty]
     public int _iconHeight;
+
+    public double Latitude => Location?.Latitude ?? 48.58432;
+    public double Longitude => Location?.Longitude ?? 7.73750;
+    public double Altitude => Location?.Altitude ?? 226;
 
     public ICommand ClickedCommand { get; set; } = new Command(() => { });
     public MapPin()

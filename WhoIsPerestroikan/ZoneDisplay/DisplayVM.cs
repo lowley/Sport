@@ -9,7 +9,11 @@ namespace WhoIsPerestroikan.VM
     public partial class DisplayVM : ObservableObject
     {
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Moi))]
         public BindingList<MapPin> _customPins = [];
+
+        public MapPin Moi => CustomPins.FirstOrDefault(pin => pin.Label.Equals("Moi"));
+
 
         public CustomMapHandler MapHandler { get; set; }
 
