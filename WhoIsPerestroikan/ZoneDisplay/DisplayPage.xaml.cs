@@ -22,9 +22,6 @@ public partial class DisplayPage : ContentPage
     public Location Location { get; set; } = new Location();
     public Location PerestroikaPosition { get; set; } = new Location(48.58432d, 7.73750d);
     //public BitmapDescriptor MoiIcon { get; set; }
-    public MapPin PinMoi { get; set; }
-    public MapPin PinPeres { get; set; }
-
     public void StopLocationUpdates()
     {
         Cts?.Cancel();
@@ -75,7 +72,7 @@ public partial class DisplayPage : ContentPage
                 OnPropertyChanged(nameof(Location));
 
                 AddPinMoiInfoIfNeededAndPossible(Location);
-                UpdatePin(PinMoi, Location);
+                UpdatePin(VM.PinMoi, Location);
             }
             catch (Exception ex)
             {
@@ -91,8 +88,8 @@ public partial class DisplayPage : ContentPage
 
     private void AddPinMoiInfoIfNeededAndPossible(Location location)
     {
-        if (VM.CustomPins.All(pin => pin.Label != PinMoi.Label) && location != null)
-            VM.CustomPins.Add(PinMoi);
+        if (VM.CustomPins.All(pin => pin.Label != VM.PinMoi.Label) && location != null)
+            VM.CustomPins.Add(VM.PinMoi);
     }
 
     void UpdatePin(MapPin pin, Location location)
@@ -119,15 +116,13 @@ public partial class DisplayPage : ContentPage
         popup.Show();
     }
 
-    private async void StartLocationService()
+    private void MoveMe_Clicked(object sender, EventArgs e)
     {
-        // Demandez la permission de localisation à l'utilisateur
-        var status = await Permissions.RequestAsync<Permissions.LocationAlways>();
-
-        if (status == PermissionStatus.Granted)
-            await LocationService.StartLocationUpdatesAsync();
-        else
-            await DisplayAlert("Permission Denied", "Unable to get location permission.", "OK");
+        VM.PinMoi.Location = new Location(
+            (VM.PinMoi.Location.Latitude + VM.PinPeres.Location.Latitude) / 2,
+            (VM.PinMoi.Location.Longitude + VM.PinPeres.Location.Longitude) / 2
+            );
+        VM.MapHandler?.MovePin(VM.PinMoi);
     }
 
     protected override void OnDisappearing()
@@ -136,48 +131,22 @@ public partial class DisplayPage : ContentPage
         LocationService.StopLocationUpdates();
     }
 
-    private void MoveMe_Clicked(object sender, EventArgs e)
-    {
-        PinMoi.Location = new Location(
-            (PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
-            (PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2
-            );
-        VM.MapHandler?.MovePin(PinMoi);
-    }
-
     public DisplayPage(DisplayVM vm, LocationService locationService)
     {
         LocationService = locationService;
-
         InitializeComponent();
 
-        StartLocationService();
+        if (!LocationService.RequestLocationPermission().Result)
+        {
+            ShowPopupMessage("Permission requise pour obtenir votre position");
+        }
         VM = vm;
 
         InitializeMap();
         GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
         BindingContext = VM;
 
-        PinPeres = new MapPin
-        {
-            Label = "Perestroïka",
-            Location = new Location(48.58432, 7.73750),
-            Icon = "coffeepin.png",
-            IconWidth = 80,
-            IconHeight = 80
-        };
-
-        PinMoi = new MapPin
-        {
-            Label = "Moi",
-            Location = new Location(48.58402, 7.74750),
-            Icon = "personpin.png",
-            IconWidth = 60,
-            IconHeight = 80
-        };
-        VM.CustomPins.Add(PinMoi);
-        VM.CustomPins.Add(PinPeres);
-
+        VM.AddPinsMoiPeres();
     }
 }
 
