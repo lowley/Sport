@@ -29,6 +29,7 @@ namespace WhoIsPerestroikan
                 });
 
             builder.Services.AddTransient<DisplayVM>();
+            builder.Services.AddTransient<LocationService>();
             builder.Services.AddTransient<DisplayPage>();
 
 #if DEBUG

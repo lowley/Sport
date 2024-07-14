@@ -23,7 +23,6 @@ public partial class DisplayPage : ContentPage
     public Location PerestroikaPosition { get; set; } = new Location(48.58432d, 7.73750d);
     //public BitmapDescriptor MoiIcon { get; set; }
     public MapPin PinMoi { get; set; }
-    public double Lat => PinMoi?.Latitude ?? 48.58432;
     public MapPin PinPeres { get; set; }
 
     public void StopLocationUpdates()
@@ -122,7 +121,6 @@ public partial class DisplayPage : ContentPage
 
     private async void StartLocationService()
     {
-        LocationService = new LocationService();
         // Demandez la permission de localisation à l'utilisateur
         var status = await Permissions.RequestAsync<Permissions.LocationAlways>();
 
@@ -147,13 +145,18 @@ public partial class DisplayPage : ContentPage
         VM.MapHandler?.MovePin(PinMoi);
     }
 
-    public DisplayPage(DisplayVM vm)
+    public DisplayPage(DisplayVM vm, LocationService locationService)
     {
-        PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(PinMoi))
-                OnPropertyChanged(nameof(Lat));
-        };
+        LocationService = locationService;
+
+        InitializeComponent();
+
+        StartLocationService();
+        VM = vm;
+
+        InitializeMap();
+        GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
+        BindingContext = VM;
 
         PinPeres = new MapPin
         {
@@ -172,16 +175,6 @@ public partial class DisplayPage : ContentPage
             IconWidth = 60,
             IconHeight = 80
         };
-
-        InitializeComponent();
-
-        StartLocationService();
-        VM = vm;
-
-        InitializeMap();
-        GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
-        BindingContext = VM;
-
         VM.CustomPins.Add(PinMoi);
         VM.CustomPins.Add(PinPeres);
 

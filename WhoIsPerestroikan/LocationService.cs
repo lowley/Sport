@@ -4,7 +4,7 @@ using System.Threading;
 
 public class LocationService
 {
-    
+    public CancellationTokenSource _cts { get; set; }
 
     public async Task StartLocationUpdatesAsync()
     {
