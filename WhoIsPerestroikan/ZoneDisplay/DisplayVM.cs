@@ -11,6 +11,8 @@ namespace WhoIsPerestroikan.VM
         [ObservableProperty]
         public BindingList<MapPin> _customPins = [];
 
+        public CustomMapHandler MapHandler { get; set; }
+
         public DisplayVM()
         {
             CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));

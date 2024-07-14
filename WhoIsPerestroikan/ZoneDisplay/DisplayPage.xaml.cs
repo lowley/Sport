@@ -60,6 +60,9 @@ public partial class DisplayPage : ContentPage
     {
         while (!token.IsCancellationRequested)
         {
+            if (VM.MapHandler == null && GoogleMap.Handler != null)
+                VM.MapHandler = GoogleMap.Handler as CustomMapHandler;
+
             try
             {
                 var newLocation = await Geolocation.GetLocationAsync(new GeolocationRequest
@@ -98,7 +101,7 @@ public partial class DisplayPage : ContentPage
             return;
 
         pin.Location = location;
-        (GoogleMap.Handler as CustomMapHandler).MovePin(pin);
+        VM.MapHandler?.MovePin(pin);
     }
 
     private void ShowPopupMessage(string message)
@@ -136,20 +139,22 @@ public partial class DisplayPage : ContentPage
 
     private void MoveMe_Clicked(object sender, EventArgs e)
     {
-        var handler = GoogleMap.Handler;
         PinMoi.Location = new Location(
             (PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
             (PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2
             );
-        (handler as CustomMapHandler).MovePin(PinMoi);
+        VM.MapHandler?.MovePin(PinMoi);
     }
+
     public DisplayPage(DisplayVM vm)
     {
         InitializeComponent();
+
         StartLocationService();
         VM = vm;
 
         GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
+        BindingContext = VM;
 
         PinPeres = new MapPin
         {
