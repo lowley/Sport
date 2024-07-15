@@ -26,7 +26,7 @@ public partial class DisplayPage : ContentPage
     {
         try
         {
-            Location.UpdateWith(await Geolocation.GetLastKnownLocationAsync());
+            VM.CustomPins[0].Location.UpdateWith(await Geolocation.GetLastKnownLocationAsync());
             OnPropertyChanged(nameof(Location));
 
             //if (GoogleMap.CustomPins.All(pi => pi.Id != PinMoi.Id) && Location != null)
