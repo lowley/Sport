@@ -9,24 +9,11 @@ namespace WhoIsPerestroikan;
 public partial class DisplayPage : ContentPage
 {
     public DisplayVM VM { get; set; }
-
     private LocationService LocationService;
-    private CancellationTokenSource _cancelTokenSource;
-    private bool _isCheckingLocation;
-
-    private string LocationStatus { get; set; }
-    private CancellationTokenSource Cts { get; set; }
-    public Location Location { get; set; } = new Location();
-
     public void StartLocationUpdates()
     {
-        Cts = new CancellationTokenSource();
-        UpdateLocationAsync(Cts.Token);
-    }
-
-    public void StopLocationUpdates()
-    {
-        Cts?.Cancel();
+        LocationService.Cts = new CancellationTokenSource();
+        UpdateLocationAsync();
     }
 
     private async Task InitializeMap()
@@ -45,9 +32,9 @@ public partial class DisplayPage : ContentPage
         }
     }
 
-    private async Task UpdateLocationAsync(CancellationToken token)
+    private async Task UpdateLocationAsync()
     {
-        while (!token.IsCancellationRequested)
+        while (!LocationService.Cts.IsCancellationRequested)
         {
             if (VM.MapHandler == null && GoogleMap.Handler != null)
                 VM.MapHandler = GoogleMap.Handler as CustomMapHandler;
@@ -58,13 +45,13 @@ public partial class DisplayPage : ContentPage
             }
             catch (Exception ex)
             {
-                LocationStatus = $"An error occurred: {ex.Message}";
+                LocationService.LocationStatus = $"An error occurred: {ex.Message}";
                 Console.WriteLine(ex.ToString());
                 ShowPopupMessage(ex.Message);
             }
 
             // Attendez 3 secondes avant de demander une nouvelle localisation
-            await Task.Delay(1000, token);
+            await Task.Delay(1000, LocationService.Cts.Token);
         }
     }
 

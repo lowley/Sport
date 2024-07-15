@@ -4,7 +4,8 @@ using System.Threading;
 
 public class LocationService
 {
-    public CancellationTokenSource _cts { get; set; }
+    public string LocationStatus { get; set; }
+    public CancellationTokenSource Cts { get; set; }
 
     public async Task<bool> RequestLocationPermission()
     {
@@ -25,7 +26,7 @@ public class LocationService
 
     public void StopLocationUpdates()
     {
-        _cts?.Cancel();
+        Cts?.Cancel();
     }
 }
 
