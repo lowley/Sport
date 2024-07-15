@@ -126,11 +126,11 @@ public partial class DisplayPage : ContentPage
             ShowPopupMessage("Permission requise pour obtenir votre position");
         VM = vm;
 
-        InitializeMap();
         GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
         BindingContext = VM;
 
         VM.AddPinsMoiPeres();
+        InitializeMap();
     }
 }
 
