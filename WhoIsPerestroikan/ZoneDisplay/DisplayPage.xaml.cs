@@ -33,7 +33,7 @@ public partial class DisplayPage : ContentPage
     {
         try
         {
-            VM.UpdatePinMoiWithPosition(await Geolocation.GetLastKnownLocationAsync());
+            VM.UpdatePinMoiWithPosition(await LocationService.GetLastKnownLocationAsync());
 
             // Start the location update loop
             StartLocationUpdates();
@@ -54,11 +54,7 @@ public partial class DisplayPage : ContentPage
 
             try
             {
-                VM.UpdatePinMoiWithPosition(await Geolocation.GetLocationAsync(new GeolocationRequest
-                {
-                    DesiredAccuracy = GeolocationAccuracy.Best,
-                    Timeout = TimeSpan.FromSeconds(30)
-                }));
+                VM.UpdatePinMoiWithPosition(await LocationService.GetLocationAsync());
             }
             catch (Exception ex)
             {

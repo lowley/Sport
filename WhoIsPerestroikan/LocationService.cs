@@ -13,6 +13,16 @@ public class LocationService
 
     }
 
+    public async Task<Location> GetLastKnownLocationAsync()
+        => await Geolocation.GetLastKnownLocationAsync();
+
+    public async Task<Location> GetLocationAsync()
+        => await Geolocation.GetLocationAsync(new GeolocationRequest
+        {
+            DesiredAccuracy = GeolocationAccuracy.Best,
+            Timeout = TimeSpan.FromSeconds(30)
+        });
+
     public void StopLocationUpdates()
     {
         _cts?.Cancel();
