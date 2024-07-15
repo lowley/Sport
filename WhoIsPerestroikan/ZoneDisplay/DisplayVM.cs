@@ -61,8 +61,6 @@ namespace WhoIsPerestroikan.VM
         public DisplayVM()
         {
             CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
-
-
         }
     }
 }

@@ -7,21 +7,26 @@
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
              xmlns:vm="clr-namespace:WhoIsPerestroikan.VM"
+             xmlns:converters="clr-namespace:WhoIsPerestroikan.Converters"
              x:DataType="vm:DisplayVM"
              x:Class="WhoIsPerestroikan.DisplayPage"
              x:Name="Page">
-
+    
+    <ContentPage.Resources>
+        <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>    
+    </ContentPage.Resources>
+    
     <Grid RowDefinitions="auto, auto, auto, auto, 150" ColumnDefinitions="auto, *">
         <Label Text="Latitude"/>
-        <Label Grid.Column="1" Text="{Binding CustomPins[0].Latitude}"
+        <Label Grid.Column="1" Text="{Binding CustomPins[0].Latitude, Converter={StaticResource TruncateLocationDouble}, ConverterParameter=6}"
                HorizontalOptions="End" TextColor="Red"/>
 
         <Label Grid.Row="1" Text="Longitude"/>
-        <Label Grid.Row="1" Grid.Column="1" Text="{Binding CustomPins[0].Longitude}"
+        <Label Grid.Row="1" Grid.Column="1" Text="{Binding CustomPins[0].Longitude, Converter={StaticResource TruncateLocationDouble}, ConverterParameter=6}"
                HorizontalOptions="End" TextColor="Red"/>
 
         <Label Grid.Row="2" Text="Altitude"/>
-        <Label Grid.Row="2" Grid.Column="1" Text="{Binding CustomPins[0].Altitude}"
+        <Label Grid.Row="2" Grid.Column="1" Text="{Binding CustomPins[0].Altitude, Converter={StaticResource TruncateLocationDouble}, ConverterParameter=0}"
                HorizontalOptions="End" TextColor="Red"/>
 
         <Button Grid.Row="3" Grid.ColumnSpan="2"
