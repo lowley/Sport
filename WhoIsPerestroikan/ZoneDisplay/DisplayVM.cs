@@ -1,9 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 
 namespace WhoIsPerestroikan.VM
 {
@@ -46,6 +43,19 @@ namespace WhoIsPerestroikan.VM
             };
             CustomPins.Add(PinMoi);
             CustomPins.Add(PinPeres);
+        }
+
+        public void UpdatePinMoiWithPosition(Location newLocation)
+        {
+            CustomPins[0].Location.UpdateWith(newLocation);
+            //OnPropertyChanged(nameof(Location));
+            RaisePropertyChanged();
+            MapHandler?.MovePin(CustomPins[0]);
+        }
+
+        public void RaisePropertyChanged()
+        {
+            OnPropertyChanged(nameof(CustomPins));
         }
 
         public DisplayVM()

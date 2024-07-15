@@ -17,6 +17,13 @@ public partial class DisplayPage : ContentPage
     private string LocationStatus { get; set; }
     private CancellationTokenSource Cts { get; set; }
     public Location Location { get; set; } = new Location();
+
+    public void StartLocationUpdates()
+    {
+        Cts = new CancellationTokenSource();
+        UpdateLocationAsync(Cts.Token);
+    }
+
     public void StopLocationUpdates()
     {
         Cts?.Cancel();
@@ -26,11 +33,7 @@ public partial class DisplayPage : ContentPage
     {
         try
         {
-            VM.CustomPins[0].Location.UpdateWith(await Geolocation.GetLastKnownLocationAsync());
-            OnPropertyChanged(nameof(Location));
-
-            //if (GoogleMap.CustomPins.All(pi => pi.Id != PinMoi.Id) && Location != null)
-            //    GoogleMap.CustomPins.Add(PinMoi);
+            VM.UpdatePinMoiWithPosition(await Geolocation.GetLastKnownLocationAsync());
 
             // Start the location update loop
             StartLocationUpdates();
@@ -42,12 +45,6 @@ public partial class DisplayPage : ContentPage
         }
     }
 
-    public void StartLocationUpdates()
-    {
-        Cts = new CancellationTokenSource();
-        UpdateLocationAsync(Cts.Token);
-    }
-
     private async Task UpdateLocationAsync(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
@@ -57,17 +54,11 @@ public partial class DisplayPage : ContentPage
 
             try
             {
-                var newLocation = await Geolocation.GetLocationAsync(new GeolocationRequest
+                VM.UpdatePinMoiWithPosition(await Geolocation.GetLocationAsync(new GeolocationRequest
                 {
                     DesiredAccuracy = GeolocationAccuracy.Best,
                     Timeout = TimeSpan.FromSeconds(30)
-                });
-
-                Location.UpdateWith(newLocation);
-                OnPropertyChanged(nameof(Location));
-
-                AddPinMoiInfoIfNeededAndPossible(Location);
-                UpdatePin(VM.PinMoi, Location);
+                }));
             }
             catch (Exception ex)
             {
@@ -79,21 +70,6 @@ public partial class DisplayPage : ContentPage
             // Attendez 3 secondes avant de demander une nouvelle localisation
             await Task.Delay(1000, token);
         }
-    }
-
-    private void AddPinMoiInfoIfNeededAndPossible(Location location)
-    {
-        if (VM.CustomPins.All(pin => pin.Label != VM.PinMoi.Label) && location != null)
-            VM.CustomPins.Add(VM.PinMoi);
-    }
-
-    void UpdatePin(MapPin pin, Location location)
-    {
-        if (pin == null)
-            return;
-
-        pin.Location = location;
-        VM.MapHandler?.MovePin(pin);
     }
 
     private void ShowPopupMessage(string message)
