@@ -18,3 +18,14 @@ public class LocationService
         _cts?.Cancel();
     }
 }
+
+public static class Tools
+{
+    public static void UpdateWith(this Location oldLocation, Location newLocation)
+    {
+        oldLocation.Latitude = newLocation.Latitude;
+        oldLocation.Longitude = newLocation.Longitude;
+        oldLocation.Altitude = newLocation.Altitude;
+        oldLocation.Accuracy = newLocation.Accuracy;
+    }
+}

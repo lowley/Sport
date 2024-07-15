@@ -137,9 +137,7 @@ public partial class DisplayPage : ContentPage
         InitializeComponent();
 
         if (!LocationService.RequestLocationPermission().Result)
-        {
             ShowPopupMessage("Permission requise pour obtenir votre position");
-        }
         VM = vm;
 
         InitializeMap();
@@ -160,17 +158,6 @@ public partial class PinInfo : ObservableObject
 
     [ObservableProperty]
     public string _address;
-}
-
-public static class Tools
-{
-    public static void UpdateWith(this Location oldLocation, Location newLocation)
-    {
-        oldLocation.Latitude = newLocation.Latitude;
-        oldLocation.Longitude = newLocation.Longitude;
-        oldLocation.Altitude = newLocation.Altitude;
-        oldLocation.Accuracy = newLocation.Accuracy;
-    }
 }
 
 public partial class MapPin : ObservableObject
