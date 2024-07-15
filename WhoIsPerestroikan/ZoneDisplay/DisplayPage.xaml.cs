@@ -12,7 +12,7 @@ public partial class DisplayPage : ContentPage
     private LocationService LocationService;
     public void StartLocationUpdates()
     {
-        LocationService.Cts = new CancellationTokenSource();
+        LocationService.CreateNewCancellationTokenSource();
         UpdateLocationAsync();
     }
 

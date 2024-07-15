@@ -14,6 +14,11 @@ public class LocationService
 
     }
 
+    public void CreateNewCancellationTokenSource()
+    {
+        Cts = new CancellationTokenSource();
+    }
+
     public async Task<Location> GetLastKnownLocationAsync()
         => await Geolocation.GetLastKnownLocationAsync();
 
