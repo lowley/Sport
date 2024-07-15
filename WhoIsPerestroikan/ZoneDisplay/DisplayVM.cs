@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,8 +13,17 @@ namespace WhoIsPerestroikan.VM
         public BindingList<MapPin> _customPins = [];
         public MapPin PinMoi { get; set; }
         public MapPin PinPeres { get; set; }
-
         public CustomMapHandler MapHandler { get; set; }
+
+        [RelayCommand]
+        public void MoveMe()
+        {
+            PinMoi.Location = new Location(
+            (PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
+            (PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2
+            );
+            MapHandler?.MovePin(PinMoi);
+        }
 
         public void AddPinsMoiPeres()
         {

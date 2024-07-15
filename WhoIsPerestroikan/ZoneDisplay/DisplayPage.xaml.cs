@@ -1,7 +1,4 @@
-﻿using Android.Gms.Maps;
-using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
 using System.Windows.Input;
 using WhoIsPerestroikan.VM;
@@ -20,8 +17,6 @@ public partial class DisplayPage : ContentPage
     private string LocationStatus { get; set; }
     private CancellationTokenSource Cts { get; set; }
     public Location Location { get; set; } = new Location();
-    public Location PerestroikaPosition { get; set; } = new Location(48.58432d, 7.73750d);
-    //public BitmapDescriptor MoiIcon { get; set; }
     public void StopLocationUpdates()
     {
         Cts?.Cancel();
@@ -114,15 +109,6 @@ public partial class DisplayPage : ContentPage
         // Adding ContentTemplate of the SfPopup
         popup.ContentTemplate = templateView;
         popup.Show();
-    }
-
-    private void MoveMe_Clicked(object sender, EventArgs e)
-    {
-        VM.PinMoi.Location = new Location(
-            (VM.PinMoi.Location.Latitude + VM.PinPeres.Location.Latitude) / 2,
-            (VM.PinMoi.Location.Longitude + VM.PinPeres.Location.Longitude) / 2
-            );
-        VM.MapHandler?.MovePin(VM.PinMoi);
     }
 
     protected override void OnDisappearing()
