@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerestroikanWebApp", "Peres
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerestroikanWebApp2", "PerestroikanWebApp2\PerestroikanWebApp2.csproj", "{F129D398-894F-47B1-9D0E-35C0B597B1C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWA3", "PWA3\PWA3.csproj", "{36E1A00B-79A2-488C-A30D-97B40E1318F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{F129D398-894F-47B1-9D0E-35C0B597B1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F129D398-894F-47B1-9D0E-35C0B597B1C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F129D398-894F-47B1-9D0E-35C0B597B1C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36E1A00B-79A2-488C-A30D-97B40E1318F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E1A00B-79A2-488C-A30D-97B40E1318F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36E1A00B-79A2-488C-A30D-97B40E1318F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36E1A00B-79A2-488C-A30D-97B40E1318F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

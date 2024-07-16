@@ -1,0 +1,6 @@
+@PWA3_HostAddress = http://localhost:5268
+
+GET {{PWA3_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

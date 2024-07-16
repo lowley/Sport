@@ -1,11 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services to the container.
+builder.WebHost.UseKestrel(options =>
+{
+    options.ListenAnyIP(Int32.Parse(System.Environment.GetEnvironmentVariable("PORT")));
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 app.UseHttpsRedirection();
 
 var summaries = new[]
@@ -13,7 +17,7 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/", () =>
+app.MapGet("/weatherforecast", () =>
 {
     var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast

@@ -1,6 +1,6 @@
-@PerestroikanWebApp2_HostAddress = http://localhost:5091
+@PerestroikanWebApp2_HostAddress = http://localhost:80
 
-GET {{PerestroikanWebApp2_HostAddress}}/weatherforecast/
+GET {{PerestroikanWebApp2_HostAddress}}/
 Accept: application/json
 
 ###
