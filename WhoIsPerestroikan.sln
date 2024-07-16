@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsPerestroikan", "WhoIsPerestroikan\WhoIsPerestroikan.csproj", "{E08A6EDD-133E-465F-989C-1D7ACB95B540}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhoIsPerestroikan", "WhoIsPerestroikan\WhoIsPerestroikan.csproj", "{E08A6EDD-133E-465F-989C-1D7ACB95B540}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerestroikanWebApp", "PerestroikanWebApp\PerestroikanWebApp.csproj", "{01FA6A6C-19CD-4DB0-825F-10C8CC2CA825}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerestroikanWebApp2", "PerestroikanWebApp2\PerestroikanWebApp2.csproj", "{F129D398-894F-47B1-9D0E-35C0B597B1C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,14 @@ Global
 		{E08A6EDD-133E-465F-989C-1D7ACB95B540}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E08A6EDD-133E-465F-989C-1D7ACB95B540}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E08A6EDD-133E-465F-989C-1D7ACB95B540}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{01FA6A6C-19CD-4DB0-825F-10C8CC2CA825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01FA6A6C-19CD-4DB0-825F-10C8CC2CA825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01FA6A6C-19CD-4DB0-825F-10C8CC2CA825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01FA6A6C-19CD-4DB0-825F-10C8CC2CA825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F129D398-894F-47B1-9D0E-35C0B597B1C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F129D398-894F-47B1-9D0E-35C0B597B1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F129D398-894F-47B1-9D0E-35C0B597B1C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F129D398-894F-47B1-9D0E-35C0B597B1C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
