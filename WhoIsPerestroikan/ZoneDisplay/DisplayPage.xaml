@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:local="WhoIsPerestroikan.DisplayPage"
-             xmlns:peres="clr-namespace:WhoIsPerestroikan"
+             xmlns:peres="clr-namespace:WhoIsPerestroikan;assembly=Tools"
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
              xmlns:vm="clr-namespace:WhoIsPerestroikan.VM"

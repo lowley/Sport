@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using WhoIsPerestroikan;
 using WhoIsPerestroikan.VM;
 using MapSpan = Microsoft.Maui.Maps.MapSpan;
 
@@ -91,73 +92,5 @@ public partial class DisplayPage : ContentPage
         VM.AddPinsMoiPeres();
         InitializeMap();
     }
-}
-
-public partial class PinInfo : ObservableObject
-{
-    [ObservableProperty]
-    public Location _location;
-
-    [ObservableProperty]
-    public string _label;
-
-    [ObservableProperty]
-    public string _address;
-}
-
-public partial class MapPin : ObservableObject
-{
-    [ObservableProperty]
-    public string _id;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(Latitude))]
-    [NotifyPropertyChangedFor(nameof(Longitude))]
-    [NotifyPropertyChangedFor(nameof(Altitude))]
-    public Location _location;
-
-    [ObservableProperty]
-    public string _label;
-
-    [ObservableProperty]
-    public string _icon;
-
-    [ObservableProperty]
-    public int _iconWidth;
-
-    [ObservableProperty]
-    public int _iconHeight;
-
-    public double Latitude => Location?.Latitude ?? 48.58432;
-    public double Longitude => Location?.Longitude ?? 7.73750;
-    public double Altitude => Location?.Altitude ?? 226;
-
-    public ICommand ClickedCommand { get; set; } = new Command(() => { });
-    public MapPin()
-    {
-    }
-
-    public MapPin(Action<MapPin> clicked)
-    {
-        ClickedCommand = new Command(() => clicked(this));
-    }
-}
-
-public class MapEx : Microsoft.Maui.Controls.Maps.Map
-{
-    public MapEx(MapSpan region) : base(region)
-    {
-        CustomPins = [];
-        CustomPins.ListChanged +=
-            (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
-    }
-
-    public BindingList<MapPin> CustomPins
-    {
-        get { return (BindingList<MapPin>)GetValue(CustomPinsProperty); }
-        set { SetValue(CustomPinsProperty, value); }
-    }
-
-    public static readonly BindableProperty CustomPinsProperty = BindableProperty.Create(nameof(CustomPins), typeof(BindingList<MapPin>), typeof(MapEx), null);
 }
 

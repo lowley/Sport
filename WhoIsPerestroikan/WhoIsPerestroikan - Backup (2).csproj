@@ -65,10 +65,11 @@
 		<PackageReference Include="DrawnUi.Maui.MapsUi" Version="1.2.3.4" />
 		<PackageReference Include="Mapsui.Maui" Version="5.0.0-beta.1" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.61" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.70" />
 		<PackageReference Include="Onion.Maui.GoogleMaps" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.70" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -109,15 +110,15 @@
 	  </Compile>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Converters\" />
+	</ItemGroup>
+
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionWhoIsPerestroikanHideInfoBar="True" />
 		</VisualStudio>
 	</ProjectExtensions>
-
-	<ItemGroup>
-	  
-	</ItemGroup>
 	<!-- Build Properties must be defined within these property groups to ensure successful publishing
        to the Mac App Store. See: https://aka.ms/maui-publish-app-store#define-build-properties-in-your-project-file -->
 </Project>
