@@ -1,4 +1,8 @@
+using PWA3.ApplicationFiles;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSignalR();
 
 // Add services to the container.
 builder.WebHost.UseKestrel(options =>
@@ -11,6 +15,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<MapPinHub>("/mappinhub");
+});
 
 var summaries = new[]
 {
