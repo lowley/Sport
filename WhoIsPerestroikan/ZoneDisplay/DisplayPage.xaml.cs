@@ -1,16 +1,15 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.ComponentModel;
-using System.Windows.Input;
-using WhoIsPerestroikan;
+﻿
+using Serilog.Core;
 using WhoIsPerestroikan.VM;
-using MapSpan = Microsoft.Maui.Maps.MapSpan;
 
 namespace WhoIsPerestroikan;
 
 public partial class DisplayPage : ContentPage
 {
     public DisplayVM VM { get; set; }
-    private LocationService LocationService;
+    private LocationService LocationService { get; set; }
+    private CommunicationWithServer CommunicationWithServer { get; set; }
+    private Logger Logger  { get; set; }
     public void StartLocationUpdates()
     {
         LocationService.CreateNewCancellationTokenSource();
@@ -77,9 +76,15 @@ public partial class DisplayPage : ContentPage
         LocationService.StopLocationUpdates();
     }
 
-    public DisplayPage(DisplayVM vm, LocationService locationService)
+    public DisplayPage(
+        DisplayVM vm,
+        LocationService locationService,
+        CommunicationWithServer com,
+        Logger log)
     {
         LocationService = locationService;
+        CommunicationWithServer = com;
+        Logger = log;
         InitializeComponent();
 
         if (!LocationService.RequestLocationPermission().Result)
@@ -91,6 +96,42 @@ public partial class DisplayPage : ContentPage
 
         VM.AddPinsMoiPeres();
         InitializeMap();
+
+        CommunicationWithServer.InitializeSignalR(onReceiveOneMapPin: pin =>
+        {
+            Logger.Verbose($"nouveau message entrant: {pin.Label}");
+
+            if (VM.CustomPins.All(p => p.Id != pin.Id))
+            {
+                VM.CustomPins.Add(pin);
+                Logger.Verbose($"nouveau pointeur: {pin.Label}");
+            }
+        },
+        onReceiveAllMapPins: pins =>
+        {
+            Logger.Verbose($"nouveau message entrant: {pins.Count} mapPin(s)");
+
+            pins.ForEach(pin =>
+            {
+                if (VM.CustomPins.All(p => p.Label != pin.Label))
+                {
+                    VM.CustomPins.Add(pin);
+                }
+            });
+        });
+
+        try
+        {
+            CommunicationWithServer.GetMapPins();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message.ToString());
+        }
+
+        CommunicationWithServer.AddMapPin(VM.PinMoi);
+
+
     }
 }
 

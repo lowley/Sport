@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:sfpopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:sflistview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:local="WhoIsPerestroikan.DisplayPage"
              xmlns:peres="clr-namespace:WhoIsPerestroikan;assembly=Tools"
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
@@ -11,12 +12,12 @@
              x:DataType="vm:DisplayVM"
              x:Class="WhoIsPerestroikan.DisplayPage"
              x:Name="Page">
-    
+
     <ContentPage.Resources>
-        <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>    
+        <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
     </ContentPage.Resources>
-    
-    <Grid RowDefinitions="auto, auto, auto, auto, 150" ColumnDefinitions="auto, *">
+
+    <Grid RowDefinitions="auto, auto, auto, auto, 150, auto, auto" ColumnDefinitions="auto, *">
         <Label Text="Latitude"/>
         <Label Grid.Column="1" Text="{Binding CustomPins[0].Latitude, Converter={StaticResource TruncateLocationDouble}, ConverterParameter=6}"
                HorizontalOptions="End" TextColor="Red"/>
@@ -56,7 +57,21 @@
             </maps:Map.ItemTemplate>
         </peres:MapEx>
 
-        <syncfusion:SfPopup x:Name="popup" />
+        <Label Grid.Row="5" Text="Utilisateurs connectés:"
+               HorizontalOptions="Center" FontAttributes="Bold"/>
 
+        <sflistview:SfListView ItemsSource="{Binding CustomPins}" Grid.Row="6" Grid.ColumnSpan="2">
+            <sflistview:SfListView.ItemTemplate>
+                <DataTemplate x:DataType="peres:MapPin">
+                    <Grid ColumnDefinitions="auto, auto"
+                          RowDefinitions="35">
+                        <Label Text="{Binding Id}"/>
+                        <Label Grid.Column="1" Text="{Binding Label}"/>
+                    </Grid>
+                </DataTemplate>
+            </sflistview:SfListView.ItemTemplate>
+        </sflistview:SfListView>
+        
+        <sfpopup:SfPopup x:Name="popup" />
     </Grid>
 </ContentPage>

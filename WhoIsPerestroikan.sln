@@ -5,9 +5,11 @@ VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhoIsPerestroikan", "WhoIsPerestroikan\WhoIsPerestroikan.csproj", "{E08A6EDD-133E-465F-989C-1D7ACB95B540}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWA3", "PWA3\PWA3.csproj", "{36E1A00B-79A2-488C-A30D-97B40E1318F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWA3", "PWA3\PWA3.csproj", "{36E1A00B-79A2-488C-A30D-97B40E1318F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{F6E2024B-CC66-46D4-A580-B30DA18EA43E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Tools\Tools.csproj", "{F6E2024B-CC66-46D4-A580-B30DA18EA43E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWA4", "PWA4\PWA4.csproj", "{6B806D30-0F64-483C-A583-06C5590080B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B806D30-0F64-483C-A583-06C5590080B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B806D30-0F64-483C-A583-06C5590080B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B806D30-0F64-483C-A583-06C5590080B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B806D30-0F64-483C-A583-06C5590080B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

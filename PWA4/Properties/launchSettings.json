@@ -8,17 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5268"
-    },
-    "https": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7095;http://localhost:5268"
+      "applicationUrl": "http://localhost:5133"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -31,14 +21,12 @@
     "Container (Dockerfile)": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "externalUrlConfiguration": true, 
+      "externalUrlConfiguration": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080"
+        //"ASPNETCORE_HTTP_PORTS": "8080"
       },
-      "publishAllPorts": true,
-      "useSSL": true
+      "publishAllPorts": true
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
@@ -46,8 +34,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:34225",
-      "sslPort": 44340
+      "applicationUrl": "http://localhost:6739",
+      "sslPort": 0
     }
   }
 }

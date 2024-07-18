@@ -12,15 +12,19 @@ namespace WhoIsPerestroikan.VM
         public MapPin PinMoi { get; set; }
         public MapPin PinPeres { get; set; }
         public CustomMapHandler MapHandler { get; set; }
+        public CommunicationWithServer CommunicationWithServer { get; set; }
 
         [RelayCommand]
         public void MoveMe()
         {
-            PinMoi.Location = new Location(
-            (PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
-            (PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2
-            );
-            MapHandler?.MovePin(PinMoi);
+            CommunicationWithServer.AddMapPin(PinMoi);
+
+
+            //PinMoi.Location = new Location(
+            //(PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
+            //(PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2
+            //);
+            //MapHandler?.MovePin(PinMoi);
         }
 
         public void AddPinsMoiPeres()
@@ -34,9 +38,11 @@ namespace WhoIsPerestroikan.VM
                 IconHeight = 80
             };
 
+            var number = new Random().NextInt64(1, 1000000);
+
             PinMoi = new MapPin
             {
-                Label = "Moi",
+                Label = $"Utilisateur {number}",
                 Location = new Location(48.58402, 7.74750),
                 Icon = "personpin.png",
                 IconWidth = 60,
@@ -59,9 +65,10 @@ namespace WhoIsPerestroikan.VM
             OnPropertyChanged(nameof(CustomPins));
         }
 
-        public DisplayVM()
+        public DisplayVM(CommunicationWithServer com)
         {
             CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
+            CommunicationWithServer = com;
         }
     }
 }

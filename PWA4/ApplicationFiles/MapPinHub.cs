@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using WhoIsPerestroikan;
 
-namespace PWA3.ApplicationFiles;
+namespace PWA4.ApplicationFiles;
 
 public class Datas
 {
@@ -16,7 +16,9 @@ public class MapPinHub : Hub
             return;
 
         var pinsCount = Datas.MapPins.Count;
-        Datas.MapPins.Add(mapPin);
+
+        if(Datas.MapPins.All(p => p.Id != mapPin.Id))
+            Datas.MapPins.Add(mapPin);
 
         if (Datas.MapPins.Count > pinsCount)
             await Clients.All.SendAsync("ReceiveMapPin", mapPin);

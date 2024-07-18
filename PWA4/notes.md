@@ -19,3 +19,6 @@ créer container avec image
 
 créer image (attention répertoire où on est pour le ".")
 -> docker build -t wipi -f Dockerfile .
+
+vider cache docker
+-> docker system prune -a
