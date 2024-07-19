@@ -1,5 +1,6 @@
 ﻿
 using Serilog.Core;
+using System.Diagnostics;
 using WhoIsPerestroikan.VM;
 
 namespace WhoIsPerestroikan;
@@ -97,19 +98,21 @@ public partial class DisplayPage : ContentPage
         VM.AddPinsMoiPeres();
         InitializeMap();
 
-        CommunicationWithServer.InitializeSignalR(onReceiveOneMapPin: pin =>
+#pragma warning disable CS4014
+        CommunicationWithServer.InitializeSignalR(
+        onReceiveOneMapPin: pin =>
         {
-            Logger.Verbose($"nouveau message entrant: {pin.Label}");
+            Trace.WriteLine("nouveau message entrant: {pin.Label}");
 
             if (VM.CustomPins.All(p => p.Id != pin.Id))
             {
                 VM.CustomPins.Add(pin);
-                Logger.Verbose($"nouveau pointeur: {pin.Label}");
+                ShowPopupMessage($"nouveau pointeur: {pin.Label}");
             }
         },
         onReceiveAllMapPins: pins =>
         {
-            Logger.Verbose($"nouveau message entrant: {pins.Count} mapPin(s)");
+            Trace.WriteLine($"nouveau message entrant: {pins.Count} mapPin(s)");
 
             pins.ForEach(pin =>
             {
@@ -118,20 +121,25 @@ public partial class DisplayPage : ContentPage
                     VM.CustomPins.Add(pin);
                 }
             });
+        },
+        onTestRetour: message =>
+        {
+            Trace.WriteLine(message);
         });
+#pragma warning restore CS4014
+
+        Task.Run(async () => await CommunicationWithServer.SendTest("haha"));
 
         try
         {
-            CommunicationWithServer.GetMapPins();
+            Task.Run(async () => await CommunicationWithServer.GetMapPins());
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message.ToString());
+            Trace.WriteLine(ex.Message.ToString());
         }
 
-        CommunicationWithServer.AddMapPin(VM.PinMoi);
-
-
+        Task.Run(async () => await CommunicationWithServer.AddMapPin(VM.PinMoi));
     }
 }
 

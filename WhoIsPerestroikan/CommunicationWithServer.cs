@@ -15,7 +15,9 @@ namespace WhoIsPerestroikan
 
         public async Task InitializeSignalR(
             Action<MapPin> onReceiveOneMapPin,
-            Action<List<MapPin>> onReceiveAllMapPins)
+            Action<List<MapPin>> onReceiveAllMapPins,
+            Action<string> onTestRetour = null
+        )
         {
             Trace.WriteLine("dans InitializeSignalR...");
 
@@ -29,10 +31,7 @@ namespace WhoIsPerestroikan
 
             hubConnection.On("ReceiveMapPin", onReceiveOneMapPin);
             hubConnection.On("HereAreAllMapPins", onReceiveAllMapPins);
-            hubConnection.On<string>("test", message =>
-            {
-                Trace.WriteLine(message);
-            });
+            hubConnection.On<string>("TestRetour", onTestRetour);
 
             await hubConnection.StartAsync();
         }
@@ -45,6 +44,18 @@ namespace WhoIsPerestroikan
         public async Task GetMapPins()
         {
             await hubConnection.InvokeAsync("GetMapPins");
+        }
+
+        public async Task SendTest(string message)
+        {
+            try
+            { 
+                await hubConnection.InvokeAsync("TestAller", message); 
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.Message);
+            }
         }
 
         public CommunicationWithServer(Logger logger) 

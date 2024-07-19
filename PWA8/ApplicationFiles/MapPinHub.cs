@@ -28,6 +28,11 @@ public class MapPinHub : Hub
     {
         await Clients.Caller.SendAsync("HereAreAllMapPins", Datas.MapPins);
     }
+
+    public async Task TestAller(string message)
+    {
+        await Clients.All.SendAsync("TestRetour", $"{message}!");
+    }
 }
 
 

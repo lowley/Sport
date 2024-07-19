@@ -21,5 +21,12 @@ namespace PWA8.Controllers
             await hubContext.Clients.All.SendAsync("test", message);
             return Ok("Fini!");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DisplayMessage(string message)
+        {
+            await hubContext.Clients.All.SendAsync("test", message);
+            return Ok(message);
+        }
     }
 }

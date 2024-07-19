@@ -7,7 +7,7 @@ Console.ReadLine();
 var connection = new HubConnectionBuilder().WithUrl("https://whoisperestroikan.azurewebsites.net/mappinhub").Build();
 
 connection.StartAsync().Wait();
-connection.On<string>("test", message =>
+connection.On<string>("TestRetour", message =>
 {
     Console.WriteLine(message);
 });
