@@ -1,0 +1,6 @@
+@PWA5_HostAddress = http://localhost:5272
+
+GET {{PWA5_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

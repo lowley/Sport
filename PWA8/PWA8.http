@@ -1,0 +1,6 @@
+@PWA8_HostAddress = http://localhost:5111
+
+GET {{PWA8_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

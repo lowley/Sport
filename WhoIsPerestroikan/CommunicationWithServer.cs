@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace WhoIsPerestroikan
@@ -16,16 +17,22 @@ namespace WhoIsPerestroikan
             Action<MapPin> onReceiveOneMapPin,
             Action<List<MapPin>> onReceiveAllMapPins)
         {
+            Trace.WriteLine("dans InitializeSignalR...");
+
             hubConnection = new HubConnectionBuilder()
-                .WithUrl(new Uri("http://peres-334945290772.herokuapp.com:52077/mappinhub"))
-                .ConfigureLogging(logging => {
-                    logging.SetMinimumLevel(LogLevel.Information);
-                    logging.AddSerilog();
-                })
+                .WithUrl("https://whoisperestroikan.azurewebsites.net/mappinhub")
+                //.ConfigureLogging(logging => {
+                //    logging.SetMinimumLevel(LogLevel.Information);
+                //    logging.AddSerilog();
+                //})
                 .Build();
 
             hubConnection.On("ReceiveMapPin", onReceiveOneMapPin);
             hubConnection.On("HereAreAllMapPins", onReceiveAllMapPins);
+            hubConnection.On<string>("test", message =>
+            {
+                Trace.WriteLine(message);
+            });
 
             await hubConnection.StartAsync();
         }
