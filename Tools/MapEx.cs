@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using MapSpan = Microsoft.Maui.Maps.MapSpan;
 
 namespace WhoIsPerestroikan
@@ -8,16 +9,16 @@ namespace WhoIsPerestroikan
         public MapEx(MapSpan region) : base(region)
         {
             CustomPins = [];
-            CustomPins.ListChanged +=
-                (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
+            //CustomPins.ListChanged +=
+            //    (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
         }
 
-        public BindingList<MapPin> CustomPins
+        public ObservableCollection<MapPin> CustomPins
         {
-            get { return (BindingList<MapPin>)GetValue(CustomPinsProperty); }
+            get { return (ObservableCollection<MapPin>)GetValue(CustomPinsProperty); }
             set { SetValue(CustomPinsProperty, value); }
         }
 
-        public static readonly BindableProperty CustomPinsProperty = BindableProperty.Create(nameof(CustomPins), typeof(BindingList<MapPin>), typeof(MapEx), null);
+        public static readonly BindableProperty CustomPinsProperty = BindableProperty.Create(nameof(CustomPins), typeof(ObservableCollection<MapPin>), typeof(MapEx), null);
     }
 }

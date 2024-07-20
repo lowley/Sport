@@ -5,6 +5,7 @@ using Microsoft.Maui.Maps.Handlers;
 using WhoIsPerestroikan;
 using System.Diagnostics;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+using Markdig.Helpers;
 
 public class CustomMapHandler : MapHandler
 {
@@ -51,7 +52,7 @@ public class CustomMapHandler : MapHandler
         }
     }
 
-    private void AddPins()
+    public void AddPins()
     {
         if (VirtualView is MapEx mapEx && mapEx.CustomPins != null)
         {
@@ -65,6 +66,29 @@ public class CustomMapHandler : MapHandler
                 var marker = Map.AddMarker(markerOption);
                 MarkerMap.Add(marker.Id, (marker, pin));
             }
+        }
+    }
+
+    public void AddPin(MapPin pin)
+    {
+        if (VirtualView is MapEx mapEx && mapEx.CustomPins != null)
+        {
+            var markerOption = new MarkerOptions();
+            markerOption.SetTitle(pin.Label);
+            markerOption.SetIcon(GetIcon(pin));
+            markerOption.SetPosition(new LatLng(pin.Location.Latitude, pin.Location.Longitude));
+
+            var marker = Map.AddMarker(markerOption);
+            MarkerMap.Add(marker.Id, (marker, pin));
+        }
+    }
+
+    public void RemovePin(MapPin pin)
+    {
+        if (VirtualView is MapEx mapEx && mapEx.CustomPins != null)
+        {
+            var marker = MarkerMap.FirstOrDefault(mm => mm.Value.Pin.Id == pin.Id);
+            MarkerMap.Remove(marker.Key);
         }
     }
 
@@ -114,20 +138,20 @@ public class CustomMapHandler : MapHandler
             value.Pin.ClickedCommand?.Execute(null);
         }
     }
-}
 
-public class MapCallbackHandler : Java.Lang.Object, IOnMapReadyCallback
-{
-    private readonly CustomMapHandler mapHandler;
-
-    public MapCallbackHandler(CustomMapHandler mapHandler)
+    public class MapCallbackHandler : Java.Lang.Object, IOnMapReadyCallback
     {
-        this.mapHandler = mapHandler;
-    }
+        private readonly CustomMapHandler mapHandler;
 
-    public void OnMapReady(GoogleMap googleMap)
-    {
-        mapHandler.UpdateValue(nameof(MapEx.CustomPins));
-        googleMap.MarkerClick += mapHandler.MarkerClick;
+        public MapCallbackHandler(CustomMapHandler mapHandler)
+        {
+            this.mapHandler = mapHandler;
+        }
+
+        public void OnMapReady(GoogleMap googleMap)
+        {
+            mapHandler.UpdateValue(nameof(MapEx.CustomPins));
+            googleMap.MarkerClick += mapHandler.MarkerClick;
+        }
     }
 }

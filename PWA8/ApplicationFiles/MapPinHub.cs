@@ -19,30 +19,46 @@ public class MapPinHub : Hub
             return;
         }
 
-        await Clients.All.SendAsync("TestRetour", $"mapPin reçu: {mapPinDTO}");
-
-        await Clients.All.SendAsync("TestRetour", $"mapPin: {mapPinDTO?.Label ?? "null"}");
-
-        if (mapPinDTO == null)
-            return;
+        //await Clients.All.SendAsync("TestRetour", $"mapPin reçu: {mapPinDTO}");
+        //await Clients.All.SendAsync("TestRetour", $"mapPin: {mapPinDTO?.Label ?? "null"}");
 
         var pinsCount = Datas.MapPins.Count;
 
-        if (Datas.MapPins.All(p => p.Id != mapPinDTO.Id))
+        //todo faire mieux
+        if (Datas.MapPins.All(p => p.Label != mapPinDTO.Label))
             Datas.MapPins.Add(mapPinDTO);
 
+        await Clients.Caller.SendAsync("HereAreAllMapPins", Datas.MapPins);
+        await TestAller($"{Datas.MapPins.Count} mapPinDTOs pour {mapPinDTO.Label}");
+
         if (Datas.MapPins.Count > pinsCount)
-            await Clients.All.SendAsync("ReceiveMapPin", mapPinDTO);
+        {
+            await Clients.Others.SendAsync("HereAreAllMapPins", Datas.MapPins);
+            var msg = $"{Datas.MapPins.Count} mapPinDTOs pour ";
+            msg += string.Join(',', Datas.MapPins.Select(pindto => pindto.Label));
+            await TestAller(msg);
+        }
     }
 
     public async Task GetMapPins()
     {
         await Clients.Caller.SendAsync("HereAreAllMapPins", Datas.MapPins);
+        await TestAller($"Caller reçu {Datas.MapPins.Count} mapPinDTOs");
     }
 
     public async Task TestAller(string message)
     {
         await Clients.All.SendAsync("TestRetour", $"{message}!");
+    }
+
+    public async Task ClearPinDTOs()
+    {
+        await TestAller($"Reçu demande vidage");
+
+        Datas.MapPins.Clear();
+        await Clients.All.SendAsync("HereAreAllMapPins", Datas.MapPins);
+
+        await TestAller($"Caller demandé vidage. Tous reçu {Datas.MapPins.Count} mapPinDTOs");
     }
 }
 

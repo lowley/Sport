@@ -14,8 +14,7 @@ namespace WhoIsPerestroikan
         private Logger Logger { get; set; }
 
         public async Task InitializeSignalR(
-            Action<MapPin> onReceiveOneMapPin,
-            Action<List<MapPin>> onReceiveAllMapPins,
+            Action<List<MapPinDTO>> onReceiveAllMapPins,
             Action<string> onTestRetour = null
         )
         {
@@ -29,7 +28,6 @@ namespace WhoIsPerestroikan
                 //})
                 .Build();
 
-            hubConnection.On("ReceiveMapPin", onReceiveOneMapPin);
             hubConnection.On("HereAreAllMapPins", onReceiveAllMapPins);
             hubConnection.On<string>("TestRetour", onTestRetour);
 
@@ -63,6 +61,10 @@ namespace WhoIsPerestroikan
             {
                 Trace.WriteLine(ex.Message);
             }
+        }
+        public async Task ClearPinDTOS()
+        {
+            await hubConnection.InvokeAsync("ClearPinDTOs");
         }
 
         public CommunicationWithServer(Logger logger) 

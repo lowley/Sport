@@ -9,7 +9,7 @@ public partial class DisplayPage : ContentPage
     public DisplayVM VM { get; set; }
     private LocationService LocationService { get; set; }
     private CommunicationWithServer CommunicationWithServer { get; set; }
-    private Logger Logger  { get; set; }
+    private Logger Logger { get; set; }
     public void StartLocationUpdates()
     {
         LocationService.CreateNewCancellationTokenSource();
@@ -98,29 +98,16 @@ public partial class DisplayPage : ContentPage
 
 #pragma warning disable CS4014
         CommunicationWithServer.InitializeSignalR(
-        onReceiveOneMapPin: pin =>
+        onReceiveAllMapPins: pinDTOs =>
         {
-            Trace.WriteLine($"nouveau message entrant: {pin.Label}");
+            Trace.WriteLine($"nouveau message entrant: {pinDTOs.Count} mapPin(s)");
 
-            if (VM.CustomPins.All(p => p.Id != pin.Id))
-            {
-                VM.CustomPins.Add(pin);
-                ShowPopupMessage($"nouveau pointeur: {pin.Label}");
-            }
-        },
-        onReceiveAllMapPins: pins =>
-        {
-            Trace.WriteLine($"nouveau message entrant: {pins.Count} mapPin(s)");
+            var others = pinDTOs
+            .Where(pinDto => pinDto.Label != VM.PinPeres.Label && pinDto.Label != VM.PinMoi.Label)
+            .ToList();
 
-            pins.ForEach(pin =>
-            {
-                //ATTENTION ce sont des DTO
-
-                //if (VM.CustomPins.All(p => p.Label != pin.Label))
-                //{
-                //    VM.CustomPins.Add(pin);
-                //}
-            });
+            //VM.ClearOtherPins();
+            //VM.AddOtherPins(others);
         },
         onTestRetour: message =>
         {
@@ -128,19 +115,10 @@ public partial class DisplayPage : ContentPage
         });
 #pragma warning restore CS4014
 
-        Task.Run(async () => await CommunicationWithServer.SendTest("haha"));
+        //Task.Run(async () => await CommunicationWithServer.SendTest("haha"));
 
-        try
-        {
-            Task.Run(async () => await CommunicationWithServer.GetMapPins());
-        }
-        catch (Exception ex)
-        {
-            Trace.WriteLine(ex.Message.ToString());
-        }
-
-        Task.Run(async () => await CommunicationWithServer.AddMapPin(VM.PinMoi))
-            .ContinueWith(t => Trace.WriteLine("après que maui appelle AddMapPin"));
+        //ajout de MapPin
+        Task.Run(async () => await CommunicationWithServer.AddMapPin(VM.PinMoi));
     }
 }
 

@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Syncfusion.Maui.DataSource.Extensions;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using WhoIsPerestroikan;
 
@@ -8,17 +10,16 @@ namespace WhoIsPerestroikan.VM
     public partial class DisplayVM : ObservableObject
     {
         [ObservableProperty]
-        public BindingList<MapPin> _customPins = [];
+        public ObservableCollection<MapPin> _customPins = [];
         public MapPin PinMoi { get; set; }
         public MapPin PinPeres { get; set; }
         public CustomMapHandler MapHandler { get; set; }
         public CommunicationWithServer CommunicationWithServer { get; set; }
 
         [RelayCommand]
-        public void MoveMe()
+        public async Task MoveMe()
         {
-            CommunicationWithServer.AddMapPin(PinMoi);
-
+            await CommunicationWithServer.ClearPinDTOS();
 
             //PinMoi.Location = new Location(
             //(PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
@@ -29,17 +30,7 @@ namespace WhoIsPerestroikan.VM
 
         public void AddPinsMoiPeres()
         {
-            PinPeres = new MapPin
-            {
-                Label = "Perestroïka",
-                Location = new Location(48.58432, 7.73750),
-                Icon = "coffeepin.png",
-                IconWidth = 80,
-                IconHeight = 80
-            };
-
             var number = new Random().NextInt64(1, 1000000);
-
             PinMoi = new MapPin
             {
                 Label = $"Utilisateur {number}",
@@ -49,7 +40,18 @@ namespace WhoIsPerestroikan.VM
                 IconHeight = 80
             };
             CustomPins.Add(PinMoi);
-            CustomPins.Add(PinPeres);
+
+            PinPeres = new MapPin
+            {
+                Label = "Perestroïka",
+                Location = new Location(48.58432, 7.73750),
+                Icon = "coffeepin.png",
+                IconWidth = 80,
+                IconHeight = 80
+            };
+
+            if (CustomPins.All(pin => !pin.Label.Equals(PinPeres.Label)))
+                CustomPins.Add(PinPeres);
         }
 
         public void UpdatePinMoiWithPosition(Location newLocation)
@@ -64,10 +66,45 @@ namespace WhoIsPerestroikan.VM
         {
             OnPropertyChanged(nameof(CustomPins));
         }
+        public void ClearOtherPins()
+        {
+            var ToDelete = CustomPins
+                .Where(pin => pin.Label != PinPeres.Label && pin.Label != PinMoi.Label);
+
+            ToDelete.ForEach(pin =>
+            {
+                CustomPins.Remove(pin);
+                MapHandler?.RemovePin(pin);
+            });
+
+            AddPinsMoiPeres();
+            Task.Run(async () => await CommunicationWithServer.AddMapPin(PinMoi));
+            OnPropertyChanged(nameof(CustomPins));
+        }
+        public void AddOtherPins(List<MapPinDTO> others)
+        {
+            others.ForEach(pinDTO =>
+            {
+                var pin = new MapPin
+                {
+                    Id = pinDTO.Id,
+                    Label = pinDTO.Label,
+                    Location = new Location(pinDTO.Latitude, pinDTO.Longitude, pinDTO.Altitude),
+                    Icon = "personpin.png",
+                    IconWidth = 60,
+                    IconHeight = 80
+                };
+
+                CustomPins.Add(pin);
+                MapHandler?.AddPin(pin);
+            });
+
+            OnPropertyChanged(nameof(CustomPins));
+        }
 
         public DisplayVM(CommunicationWithServer com)
         {
-            CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
+            //CustomPins. += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
             CommunicationWithServer = com;
         }
     }

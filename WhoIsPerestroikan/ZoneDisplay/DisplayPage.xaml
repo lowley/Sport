@@ -60,17 +60,16 @@
         <Label Grid.Row="5" Text="Utilisateurs connectés:"
                HorizontalOptions="Center" FontAttributes="Bold"/>
 
-        <sflistview:SfListView ItemsSource="{Binding CustomPins}" Grid.Row="6" Grid.ColumnSpan="2">
-            <sflistview:SfListView.ItemTemplate>
+        <CollectionView ItemsSource="{Binding CustomPins}" Grid.Row="6" Grid.ColumnSpan="2">
+            <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="peres:MapPin">
                     <Grid ColumnDefinitions="auto, auto"
-                          RowDefinitions="35">
-                        <Label Text="{Binding Id}"/>
+                          RowDefinitions="45">
                         <Label Grid.Column="1" Text="{Binding Label}"/>
                     </Grid>
                 </DataTemplate>
-            </sflistview:SfListView.ItemTemplate>
-        </sflistview:SfListView>
+            </CollectionView.ItemTemplate>
+            </CollectionView>
         
         <sfpopup:SfPopup x:Name="popup" />
     </Grid>
