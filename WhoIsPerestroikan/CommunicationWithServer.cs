@@ -38,7 +38,14 @@ namespace WhoIsPerestroikan
 
         public async Task AddMapPin(MapPin mapPin)
         {
-            await hubConnection.InvokeAsync("AddMapPin", mapPin);
+            try
+            {
+                await hubConnection.SendAsync("AddMapPin", mapPin.ToDTO());
+            }
+            catch(Exception ex)
+            {
+                Trace.WriteLine($"Dans AddMapPin: {ex.Message}");
+            }
         }
 
         public async Task GetMapPins()

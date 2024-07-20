@@ -1,5 +1,4 @@
-﻿
-using Serilog.Core;
+﻿using Serilog.Core;
 using System.Diagnostics;
 using WhoIsPerestroikan.VM;
 
@@ -28,7 +27,7 @@ public partial class DisplayPage : ContentPage
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            Trace.WriteLine(ex.ToString());
             ShowPopupMessage(ex.Message);
         }
     }
@@ -47,7 +46,7 @@ public partial class DisplayPage : ContentPage
             catch (Exception ex)
             {
                 LocationService.LocationStatus = $"An error occurred: {ex.Message}";
-                Console.WriteLine(ex.ToString());
+                Trace.WriteLine(ex.ToString());
                 ShowPopupMessage(ex.Message);
             }
 
@@ -66,7 +65,6 @@ public partial class DisplayPage : ContentPage
             return popupContent;
         });
 
-        // Adding ContentTemplate of the SfPopup
         popup.ContentTemplate = templateView;
         popup.Show();
     }
@@ -102,7 +100,7 @@ public partial class DisplayPage : ContentPage
         CommunicationWithServer.InitializeSignalR(
         onReceiveOneMapPin: pin =>
         {
-            Trace.WriteLine("nouveau message entrant: {pin.Label}");
+            Trace.WriteLine($"nouveau message entrant: {pin.Label}");
 
             if (VM.CustomPins.All(p => p.Id != pin.Id))
             {
@@ -116,10 +114,12 @@ public partial class DisplayPage : ContentPage
 
             pins.ForEach(pin =>
             {
-                if (VM.CustomPins.All(p => p.Label != pin.Label))
-                {
-                    VM.CustomPins.Add(pin);
-                }
+                //ATTENTION ce sont des DTO
+
+                //if (VM.CustomPins.All(p => p.Label != pin.Label))
+                //{
+                //    VM.CustomPins.Add(pin);
+                //}
             });
         },
         onTestRetour: message =>
@@ -139,7 +139,8 @@ public partial class DisplayPage : ContentPage
             Trace.WriteLine(ex.Message.ToString());
         }
 
-        Task.Run(async () => await CommunicationWithServer.AddMapPin(VM.PinMoi));
+        Task.Run(async () => await CommunicationWithServer.AddMapPin(VM.PinMoi))
+            .ContinueWith(t => Trace.WriteLine("après que maui appelle AddMapPin"));
     }
 }
 

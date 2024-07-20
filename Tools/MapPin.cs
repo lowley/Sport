@@ -1,8 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
+using WhoIsPerestroikan;
 
 namespace WhoIsPerestroikan
 {
+    [Serializable]
     public partial class MapPin : ObservableObject
     {
         [ObservableProperty]
@@ -39,5 +43,29 @@ namespace WhoIsPerestroikan
         {
             ClickedCommand = new Command(() => clicked(this));
         }
+    }
+}
+
+public class MapPinDTO
+{
+    public string Id { get; set; }
+    public string Label { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+    public double Altitude { get; set; }
+}
+
+public static class MapPinTools
+{
+    public static MapPinDTO ToDTO(this MapPin mapPin)
+    {
+        return new MapPinDTO
+        {
+            Id = mapPin.Id,
+            Label = mapPin.Label,
+            Latitude = mapPin.Latitude,
+            Longitude = mapPin.Longitude,
+            Altitude = mapPin.Altitude,
+        };
     }
 }
