@@ -10,7 +10,7 @@ namespace WhoIsPerestroikan.VM
     public partial class DisplayVM : ObservableObject
     {
         [ObservableProperty]
-        public ObservableCollection<MapPin> _customPins = [];
+        public BindingList<MapPin> _customPins = [];
         public MapPin PinMoi { get; set; }
         public MapPin PinPeres { get; set; }
         public CustomMapHandler MapHandler { get; set; }
@@ -104,7 +104,7 @@ namespace WhoIsPerestroikan.VM
 
         public DisplayVM(CommunicationWithServer com)
         {
-            //CustomPins. += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
+            CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
             CommunicationWithServer = com;
         }
     }
