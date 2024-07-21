@@ -17,6 +17,16 @@ namespace WhoIsPerestroikan.VM
         public CustomMapHandler MapHandler { get; set; }
         public CommunicationWithServer CommunicationWithServer { get; set; }
 
+        private  name;
+
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+
+
+
         [RelayCommand]
         public async Task MoveMe()
         {
@@ -37,6 +47,7 @@ namespace WhoIsPerestroikan.VM
             {
                 CustomPins.Add(nvoPin);
                 MapHandler?.AddPin(nvoPin);
+                OnPropertyChanged(nameof(CustomPins));
             }
             catch (Exception ex)
             {

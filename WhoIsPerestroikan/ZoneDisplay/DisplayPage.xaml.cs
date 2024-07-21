@@ -127,5 +127,10 @@ public partial class DisplayPage : ContentPage
         //ajout de MapPin
         Task.Run(async () => await CommunicationWithServer.AddMapPin(VM.PinMoi));
     }
+
+    private void RightButtonClicked(object sender, EventArgs e)
+    {
+        
+    }
 }
 

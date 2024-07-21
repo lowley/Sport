@@ -17,7 +17,7 @@
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, auto, auto, auto, 150, auto, auto" ColumnDefinitions="auto, *">
+    <Grid RowDefinitions="auto, auto, auto, auto, 150, auto, auto" ColumnDefinitions="auto, auto">
         <Label Text="Latitude"/>
         <Label Grid.Column="1" Text="{Binding CustomPins[0].Latitude, Converter={StaticResource TruncateLocationDouble}, ConverterParameter=6}"
                HorizontalOptions="End" TextColor="Red"/>
@@ -31,8 +31,11 @@
                HorizontalOptions="End" TextColor="Red"/>
 
         <Button Grid.Row="3"
-                Text="Clear" Command="{Binding MoveMeCommand}"/>
-        
+                Text="Add Pin" Command="{Binding MoveMeCommand}"/>
+
+        <Button Grid.Row="3" Grid.Column="1"
+                Text="Refresh" Clicked="RightButtonClicked"/>
+
         <peres:MapEx Grid.Row="4" Grid.ColumnSpan="2" x:Name="GoogleMap"
                         ItemsSource="{Binding Source={x:RelativeSource Mode=Self}, Path=CustomPins}">
             <x:Arguments>
@@ -60,12 +63,13 @@
         <Label Grid.Row="5" Text="Utilisateurs connectés:"
                HorizontalOptions="Center" FontAttributes="Bold"/>
 
-        <CollectionView ItemsSource="{Binding CustomPins}" Grid.Row="6" Grid.ColumnSpan="2">
+        <CollectionView ItemsSource="{Binding CustomPins}" Grid.Row="6" Grid.ColumnSpan="2"
+                        x:Name="PinCollection">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="peres:MapPin">
                     <Grid ColumnDefinitions="auto, auto"
-                          RowDefinitions="45">
-                        <Label Grid.Column="1" Text="{Binding Label}"/>
+                          RowDefinitions="45" BackgroundColor="Bisque">
+                        <Label Grid.Column="0" Text="{Binding Label}"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
