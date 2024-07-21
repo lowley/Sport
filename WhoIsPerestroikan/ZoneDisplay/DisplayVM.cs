@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Syncfusion.Maui.DataSource.Extensions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using WhoIsPerestroikan;
 
@@ -11,21 +12,27 @@ namespace WhoIsPerestroikan.VM
     public partial class DisplayVM : ObservableObject
     {
         [ObservableProperty]
-        public BindingList<MapPin> _customPins = [];
+        public ObservableCollection<MapPin> _customPins = [];
         public MapPin PinMoi { get; set; }
         public MapPin PinPeres { get; set; }
         public CustomMapHandler MapHandler { get; set; }
         public CommunicationWithServer CommunicationWithServer { get; set; }
 
-        private  name;
+        private BindingList<MapPin> _customPinsAsBindingList;
 
-        public string Name
+        public BindingList<MapPin> CustomPinsAsBindingList
         {
-            get => name;
-            set => SetProperty(ref name, value);
+            get => CustomPins.ToBindingList();
+            set
+            {
+                SetProperty(ref _customPinsAsBindingList, value);
+                CustomPins.Clear();
+                value.ForEach(pin =>
+                {
+                    CustomPins.Add(pin);
+                });
+            }
         }
-
-
 
         [RelayCommand]
         public async Task MoveMe()
@@ -142,7 +149,7 @@ namespace WhoIsPerestroikan.VM
 
         public DisplayVM(CommunicationWithServer com)
         {
-            CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
+            //CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
             CommunicationWithServer = com;
         }
     }

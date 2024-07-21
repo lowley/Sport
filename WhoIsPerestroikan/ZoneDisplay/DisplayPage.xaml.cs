@@ -90,7 +90,7 @@ public partial class DisplayPage : ContentPage
             ShowPopupMessage("Permission requise pour obtenir votre position");
         VM = vm;
 
-        GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPins", mode: BindingMode.TwoWay));
+        GoogleMap.SetBinding(MapEx.CustomPinsProperty, new Binding(source: VM, path: "CustomPinsAsBindingList", mode: BindingMode.TwoWay));
         BindingContext = VM;
 
         VM.AddPinsMoiPeres();

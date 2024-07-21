@@ -17,7 +17,7 @@
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, auto, auto, auto, 150, auto, auto" ColumnDefinitions="auto, auto">
+    <Grid RowDefinitions="auto, auto, auto, auto, 150, auto, auto" ColumnDefinitions="auto, *">
         <Label Text="Latitude"/>
         <Label Grid.Column="1" Text="{Binding CustomPins[0].Latitude, Converter={StaticResource TruncateLocationDouble}, ConverterParameter=6}"
                HorizontalOptions="End" TextColor="Red"/>
