@@ -26,11 +26,15 @@ namespace WhoIsPerestroikan.VM
             set
             {
                 SetProperty(ref _customPinsAsBindingList, value);
+
                 CustomPins.Clear();
                 value.ForEach(pin =>
                 {
                     CustomPins.Add(pin);
                 });
+
+                if (MapHandler != null && (value?.Count ?? 0) != 0)
+                    CustomMapHandler.ResetHandlerWith(MapHandler, value);
             }
         }
 

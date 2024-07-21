@@ -6,6 +6,7 @@ using WhoIsPerestroikan;
 using System.Diagnostics;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Markdig.Helpers;
+using System.ComponentModel;
 
 public class CustomMapHandler : MapHandler
 {
@@ -33,7 +34,7 @@ public class CustomMapHandler : MapHandler
         PlatformView.GetMapAsync(mapReady);
     }
 
-    private static new void MapPins(IMapHandler handler, Microsoft.Maui.Maps.IMap map)
+    public static new void MapPins(IMapHandler handler, Microsoft.Maui.Maps.IMap map)
     {
         if (handler.Map is null || handler.MauiContext is null)
         {
@@ -42,21 +43,31 @@ public class CustomMapHandler : MapHandler
 
         if (handler is CustomMapHandler mapHandler)
         {
-            foreach (var marker in mapHandler.MarkerMap)
-            {
-                marker.Value.Marker.Remove();
-            }
-
-            mapHandler.MarkerMap.Clear();
-            mapHandler.AddPins();
+            ResetHandlerWith(mapHandler);
         }
     }
 
-    public void AddPins()
+    public static void ResetHandlerWith(CustomMapHandler mapHandler,
+        BindingList<MapPin> pins = null)
+    {
+        foreach (var marker in mapHandler.MarkerMap)
+        {
+            marker.Value.Marker.Remove();
+        }
+
+        mapHandler.MarkerMap.Clear();
+        mapHandler.AddPins(pins);
+    }
+
+    public void AddPins(BindingList<MapPin> pins = null)
     {
         if (VirtualView is MapEx mapEx && mapEx.CustomPins != null)
         {
-            foreach (var pin in mapEx.CustomPins)
+            var collection = mapEx.CustomPins;
+            if (pins != null)
+                collection = pins;
+
+            foreach (var pin in collection)
             {
                 var markerOption = new MarkerOptions();
                 markerOption.SetTitle(pin.Label);
