@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWA8", "PWA8\PWA8.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWZConsole", "PWZConsole\PWZConsole.csproj", "{3BA0B33A-D7EC-4697-9490-52EC1D501D52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WIPTests", "WIPTests\WIPTests.csproj", "{B6F431C1-92B1-40A2-9B94-102114EBCD74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,12 @@ Global
 		{3BA0B33A-D7EC-4697-9490-52EC1D501D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BA0B33A-D7EC-4697-9490-52EC1D501D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BA0B33A-D7EC-4697-9490-52EC1D501D52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6F431C1-92B1-40A2-9B94-102114EBCD74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6F431C1-92B1-40A2-9B94-102114EBCD74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6F431C1-92B1-40A2-9B94-102114EBCD74}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B6F431C1-92B1-40A2-9B94-102114EBCD74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6F431C1-92B1-40A2-9B94-102114EBCD74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6F431C1-92B1-40A2-9B94-102114EBCD74}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
