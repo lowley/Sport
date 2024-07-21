@@ -106,8 +106,15 @@ public partial class DisplayPage : ContentPage
             .Where(pinDto => pinDto.Label != VM.PinPeres.Label && pinDto.Label != VM.PinMoi.Label)
             .ToList();
 
-            //VM.ClearOtherPins();
-            //VM.AddOtherPins(others);
+            try
+            {
+                VM.ClearOtherPins();
+                VM.AddOtherPins(others);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"gestion autres pins: {ex.Message}");
+            }
         },
         onTestRetour: message =>
         {

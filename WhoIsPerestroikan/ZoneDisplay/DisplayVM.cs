@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Syncfusion.Maui.DataSource.Extensions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using WhoIsPerestroikan;
 
 namespace WhoIsPerestroikan.VM
@@ -19,7 +20,31 @@ namespace WhoIsPerestroikan.VM
         [RelayCommand]
         public async Task MoveMe()
         {
-            await CommunicationWithServer.ClearPinDTOS();
+            var nvoPin = new MapPin
+            {
+                Id = Guid.NewGuid().ToString(),
+                Label = "test",
+                Location = new Location(
+                    (PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
+                    (PinMoi.Location.Longitude + PinPeres.Location.Longitude) / 2),
+                Icon = "personpin.png",
+                IconWidth = 60,
+                IconHeight = 80
+            };
+
+
+            try
+            {
+                CustomPins.Add(nvoPin);
+                MapHandler?.AddPin(nvoPin);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.Message);
+                Trace.WriteLine(ex.StackTrace);
+            }
+
+            //await CommunicationWithServer.ClearPinDTOS();
 
             //PinMoi.Location = new Location(
             //(PinMoi.Location.Latitude + PinPeres.Location.Latitude) / 2,
@@ -77,8 +102,8 @@ namespace WhoIsPerestroikan.VM
                 MapHandler?.RemovePin(pin);
             });
 
-            AddPinsMoiPeres();
-            Task.Run(async () => await CommunicationWithServer.AddMapPin(PinMoi));
+            //AddPinsMoiPeres();
+            //Task.Run(async () => await CommunicationWithServer.AddMapPin(PinMoi));
             OnPropertyChanged(nameof(CustomPins));
         }
         public void AddOtherPins(List<MapPinDTO> others)
@@ -96,9 +121,11 @@ namespace WhoIsPerestroikan.VM
                 };
 
                 CustomPins.Add(pin);
-                MapHandler?.AddPin(pin);
             });
 
+            //todo laisser le handler ajouter ce qui n'existe pas
+            //observableCollection?
+            MapHandler?.AddPin(CustomPins.Last());
             OnPropertyChanged(nameof(CustomPins));
         }
 
