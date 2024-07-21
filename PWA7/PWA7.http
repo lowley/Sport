@@ -1,6 +1,0 @@
-@PWA7_HostAddress = http://localhost:5208
-
-GET {{PWA7_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
