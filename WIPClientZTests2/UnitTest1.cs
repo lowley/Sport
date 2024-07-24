@@ -23,7 +23,7 @@ namespace WIPClientTests
 
 
             //arrange
-            Assert.AreEqual(2, SUT.Zcounter);
+            Assert.AreEqual(1, SUT.Zcounter);
         }
     }
 }

@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WIPClientVM2\WIPClientVM2.csproj" />
+    <ProjectReference Include="..\WIPClientVM2\WIPClientVM.csproj" />
   </ItemGroup>
 
   <ItemGroup>
