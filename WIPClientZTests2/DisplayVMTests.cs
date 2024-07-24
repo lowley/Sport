@@ -14,7 +14,7 @@ namespace WIPClientTests
         }
 
         [Test]
-        public void MainPageVM_AddOneToZero_ProducesOne()
+        public void AddOneToZero_ProducesOne()
         {
             //assert
 

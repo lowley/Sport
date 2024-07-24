@@ -80,17 +80,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WIPClientVM\WIPClientVM.csproj" />
+	  <ProjectReference Include="..\WIPClientVM\WIPClientUtils.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="ZoneDisplay\DisplayPage.xaml.cs">
+	  <Compile Update="PageDisplay\DisplayPage.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="ZoneDisplay\DisplayPage.xaml">
+	  <MauiXaml Update="PageDisplay\DisplayPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
