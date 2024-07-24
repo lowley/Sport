@@ -80,7 +80,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WIPClientVM2\WIPClientVM.csproj" />
+	  <ProjectReference Include="..\WIPClientVM\WIPClientVM.csproj" />
 	</ItemGroup>
 
 	

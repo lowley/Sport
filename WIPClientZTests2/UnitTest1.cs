@@ -1,4 +1,4 @@
-using WIPClientVM2;
+using WIPClientVM;
 
 namespace WIPClientTests
 {
