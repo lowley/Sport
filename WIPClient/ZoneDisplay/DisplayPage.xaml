@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfpopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:sflistview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:local="WhoIsPerestroikan.DisplayPage"
+             xmlns:peres="clr-namespace:WhoIsPerestroikan;assembly=Tools"
+             xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             xmlns:vm="clr-namespace:WhoIsPerestroikan.VM"
+             xmlns:converters="clr-namespace:WhoIsPerestroikan.Converters"
+             x:DataType="vm:DisplayVM"
+             x:Class="WhoIsPerestroikan.DisplayPage"
+             x:Name="Page">
+
+    <ContentPage.Resources>
+        <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
+    </ContentPage.Resources>
+
+    
+</ContentPage>

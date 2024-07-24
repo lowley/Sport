@@ -7,9 +7,5 @@
     Shell.FlyoutBehavior="Disabled"
     Title="WIPClient">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <ShellContent Title = "DisplayPage" ContentTemplate = "{DataTemplate local:DisplayPage}" Route ="DisplayPage" />
 </Shell>

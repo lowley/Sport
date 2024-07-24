@@ -83,6 +83,18 @@
 	  <ProjectReference Include="..\WIPClientVM\WIPClientVM.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="ZoneDisplay\DisplayPage.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="ZoneDisplay\DisplayPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 	
 
 </Project>
