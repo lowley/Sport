@@ -4,10 +4,9 @@
              xmlns:sfpopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:sflistview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:local="WhoIsPerestroikan.DisplayPage"
-             xmlns:peres="clr-namespace:WhoIsPerestroikan;assembly=WIPClientUtils"
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
-             xmlns:vm="clr-namespace:WhoIsPerestroikan.VM"
+             xmlns:vm="clr-namespace:WIPClientVM;assembly=WIPClientUtils"
              xmlns:converters="clr-namespace:WhoIsPerestroikan.Converters"
              x:DataType="vm:DisplayVM"
              x:Class="WhoIsPerestroikan.DisplayPage"
@@ -17,5 +16,12 @@
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
     </ContentPage.Resources>
 
+    <Grid RowDefinitions="auto, auto">
+
+        <Label Text="{Binding Counter}" AutomationId="CounterLabel"/>
+
+        <Button Text="Click me" AutomationId="CounterBtn" Grid.Row="1"
+                Command="{Binding AddOneCommand}"/>
+    </Grid>
     
 </ContentPage>

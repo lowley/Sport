@@ -15,7 +15,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task Constructor_bypassPermission_true()
+        public async Task VerifyPermission_bypassPermission_true()
         {
             //assert
 
@@ -27,7 +27,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task Constructor_bypassPermission_false()
+        public async Task VerifyPermission_bypassPermission_false()
         {
             //assert
            

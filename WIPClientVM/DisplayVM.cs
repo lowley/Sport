@@ -8,6 +8,15 @@ namespace WIPClientVM
 {
     public partial class DisplayVM : ObservableObject
     {
+        [ObservableProperty]
+        public int _counter;
+
+        [RelayCommand]
+        public void AddOne()
+        {
+            Counter++;
+        }
+
         public DisplayVM()
         {
             //CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));

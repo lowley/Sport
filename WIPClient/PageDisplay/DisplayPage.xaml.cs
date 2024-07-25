@@ -12,9 +12,10 @@ public partial class DisplayPage : ContentPage
     private Geolocalisation LocationService { get; set; }
     private Logger Logger { get; set; }
 
-    public DisplayPage(DisplayVM vM, Geolocalisation locationService, Logger logger)
+    public DisplayPage(DisplayVM vm, Geolocalisation locationService, Logger logger)
     {
-        VM = vM;
+        VM = vm;
+        BindingContext = VM;
         LocationService = locationService;
         Logger = logger;
     }

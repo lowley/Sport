@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3DBAEEAB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "PWZConsole\ConsoleClient.csproj", "{BE16C3E3-FDFF-4723-869B-321D12851D53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests", "UITests\UITests.csproj", "{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,12 +59,19 @@ Global
 		{BE16C3E3-FDFF-4723-869B-321D12851D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE16C3E3-FDFF-4723-869B-321D12851D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE16C3E3-FDFF-4723-869B-321D12851D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DF1ABD00-5190-4415-8FF7-F8193A6CA16F} = {3DBAEEAB-EFED-44C4-9C2E-74B9303B2B35}
+		{26F1E6A9-EF06-4D38-BF88-33DBA7C9791C} = {3DBAEEAB-EFED-44C4-9C2E-74B9303B2B35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {774A5694-5A5A-489E-9C18-E1F027E101DD}
