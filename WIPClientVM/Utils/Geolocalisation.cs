@@ -11,7 +11,7 @@ public class Geolocalisation : IGeolocalisation
     public CancellationTokenSource Cts { get; set; }
         = new CancellationTokenSource();
 
-    public async Task<bool> RequestLocationPermissionAsync(bool? forcedResponse = null)
+    private async Task<bool> RequestLocationPermissionAsync(bool? forcedResponse = null)
     {
         if (forcedResponse.HasValue)
             return forcedResponse.Value;
@@ -20,10 +20,24 @@ public class Geolocalisation : IGeolocalisation
         return result == PermissionStatus.Granted;
     }
 
-    public async Task<Location> GetLocationAsync(Location? forcedResponse = null)
+    public async Task<Geolocalisation> VerifyPermission(bool? forcedPermissionAccepted = null)
     {
-        if (forcedResponse != null)
-            return forcedResponse;
+        var gotPermission = RequestLocationPermissionAsync(forcedPermissionAccepted).Result;
+        if (forcedPermissionAccepted != true)
+            throw new Exception("Geolocalisation Permission denied");
+            
+        return this;
+    }
+
+    public async Task<Location> GetLocationAsync(
+        Location? forcedLocation = null,
+        bool? forcedLocationPermission = null)
+    {
+        if (forcedLocation != null)
+            return forcedLocation;
+
+        if (!RequestLocationPermissionAsync(forcedLocationPermission).Result)
+            throw new Exception("Geolocalisation Permission denied");
 
         return await Geolocation.GetLocationAsync(new GeolocationRequest
         {
@@ -42,11 +56,7 @@ public class Geolocalisation : IGeolocalisation
         Cts?.Cancel();
     }
 
-    public Geolocalisation()
-    {
-        if (!RequestLocationPermissionAsync().Result)
-            throw new Exception("Location permission denied");
-    }
+    public Geolocalisation() { }
 }
 
 public static class Tools

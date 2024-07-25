@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+
+	  <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
@@ -18,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WIPClientVM2\WIPClientVM.csproj" />
     <ProjectReference Include="..\WIPClientVM\WIPClientUtils.csproj" />
   </ItemGroup>
 

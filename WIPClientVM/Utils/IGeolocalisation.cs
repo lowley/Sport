@@ -12,9 +12,12 @@ namespace WIPClient.Utils
             => new Location(48.58432, 7.73750);
         public static Location GetNowhere()
             => new Location(48.58432, 7.74000);
-        public Task<bool> RequestLocationPermissionAsync(bool? forcedResponse = null);
+        public Task<Geolocalisation> VerifyPermission(bool? forcedPermissionAccepted = null);
         public void StartService();
-        public Task<Location> GetLocationAsync(Location? forcedResponse = null);
+        public Task<Location> GetLocationAsync(
+            Location? forcedLocation = null,
+            bool? forcedLocationPermission = null);
+
         public void StopService();
     }
 }
