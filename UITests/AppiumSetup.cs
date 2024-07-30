@@ -10,6 +10,10 @@ namespace UITests;
 [SetUpFixture]
 public class AppiumSetup
 {
+    //appium -a 192.168.1.173 -p 4723 --session-override
+    //java.lang.SecurityException: Permission denial: writing to settings requires:android.permission.WRITE_SECURE_SETTINGS
+    //adb shell pm grant sxb.wipclient android.permission.WRITE_SECURE_SETTINGS
+
     private static AppiumDriver? driver;
 
     public static AppiumDriver App => driver ?? throw new NullReferenceException("AppiumDriver is null");
@@ -23,7 +27,8 @@ public class AppiumSetup
         {
             AutomationName = "UiAutomator2",
             PlatformName = "Android",
-            App = "sxb.wipclient!App",
+            App = "C:\\Users\\olivier\\source\\repos\\WhoIsPerestroikan\\WIPClient\\bin\\Debug\\net8.0-android\\com.companyname.wipclient.apk",
+            DeviceName = "alioth"
         };
 
         androidOptions.AddAdditionalAppiumOption(MobileCapabilityType.NoReset, "true");

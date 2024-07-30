@@ -3,9 +3,9 @@
     x:Class="WIPClient.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WIPClient"
+    xmlns:local="clr-namespace:WIPClient.DisplayPage"
     Shell.FlyoutBehavior="Disabled"
     Title="WIPClient">
 
-    <ShellContent Title = "DisplayPage" ContentTemplate = "{DataTemplate local:DisplayPage}" Route ="DisplayPage" />
+    <ShellContent Title = "DisplayPage2" ContentTemplate = "{DataTemplate local:DisplayPage2}" Route ="DisplayPage2" />
 </Shell>

@@ -1,0 +1,11 @@
+﻿{
+  "sdk": {
+    "version": "8.0.303",
+    "architecture": "x64"
+  },
+  "runtime": {
+    "version": "8.0.7",
+    "architecture": "x64"
+  }
+
+}

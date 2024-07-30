@@ -1,10 +1,9 @@
 ﻿using Serilog.Core;
 using System.Diagnostics;
-using WhoIsPerestroikan.VM;
 using WIPClient.Utils;
 using WIPClientVM;
 
-namespace WhoIsPerestroikan;
+namespace WIPClient.DisplayPage;
 
 public partial class DisplayPage : ContentPage
 {

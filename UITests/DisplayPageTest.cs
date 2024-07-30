@@ -22,7 +22,7 @@ namespace UITests
             Task.Delay(500).Wait(); // Wait for the click to register and show up on the screenshot
 
             // Assert
-            App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
+            //App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
             var label = FindUIElement("CounterLabel");
             Assert.That(label.Text, Is.EqualTo("1"));
         }

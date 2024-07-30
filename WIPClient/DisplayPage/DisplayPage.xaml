@@ -10,7 +10,8 @@
              xmlns:converters="clr-namespace:WhoIsPerestroikan.Converters"
              x:DataType="vm:DisplayVM"
              x:Class="WhoIsPerestroikan.DisplayPage"
-             x:Name="Page">
+             x:Name="Page"
+             Title="Captain Caverne">
 
     <ContentPage.Resources>
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>

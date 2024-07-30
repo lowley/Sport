@@ -6,6 +6,7 @@ using WhoIsPerestroikan;
 using WIPClient.Utils;
 using WIPClientVM;
 using Serilog.Core;
+using WIPClient.DisplayPage;
 
 namespace WIPClient
 {
@@ -31,7 +32,7 @@ namespace WIPClient
             builder.Services.AddSingleton(log);
             builder.Services.AddTransient<DisplayVM>();
             builder.Services.AddTransient<Geolocalisation>();
-            builder.Services.AddTransient<DisplayPage>();
+            builder.Services.AddTransient<DisplayPage2>();
 
             return builder.Build();
         }
