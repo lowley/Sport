@@ -10,8 +10,16 @@ namespace UITests;
 [SetUpFixture]
 public class AppiumSetup
 {
-    //appium -a 192.168.1.173 -p 4723 --session-override
+    //IL Y A DES CHOSES A ADAPTER POUR QUE CA MARCHE
+    //ici, et dans MainActivity, en fonction du ficheir projet de l'appli android
+    
+    //il faut aussi lancer dotnet clean + dotnet build
+    //dans l'appli le répertoire de l'appli android pour générer l' apk
+
+    //appium -a 192.168.1.173 -p 4723 --session-override ,(appium suffit)
     //java.lang.SecurityException: Permission denial: writing to settings requires:android.permission.WRITE_SECURE_SETTINGS
+
+    //remplacer sxb.wipclient par le nom de l' application (trouvable dans le csproj)
     //adb shell pm grant sxb.wipclient android.permission.WRITE_SECURE_SETTINGS
 
 
