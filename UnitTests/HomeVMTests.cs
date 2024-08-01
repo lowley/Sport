@@ -1,4 +1,4 @@
-using WIPClientVM;
+using Sport.VM;
 
 namespace WIPClientTests
 {

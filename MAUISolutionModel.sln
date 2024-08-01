@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientProject", "WIPClient\ClientProject.csproj", "{F7E28467-E97C-438D-99A9-D6AD51EEDF0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sport", "WIPClient\Sport.csproj", "{F7E28467-E97C-438D-99A9-D6AD51EEDF0F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientUtilsProject", "ClientUtils\ClientUtilsProject.csproj", "{1A475170-95AC-4DE0-B5F1-CD2FE321B50C}"
 EndProject
@@ -60,7 +60,16 @@ Global
 		{457560BB-13F6-4E6C-BDFD-E18207F35E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{457560BB-13F6-4E6C-BDFD-E18207F35E2A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{457560BB-13F6-4E6C-BDFD-E18207F35E2A}.Release|x64.ActiveCfg = Release|Any CPU
-		{457560BB-13F6-4E6C-BDFD-E18207F35E2A}.Release|x64.Build.0 = Release|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Release|x64.Build.0 = Release|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Debug|x64.Build.0 = Debug|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Release|x64.ActiveCfg = Release|Any CPU
+		{1A1639B0-E085-40CA-BFF4-FACEEA5C29CD}.Release|x64.Build.0 = Release|Any CPU
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

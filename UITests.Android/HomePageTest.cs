@@ -5,31 +5,26 @@ namespace UITests
 {
     public class HomePageTest : BaseTest
     {
-
-        public async Task CreateSession()
+        [Test]
+        public async Task CreateSessionTest()
         {
             // Arrange
             var bouton = FindUIElement("AddSessionBtn");
+            var pageTitle = FindUIElement("PageTitle");
+            var initialDate = FindUIElement("InitialDate");
+            var initialTime = FindUIElement("InitialTime");
 
             // Act
             bouton.Click();
             Task.Delay(500).Wait();
 
             // Assert
-            var pageTitle = FindUIElement("PageTitle");
             Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
-
-            var initialDate = FindUIElement("InitialDate");
             Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dd/MM/yyyy")));
-
-            var initialTime = FindUIElement("InitialTime");
             Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddSeconds(-2)));
 
         }
 
-
-
-        [Test]
         public void ClickCounterTest()
         {
             // Arrange

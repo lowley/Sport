@@ -10,7 +10,7 @@ namespace UITests;
 public class AppiumSetup
 {
     //IL Y A DES CHOSES A ADAPTER POUR QUE CA MARCHE
-    //ici, et dans MainActivity, en fonction du ficheir projet de l'appli android
+    //ici, et dans MainActivity, en fonction du fichier projet de l'appli android
     
     //il faut aussi lancer dotnet clean + dotnet build
     //dans l'appli le répertoire de l'appli android pour générer l' apk
@@ -19,7 +19,7 @@ public class AppiumSetup
     //java.lang.SecurityException: Permission denial: writing to settings requires:android.permission.WRITE_SECURE_SETTINGS
 
     //remplacer sxb.wipclient par le nom de l' application (trouvable dans le csproj)
-    //adb shell pm grant sxb.wipclient android.permission.WRITE_SECURE_SETTINGS
+    //adb shell pm grant sxb.sport android.permission.WRITE_SECURE_SETTINGS
 
 
     private static AppiumDriver? driver;

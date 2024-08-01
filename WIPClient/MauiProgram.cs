@@ -2,11 +2,9 @@
 using Microsoft.Extensions.Logging;
 using Serilog.Events;
 using Serilog;
-using WhoIsPerestroikan;
-using WIPClient.Utils;
-using WIPClientVM;
+using Sport.Pages;
+using Sport.VM;
 using Serilog.Core;
-using WIPClient.DisplayPage;
 
 namespace WIPClient
 {
@@ -31,8 +29,7 @@ namespace WIPClient
 #endif
             builder.Services.AddSingleton(log);
             builder.Services.AddTransient<HomeVM>();
-            builder.Services.AddTransient<Geolocalisation>();
-            builder.Services.AddTransient<DisplayPage2>();
+            builder.Services.AddTransient<HomePage>();
 
             return builder.Build();
         }

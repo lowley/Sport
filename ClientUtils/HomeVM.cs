@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace WIPClientVM
+namespace Sport.VM
 {
     public partial class HomeVM : ObservableObject
     {

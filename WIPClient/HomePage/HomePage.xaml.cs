@@ -1,8 +1,8 @@
 ﻿using Serilog.Core;
 using System.Diagnostics;
-using WIPClientVM;
+using Sport.VM;
 
-namespace WIPClient.HomePage;
+namespace Sport.Pages;
 
 public partial class HomePage : ContentPage
 {
