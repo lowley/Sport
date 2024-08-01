@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedTools", "Tools\SharedTools.csproj", "{F6E2024B-CC66-46D4-A580-B30DA18EA43E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientProject", "WIPClient\ClientProject.csproj", "{F7E28467-E97C-438D-99A9-D6AD51EEDF0F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientUtilsProject", "WIPClientVM\ClientUtilsProject.csproj", "{1A475170-95AC-4DE0-B5F1-CD2FE321B50C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientUtilsProject", "ClientUtils\ClientUtilsProject.csproj", "{1A475170-95AC-4DE0-B5F1-CD2FE321B50C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "WIPClientZTests2\UnitTests.csproj", "{DF1ABD00-5190-4415-8FF7-F8193A6CA16F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{DF1ABD00-5190-4415-8FF7-F8193A6CA16F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3DBAEEAB-EFED-44C4-9C2E-74B9303B2B35}"
 EndProject
@@ -27,14 +25,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Debug|x64.Build.0 = Debug|Any CPU
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Release|x64.ActiveCfg = Release|Any CPU
-		{F6E2024B-CC66-46D4-A580-B30DA18EA43E}.Release|x64.Build.0 = Release|Any CPU
 		{F7E28467-E97C-438D-99A9-D6AD51EEDF0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7E28467-E97C-438D-99A9-D6AD51EEDF0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7E28467-E97C-438D-99A9-D6AD51EEDF0F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

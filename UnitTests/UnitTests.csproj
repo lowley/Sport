@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WIPClientVM\ClientUtilsProject.csproj" />
+    <ProjectReference Include="..\ClientUtils\ClientUtilsProject.csproj" />
   </ItemGroup>
 
   <ItemGroup>
