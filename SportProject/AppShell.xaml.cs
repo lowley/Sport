@@ -1,4 +1,4 @@
-﻿namespace WIPClient
+﻿namespace Sport
 {
     public partial class AppShell : Shell
     {

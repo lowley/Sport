@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace WhoIsPerestroikan.Converters
+namespace Sport.Converters
 {
     public class TruncateLocationDouble : IValueConverter
     {

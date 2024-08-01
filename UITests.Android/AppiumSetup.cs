@@ -9,6 +9,8 @@ namespace UITests;
 [SetUpFixture]
 public class AppiumSetup
 {
+    //lancer appium
+
     //IL Y A DES CHOSES A ADAPTER POUR QUE CA MARCHE
     //ici, et dans MainActivity, en fonction du fichier projet de l'appli android
     
@@ -34,16 +36,16 @@ public class AppiumSetup
         var androidOptions = new AppiumOptions
         {
             AutomationName = "UiAutomator2",
-            PlatformName = "Android",
-            App = "C:\\Users\\olivier\\source\\repos\\WhoIsPerestroikan\\WIPClient\\bin\\Debug\\net8.0-android\\sxb.wipclient-Signed.apk",
+            PlatformName = "Android",           
+            App = "C:\\Users\\olivier\\source\\repos\\SportSolution\\SportProject\\bin\\Debug\\net8.0-android\\sxb.sport.apk",
             DeviceName = "alioth"
         };
 
         androidOptions.AddAdditionalAppiumOption(MobileCapabilityType.NoReset, "true");
-        androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppPackage, "sxb.wipclient");
+        androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppPackage, "sxb.sport");
 
         //Make sure to set [Register("sxb.wipclient.MainActivity")] on the MainActivity of your android application
-        androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppActivity, $"sxb.wipclient.MainActivity");
+        androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppActivity, $"sxb.sport.MainActivity");
 
         driver = new AndroidDriver(androidOptions);
     }

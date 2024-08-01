@@ -1,28 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sfpopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
-             xmlns:sflistview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             xmlns:local="WhoIsPerestroikan.HomePage"
+             xmlns:local="Sport.Pages"
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
              xmlns:vm="clr-namespace:Sport.VM;assembly=ClientUtilsProject"
-             xmlns:converters="clr-namespace:WhoIsPerestroikan.Converters"
+             xmlns:converters="clr-namespace:Sport.Converters"
              x:DataType="vm:HomeVM"
              x:Class="Sport.Pages.HomePage"
              x:Name="Page"
-             Title="Captain Caverne">
+             Title="Accueil"
+             AutomationId="Page">
 
     <ContentPage.Resources>
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, auto">
+    <Grid RowDefinitions="auto, auto" ColumnDefinitions="auto">
 
-        <Label Text="{Binding Counter}" AutomationId="CounterLabel"/>
+        <Label Text="haha" TextColor="Bisque"/>
 
-        <Button Text="Click me" AutomationId="CounterBtn" Grid.Row="1"
-                Command="{Binding AddOneCommand}"/>
+        <Button Text="Ajouter une séance" AutomationId="AddSessionBtn"
+                Command="{Binding AddOneCommand}" Grid.Row="1"/>
     </Grid>
     
 </ContentPage>

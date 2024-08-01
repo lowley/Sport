@@ -6,26 +6,26 @@ namespace UITests
     public class HomePageTest : BaseTest
     {
         [Test]
-        public async Task CreateSessionTest()
+        public void CreateSessionTest()
         {
             // Arrange
             var bouton = FindUIElement("AddSessionBtn");
-            var pageTitle = FindUIElement("PageTitle");
-            var initialDate = FindUIElement("InitialDate");
-            var initialTime = FindUIElement("InitialTime");
 
             // Act
             bouton.Click();
             Task.Delay(500).Wait();
 
             // Assert
+            var pageTitle = FindUIElement("Page");
             Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
+            var initialDate = FindUIElement("InitialDate");
             Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dd/MM/yyyy")));
+            var initialTime = FindUIElement("InitialTime");
             Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddSeconds(-2)));
 
         }
 
-        public void ClickCounterTest()
+        public void ClickCounter()
         {
             // Arrange
             // Find elements with the value of the AutomationId property

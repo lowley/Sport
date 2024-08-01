@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace WIPClient
+namespace Sport
 {
     [Application]
     public class MainApplication : MauiApplication

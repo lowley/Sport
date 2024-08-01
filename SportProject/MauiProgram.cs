@@ -6,7 +6,7 @@ using Sport.Pages;
 using Sport.VM;
 using Serilog.Core;
 
-namespace WIPClient
+namespace Sport
 {
     public static class MauiProgram
     {

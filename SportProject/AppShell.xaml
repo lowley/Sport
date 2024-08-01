@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="WIPClient.AppShell"
+    x:Class="Sport.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Sport.Pages"
     Shell.FlyoutBehavior="Disabled"
-    Title="WIPClient">
+    Title="SportApp">
 
-    <ShellContent Title = "HomePage" ContentTemplate = "{DataTemplate local:HomePage}" Route ="HomePage" />
+    <TabBar>
+        <Tab Title="Home" Icon="dotnet_bot.png">
+            <ShellContent Title="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
+        </Tab>
+    </TabBar>
 </Shell>
