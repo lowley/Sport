@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace WIPClientVM
 {
-    public partial class DisplayVM : ObservableObject
+    public partial class HomeVM : ObservableObject
     {
         [ObservableProperty]
         public int _counter;
@@ -17,7 +17,7 @@ namespace WIPClientVM
             Counter++;
         }
 
-        public DisplayVM()
+        public HomeVM()
         {
             //CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
             

@@ -93,19 +93,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="DisplayPage\DisplayPage.xaml.cs">
+	  <Compile Update="HomePage\HomePage.xaml.cs">
 	    <DependentUpon>%(Filename)</DependentUpon>
-	  </Compile>
-	  <Compile Update="DisplayPage\DisplayPage2.xaml.cs">
-	    <DependentUpon>DisplayPage2.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="DisplayPage\DisplayPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="DisplayPage\DisplayPage2.xaml">
+	  <MauiXaml Update="HomePage\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

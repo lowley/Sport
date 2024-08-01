@@ -30,7 +30,7 @@ namespace WIPClient
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton(log);
-            builder.Services.AddTransient<DisplayVM>();
+            builder.Services.AddTransient<HomeVM>();
             builder.Services.AddTransient<Geolocalisation>();
             builder.Services.AddTransient<DisplayPage2>();
 

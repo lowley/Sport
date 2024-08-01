@@ -4,12 +4,12 @@ namespace WIPClientTests
 {
     public class Tests
     {
-        public DisplayVM SUT { get; set;}
+        public HomeVM SUT { get; set;}
 
         [SetUp]
         public void Setup()
         {
-            SUT = new DisplayVM();
+            SUT = new HomeVM();
 
         }
 
