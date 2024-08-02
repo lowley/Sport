@@ -3,7 +3,7 @@
 
 namespace UITests
 {
-    public class HomePageTest2 : BaseTest
+    public class HomePageTest : BaseTest
     {
         
         [Test]
@@ -17,8 +17,12 @@ namespace UITests
             Task.Delay(500).Wait();
 
             // Assert
-            var pageTitle = FindUIElement("PageTitle");
-            Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
+            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='CreateSession'][1]");
+            Assert.That(title, Is.Not.Null);
+
+            //var pageTitle = FindUIElement("PageTitle");
+            //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
+
             var initialDate = FindUIElement("InitialDate");
             Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dd/MM/yyyy")));
             var initialTime = FindUIElement("InitialTime");
