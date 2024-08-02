@@ -10,16 +10,13 @@ public abstract class BaseTest
     // This could also be an extension method to AppiumDriver if you prefer
     protected AppiumElement FindUIElement(string id)
     {
+        var realId = "sxb.sport:id/" + id;
+
         if (App is WindowsDriver)
         {
-            return App.FindElement(MobileBy.AccessibilityId(id));
+            return App.FindElement(MobileBy.AccessibilityId(realId));
         }
 
-        return App.FindElement(MobileBy.Id(id));
-    }
-
-    protected AppiumElement FindUIElementByAutomationId(string str)
-    {
-        return App.FindElement(MobileBy.AndroidUIAutomator(str));
+        return App.FindElement(MobileBy.Id(realId));
     }
 }
