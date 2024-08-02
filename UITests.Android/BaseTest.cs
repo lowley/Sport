@@ -17,4 +17,9 @@ public abstract class BaseTest
 
         return App.FindElement(MobileBy.Id(id));
     }
+
+    protected AppiumElement FindUIElementByAutomationId(string str)
+    {
+        return App.FindElement(MobileBy.AndroidUIAutomator(str));
+    }
 }

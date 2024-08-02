@@ -9,16 +9,16 @@
              x:DataType="vm:HomeVM"
              x:Class="Sport.Pages.HomePage"
              x:Name="Page"
-             Title="Accueil"
-             AutomationId="Page">
+             >
 
     <ContentPage.Resources>
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, auto" ColumnDefinitions="auto">
-
-        <Label Text="haha" TextColor="Bisque"/>
+    <Grid RowDefinitions="auto, auto, auto" ColumnDefinitions="auto, *">
+        <Label Text="HomePage" AutomationId="PageTitle"
+               Grid.Column="1" TextColor="Bisque"/>
+        <Label Text="hoho" TextColor="Bisque"/>
 
         <Button Text="Ajouter une séance" AutomationId="AddSessionBtn"
                 Command="{Binding AddOneCommand}" Grid.Row="1"/>

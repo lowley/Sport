@@ -3,8 +3,9 @@
 
 namespace UITests
 {
-    public class HomePageTest : BaseTest
+    public class HomePageTest2 : BaseTest
     {
+        
         [Test]
         public void CreateSessionTest()
         {
@@ -16,7 +17,7 @@ namespace UITests
             Task.Delay(500).Wait();
 
             // Assert
-            var pageTitle = FindUIElement("Page");
+            var pageTitle = FindUIElement("sxb.sport:id/PageTitle");
             Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
             var initialDate = FindUIElement("InitialDate");
             Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dd/MM/yyyy")));
