@@ -14,5 +14,9 @@
     <PackageReference Include="NUnit" Version="4.1.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClientUtils\ClientUtilsProject.csproj" />
+  </ItemGroup>
 	
 </Project>

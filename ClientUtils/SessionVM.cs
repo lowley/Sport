@@ -20,6 +20,6 @@ public partial class SessionVM : ObservableObject
 
     public SessionVM()
     {
-
+        
     }
 }

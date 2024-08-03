@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
+using ClientUtilsProject.Utils;
 
 
 namespace UITests
 {
     public class HomePageTest : BaseTest
     {
-        
         [Test]
         public void CreateSessionTest()
         {
@@ -24,9 +24,9 @@ namespace UITests
             //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
 
             var initialDate = FindUIElementByAutomationId("InitialDate");
-            Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dddd dd MMMM yyyy")));
+            Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString(SharedUtilDatas.COMPLETE_DATE_FORMAT)));
             var initialTime = FindUIElementByAutomationId("InitialTime");
-            Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString("hh\\:mm")));
+            Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString("T")));
         }
 
         public void ClickCounter()
