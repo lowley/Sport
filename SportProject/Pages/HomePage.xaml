@@ -2,8 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="Sport.Pages"
-             xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
-             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
              xmlns:vm="clr-namespace:Sport.VM;assembly=ClientUtilsProject"
              xmlns:converters="clr-namespace:Sport.Converters"
              x:DataType="vm:HomeVM"
@@ -16,12 +14,9 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="auto, auto, auto" ColumnDefinitions="auto, *">
-        <Label Text="HomePage" AutomationId="PageTitle"
-               Grid.Column="1" TextColor="Bisque"/>
-        <Label Text="hoho" TextColor="Bisque"/>
-
+        
         <Button Text="Ajouter une séance" AutomationId="AddSessionBtn"
-                Command="{Binding AddOneCommand}" Grid.Row="1"/>
+                Command="{Binding AddSessionCommand}" Grid.Row="0"/>
     </Grid>
     
 </ContentPage>

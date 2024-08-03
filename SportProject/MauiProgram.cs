@@ -28,8 +28,12 @@ namespace Sport
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton(log);
+            
             builder.Services.AddTransient<HomeVM>();
             builder.Services.AddTransient<HomePage>();
+
+            builder.Services.AddTransient<SessionVM>();
+            builder.Services.AddTransient<SessionPage>();
 
             return builder.Build();
         }

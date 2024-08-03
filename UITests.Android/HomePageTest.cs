@@ -17,17 +17,16 @@ namespace UITests
             Task.Delay(500).Wait();
 
             // Assert
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='CreateSession'][1]");
+            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='SessionPage'][1]");
             Assert.That(title, Is.Not.Null);
 
             //var pageTitle = FindUIElement("PageTitle");
             //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
 
             var initialDate = FindUIElement("InitialDate");
-            Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dd/MM/yyyy")));
+            Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dddd dd MMMM yy")));
             var initialTime = FindUIElement("InitialTime");
-            Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddSeconds(-2)));
-
+            Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString("hh\\:mm")));
         }
 
         public void ClickCounter()

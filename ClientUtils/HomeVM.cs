@@ -4,23 +4,24 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace Sport.VM
+namespace Sport.VM;
+
+public partial class HomeVM : ObservableObject
 {
-    public partial class HomeVM : ObservableObject
+    [RelayCommand]
+    public async Task AddSession()
     {
-        [ObservableProperty]
-        public int _counter;
+        await Shell.Current.GoToAsync("sessions/session", false);
 
-        [RelayCommand]
-        public void AddOne()
-        {
-            Counter++;
-        }
 
-        public HomeVM()
-        {
-            //CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
-            
-        }
+
+
+    }
+
+    public HomeVM()
+    {
+        //CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
+
     }
 }
+
