@@ -8,13 +8,19 @@
              x:Name="Page"
              >
 
-    <Grid RowDefinitions="auto, auto">
+    <Grid RowDefinitions="auto, auto" ColumnDefinitions="auto, *, auto, auto"
+          Margin="10,5,10,0">
 
-        <DatePicker Date="{Binding SessionDate}" Format="dddd dd MMMM yy"
-                    AutomationId="InitialDate"/>
+        <Label Text="Début de la session" FontAttributes="Bold"
+               VerticalOptions="Center"/>
 
-        <TimePicker Time="{Binding SessionTime}" Format="hh\:mm"  Grid.Row="1"
-                    AutomationId="InitialTime"/>
+        <DatePicker Date="{Binding SessionDate}" Format="dddd dd MMMM yyyy"
+                    AutomationId="InitialDate" Grid.Row="0" Grid.Column="2"
+                    Margin="5,0,5,0"/>
+
+        <TimePicker Time="{Binding SessionTime}" Format="hh\:mm"
+                    AutomationId="InitialTime" Grid.Row="0" Grid.Column="3"
+                    Margin="5,0,5,0"/>
 
         
 

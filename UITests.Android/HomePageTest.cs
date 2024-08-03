@@ -24,7 +24,7 @@ namespace UITests
             //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
 
             var initialDate = FindUIElement("InitialDate");
-            Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dddd dd MMMM yy")));
+            Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dddd dd MMMM yyyy")));
             var initialTime = FindUIElement("InitialTime");
             Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString("hh\\:mm")));
         }
