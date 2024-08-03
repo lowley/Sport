@@ -9,7 +9,7 @@ public abstract class BaseTest
     protected AppiumDriver App => AppiumSetup.App;
 
     // This could also be an extension method to AppiumDriver if you prefer
-    protected AppiumElement FindUIElement(string id)
+    protected AppiumElement FindUIElementByAutomationId(string id)
     {
         var realId = "sxb.sport:id/" + id;
 

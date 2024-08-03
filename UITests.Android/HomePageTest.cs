@@ -10,7 +10,7 @@ namespace UITests
         public void CreateSessionTest()
         {
             // Arrange
-            var bouton = FindUIElement("AddSessionBtn");
+            var bouton = FindUIElementByAutomationId("AddSessionBtn");
 
             // Act
             bouton.Click();
@@ -23,9 +23,9 @@ namespace UITests
             //var pageTitle = FindUIElement("PageTitle");
             //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
 
-            var initialDate = FindUIElement("InitialDate");
+            var initialDate = FindUIElementByAutomationId("InitialDate");
             Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString("dddd dd MMMM yyyy")));
-            var initialTime = FindUIElement("InitialTime");
+            var initialTime = FindUIElementByAutomationId("InitialTime");
             Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString("hh\\:mm")));
         }
 
@@ -33,7 +33,7 @@ namespace UITests
         {
             // Arrange
             // Find elements with the value of the AutomationId property
-            var bouton = FindUIElement("CounterBtn");
+            var bouton = FindUIElementByAutomationId("CounterBtn");
 
             // Act
             bouton.Click();
@@ -41,7 +41,7 @@ namespace UITests
 
             // Assert
             //App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
-            var label = FindUIElement("CounterLabel");
+            var label = FindUIElementByAutomationId("CounterLabel");
             Assert.That(label.Text, Is.EqualTo("1"));
         }
     }
