@@ -1,4 +1,5 @@
 ﻿using Appium.Interfaces.Generic.SearchContext;
+using NUnit.Framework;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 
@@ -39,4 +40,17 @@ public abstract class BaseTest
 
         return result;
     }
+
+    //[SetUp]
+    //public void AfterEachTest()
+    //{
+    //    App.TerminateApp("sxb.sport");
+    //}
+
+
+    //[TearDown]
+    //public void AfterEachTest()
+    //{
+    //    App.TerminateApp("sxb.sport");
+    //}
 }

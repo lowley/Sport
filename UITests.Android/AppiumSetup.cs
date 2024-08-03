@@ -42,6 +42,7 @@ public class AppiumSetup
         };
 
         androidOptions.AddAdditionalAppiumOption(MobileCapabilityType.NoReset, "true");
+        androidOptions.AddAdditionalAppiumOption(MobileCapabilityType.FullReset, "false");
         androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppPackage, "sxb.sport");
 
         //Make sure to set [Register("sxb.wipclient.MainActivity")] on the MainActivity of your android application

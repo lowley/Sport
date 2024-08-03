@@ -9,7 +9,7 @@ namespace ClientUtilsProject.Utils
     public static class SharedUtilDatas
     {
         public static string COMPLETE_DATE_FORMAT = "dddd dd MMMM yyyy";
-        public static string HOUR_MINUTES_FORMAT = "hh\\:mm";
+        public static string HOUR_MINUTES_FORMAT = "T";
 
     }
 }

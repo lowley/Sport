@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using ClientUtilsProject.Utils;
+using LanguageExt;
 
 
 namespace UITests
@@ -26,8 +27,40 @@ namespace UITests
             var initialDate = FindUIElementByAutomationId("InitialDate");
             Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString(SharedUtilDatas.COMPLETE_DATE_FORMAT)));
             var initialTime = FindUIElementByAutomationId("InitialTime");
-            Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString("T")));
+            Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString(SharedUtilDatas.HOUR_MINUTES_FORMAT)));
+
+            AppiumSetup.App.TerminateApp("sxb.sport");
+            AppiumSetup.App.ActivateApp("sxb.sport");
         }
+
+            [Test]
+        public void CreateExerciseTest()
+        {
+            // Arrange
+            var bouton = FindUIElementByAutomationId("AddExerciseBtn");
+
+            // Act
+            bouton.Click();
+            Task.Delay(500).Wait();
+
+            // Assert
+            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
+            Assert.That(title, Is.Not.Null);
+
+            //var pageTitle = FindUIElement("PageTitle");
+            //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
+
+            var name = FindUIElementByAutomationId("ExerciseName");
+            Assert.That(name, Is.Not.Null);
+            var difficulty = FindUIElementByAutomationId("Difficulty");
+            Assert.That(difficulty, Is.Not.Null);
+
+            AppiumSetup.App.TerminateApp("sxb.sport");
+            AppiumSetup.App.ActivateApp("sxb.sport");
+        }
+
+
+
 
         public void ClickCounter()
         {
