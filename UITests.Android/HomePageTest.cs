@@ -135,8 +135,7 @@ namespace UITests
             var name2 = FindUIElementByAutomationId("ExerciseName");
             name2.SendKeys("Crunches");
             var difficulty2 = FindUIElementByAutomationId("ExerciseDifficulty");
-            //set to 75Kg by default
-            difficulty2.Click();
+            //on garde la value par défaut
             var bouton4 = FindUIElementByAutomationId("SaveExerciseBtn");
             bouton4.Click();
             Task.Delay(500).Wait();
