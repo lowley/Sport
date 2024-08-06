@@ -35,6 +35,12 @@ namespace Sport
             builder.Services.AddTransient<SessionVM>();
             builder.Services.AddTransient<SessionPage>();
 
+            builder.Services.AddTransient<ExerciseVM>();
+            builder.Services.AddTransient<ExercisePage>();
+
+            builder.Services.AddTransient<ExercisesVM>();
+            builder.Services.AddTransient<ExercisesPage>();
+
             return builder.Build();
         }
 

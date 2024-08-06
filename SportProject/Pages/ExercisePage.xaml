@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sport.Pages.ExercisePage"
+             xmlns:vm="clr-namespace:Sport.VM;assembly=ClientUtilsProject"
+             xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
+             x:DataType="vm:ExerciseVM"
+             Title="ExercisePage"
+             x:Name="Page"
+             >
+
+    <Grid RowDefinitions="auto, auto, auto, *, auto" ColumnDefinitions="auto, *, auto, auto"
+          Margin="10,5,10,0" RowSpacing="10">
+
+        <Label Text="Nom" FontAttributes="Bold" Grid.Row="0"
+            VerticalOptions="Center"/>
+
+        <Entry Text="{Binding Exercise.ExerciseName}" AutomationId="ExerciseName"
+               Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+               VerticalOptions="Center" Margin="13,0,0,0"/>
+
+        <Label Text="Difficulté" FontAttributes="Bold" Grid.Row="1"/>
+
+        <Slider x:Name="slider" Grid.Row="1" Grid.Column="1"
+                Maximum="150" Value="{Binding Exercise.ExerciseDifficulty.DifficultyLevel}" 
+                VerticalOptions="Center"/>
+
+        <Label x:Name="displayLabel" Grid.Row="1" Grid.Column="2" AutomationId="ExerciseDifficulty"
+               Text="{Binding Source={x:Reference slider},Path=Value,
+                              StringFormat='{0:F0}'}" Margin="0,0,5,0"
+               HorizontalOptions="Center" VerticalOptions="Center" />
+
+        <Label Grid.Row="1" Grid.Column="3" Text="{Binding Exercise.ExerciseDifficulty.DifficultyName}"/>
+
+        <Button Grid.Row="4" Grid.Column="3" AutomationId="SaveExerciseBtn"
+                Text="Enregistrer" Command="{Binding SaveCommand}"/>
+
+    </Grid>
+</ContentPage>

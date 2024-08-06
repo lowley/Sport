@@ -52,14 +52,113 @@ namespace UITests
 
             var name = FindUIElementByAutomationId("ExerciseName");
             Assert.That(name, Is.Not.Null);
-            var difficulty = FindUIElementByAutomationId("Difficulty");
+            var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
             Assert.That(difficulty, Is.Not.Null);
 
             AppiumSetup.App.TerminateApp("sxb.sport");
             AppiumSetup.App.ActivateApp("sxb.sport");
         }
 
+        [Test]
+        public void ListExercises_one_Test()
+        {
+            //ajoute un exercice
+            var bouton = FindUIElementByAutomationId("AddExerciseBtn");
+            bouton.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
+            Assert.That(title, Is.Not.Null);
 
+            //act
+            var name = FindUIElementByAutomationId("ExerciseName");
+            name.SendKeys("Dips");
+            var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
+            //set to 75Kg by default
+            difficulty.Click();
+            var bouton2 = FindUIElementByAutomationId("SaveExerciseBtn");
+            bouton2.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            Assert.That(title2, Is.Not.Null);
+
+            //navigation vers ExercicesPage pour vérification
+            var bouton3 = FindUIElementByAutomationId("ExercisesBtn");
+            bouton3.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title3 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisesPage'][1]");
+            Assert.That(title3, Is.Not.Null);
+
+            var items = FindUIElementsByAutomationId("exercise");
+            var numberOfItems = items.Count;
+            Assert.That(numberOfItems, Is.EqualTo(1));
+
+            AppiumSetup.App.TerminateApp("sxb.sport");
+            AppiumSetup.App.ActivateApp("sxb.sport");
+        }
+
+        [Test]
+        public void ListExercises_two_Test()
+        {
+            //ajoute un exercice
+            var bouton = FindUIElementByAutomationId("AddExerciseBtn");
+            bouton.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
+            Assert.That(title, Is.Not.Null);
+
+            //act
+            var name = FindUIElementByAutomationId("ExerciseName");
+            name.SendKeys("Dips");
+            var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
+            //set to 75Kg by default
+            difficulty.Click();
+            var bouton2 = FindUIElementByAutomationId("SaveExerciseBtn");
+            bouton2.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            Assert.That(title2, Is.Not.Null);
+
+            //ajoute un exercice, objet de ce test
+            var bouton3 = FindUIElementByAutomationId("AddExerciseBtn");
+            bouton3.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title3 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
+            Assert.That(title3, Is.Not.Null);
+
+            //act for this test
+            var name2 = FindUIElementByAutomationId("ExerciseName");
+            name2.SendKeys("Crunches");
+            var difficulty2 = FindUIElementByAutomationId("ExerciseDifficulty");
+            //set to 75Kg by default
+            difficulty2.Click();
+            var bouton4 = FindUIElementByAutomationId("SaveExerciseBtn");
+            bouton4.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title4 = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            Assert.That(title4, Is.Not.Null);
+
+            //navigation vers ExercicesPage pour vérification
+            var bouton5 = FindUIElementByAutomationId("ExercisesBtn");
+            bouton5.Click();
+            Task.Delay(500).Wait();
+            //verif navigation
+            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisesPage'][1]");
+            Assert.That(title5, Is.Not.Null);
+
+            var items = FindUIElementsByAutomationId("exercise");
+            var numberOfItems = items.Count;
+            Assert.That(numberOfItems, Is.EqualTo(2));
+
+            AppiumSetup.App.TerminateApp("sxb.sport");
+            AppiumSetup.App.ActivateApp("sxb.sport");
+        }
 
 
         public void ClickCounter()

@@ -17,6 +17,12 @@
         
         <Button Text="Ajouter une séance" AutomationId="AddSessionBtn"
                 Command="{Binding AddSessionCommand}" Grid.Row="0"/>
+
+        <Button Text="Ajouter un exercice" AutomationId="AddExerciseBtn"
+            Command="{Binding AddExerciseCommand}" Grid.Row="1"/>
+
+        <Button Text="Liste des exercices" AutomationId="ExercisesBtn"
+            Command="{Binding ListExercisesCommand}" Grid.Row="2"/>
     </Grid>
     
 </ContentPage>

@@ -12,15 +12,22 @@ public partial class HomeVM : ObservableObject
     public async Task AddSession()
     {
         await Shell.Current.GoToAsync("sessions/session", false);
+    }
 
+    [RelayCommand]
+    public async Task AddExercise()
+    {
+        await Shell.Current.GoToAsync("exercises/exercise", false);
+    }
 
-
-
+    [RelayCommand]
+    public async Task ListExercises()
+    {
+        await Shell.Current.GoToAsync("exercises/exercises", false);
     }
 
     public HomeVM()
     {
-        //CustomPins.ListChanged += (object? sender, ListChangedEventArgs e) => OnPropertyChanged(nameof(CustomPins));
 
     }
 }

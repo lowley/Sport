@@ -22,6 +22,18 @@ public abstract class BaseTest
         return App.FindElement(MobileBy.Id(realId));
     }
 
+    protected IList<AppiumElement> FindUIElementsByAutomationId(string id)
+    {
+        var realId = "sxb.sport:id/" + id;
+
+        if (App is WindowsDriver)
+        {
+            return App.FindElements(MobileBy.AccessibilityId(realId));
+        }
+
+        return App.FindElements(MobileBy.Id(realId));
+    }
+
     /***
      * Find an element by its XPath
      * @param id The XPath of the element
@@ -36,6 +48,19 @@ public abstract class BaseTest
             result = App.FindElement(MobileBy.XPath(id));
         }
         catch(Exception e)
+        { }
+
+        return result;
+    }
+
+    protected IReadOnlyCollection<AppiumElement> FindUIElementsByXPath(string id)
+    {
+        IReadOnlyCollection<AppiumElement> result = null;
+        try
+        {
+            result = App.FindElements(MobileBy.XPath(id));
+        }
+        catch (Exception e)
         { }
 
         return result;
