@@ -20,9 +20,13 @@
                         Grid.Row="1" Grid.ColumnSpan="4">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="entities:ExerciseEntity">
-                    <Grid ColumnDefinitions="auto, *, auto">
-                        <Label Text="{Binding ExerciseName}" AutomationId="exercise"/>
-                         
+                    <Grid ColumnDefinitions="auto, auto, auto" ColumnSpacing="10">
+                        <Label Text="{Binding ExerciseName}" AutomationId="exercise"
+                               WidthRequest="200"/>
+                        <Label Text="{Binding ExerciseDifficulty.DifficultyLevel}"
+                               Grid.Column="1"/>
+                        <Label Text="{Binding ExerciseDifficulty.DifficultyName}"
+                                Grid.Column="2"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

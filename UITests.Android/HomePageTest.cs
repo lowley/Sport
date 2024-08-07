@@ -159,7 +159,6 @@ namespace UITests
             AppiumSetup.App.ActivateApp("sxb.sport");
         }
 
-
         public void ClickCounter()
         {
             // Arrange
