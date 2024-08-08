@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 #historique
 **/.vshistory
+
+#.nugets
+**/.nuget/
