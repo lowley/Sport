@@ -24,28 +24,23 @@ public partial class ExerciseVM : ObservableObject
     [RelayCommand]
     public async Task Save()
     {
-        //Trace.WriteLine($" en:{ExerciseName}, dn:{Difficulty.DifficultyName}, dl:{Difficulty.DifficultyLevel}");
-
-
         if (CurrentDifficulty.DifficultyLevel == 0)
             return;
 
-        if (ExercisesVM._exercices.Any(
-                x => x.ExerciseName == CurrentExerciseName
-                && x.ExerciseDifficulties.Any(ed => ed.DifficultyName == CurrentDifficulty.DifficultyName)
-                && x.ExerciseDifficulties.Any(ed => ed.DifficultyLevel == CurrentDifficulty.DifficultyLevel)))
+        var exercise = new ExerciseEntity();
+        exercise.ExerciseName = CurrentExerciseName;
+        exercise.ExerciseDifficulties.Add(CurrentDifficulty);
+
+        if (ExercisesVM._exercices.Any(x => x == exercise))
             return;
 
         if (ExercisesVM._exercices.Any(x => x.ExerciseName == CurrentExerciseName))
         {
-            var exercise = ExercisesVM._exercices.FirstOrDefault(x => x.ExerciseName == CurrentExerciseName);
+            exercise = ExercisesVM._exercices.FirstOrDefault(x => x.ExerciseName == CurrentExerciseName);
             exercise?.ExerciseDifficulties.Add(CurrentDifficulty);
         }
         else
         {
-            var exercise = new ExerciseEntity();
-            exercise.ExerciseName = CurrentExerciseName;
-            exercise.ExerciseDifficulties.Add(CurrentDifficulty);
             ExercisesVM._exercices.Add(exercise);
             CurrentDifficulty = new DifficultyContainer(0, "Kg");
         }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ClientUtilsProject.DataClasses
 {
-    public partial class DifficultyContainer : ObservableObject
+    public partial class DifficultyContainer : ObservableObject, IEquatable<DifficultyContainer>
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
@@ -57,5 +57,37 @@ namespace ClientUtilsProject.DataClasses
 
         public string ToString() => $"{DifficultyLevel}{(DifficultyName.IsDefault() ? string.Empty : " " + DifficultyName)}";
 
+        #region equality check
+        public virtual bool Equals(Object other)
+        {
+            if (other == null || other.GetType() != this.GetType())
+                return false;
+
+            return Equals((DifficultyContainer)other);
+        }
+
+        public bool Equals(DifficultyContainer other)
+        {
+            if (other == null)
+                return false;
+
+            if (ReferenceEquals(this, other))
+                return true;
+
+            return DifficultyLevel == other.DifficultyLevel
+                && DifficultyName.Equals(other.DifficultyName);
+        }
+
+        public static bool operator ==(DifficultyContainer left, DifficultyContainer right)
+        {
+            if (left is null || right is null)
+                return false;
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(DifficultyContainer left, DifficultyContainer right) => !(left == right);
+        
+        #endregion equality check
     }
 }
