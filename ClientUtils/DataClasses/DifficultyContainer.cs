@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace ClientUtilsProject.DataClasses
 {
-    public partial class DifficultyContainer : ObservableObject 
+    public partial class DifficultyContainer : ObservableObject
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         public int _difficultyLevel;
-        
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
-        public string _difficultyName;
+        public Option<string> _difficultyName;
 
-        public DifficultyContainer(int difficultyLevel, string difficultyName = default)
+        public DifficultyContainer(int difficultyLevel, Option<string> difficultyName = default)
         {
             DifficultyLevel = difficultyLevel;
             DifficultyName = difficultyName;
@@ -28,11 +28,32 @@ namespace ClientUtilsProject.DataClasses
 
         public DifficultyContainer()
         {
-            DifficultyName = string.Empty;
+            DifficultyName = default;
             _difficultyLevel = 1;
         }
 
-        public string ShowMe => $"Difficulté: {DifficultyLevel}{(DifficultyName.IsDefault() ? string.Empty : " " + DifficultyName)}";
+        public string ShowMe
+        {
+            get {
+                var name = DifficultyName.Match(
+                    Some: v => v,
+                    None: () => string.Empty
+                );
+                return $"Difficulté: {DifficultyLevel}{name}";
+            }
+        }
+
+        public string ShowName
+        {
+            get
+            {
+                var name = DifficultyName.Match(
+                    Some: v => v,
+                    None: () => string.Empty
+                );
+                return $"{name}";
+            }
+        }
 
         public string ToString() => $"{DifficultyLevel}{(DifficultyName.IsDefault() ? string.Empty : " " + DifficultyName)}";
 

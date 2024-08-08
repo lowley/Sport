@@ -20,13 +20,14 @@ public partial class ExerciseVM : ObservableObject
 
     [ObservableProperty]
     public DifficultyContainer _currentDifficulty = new(11, "Kg");
-   
+
     [RelayCommand]
     public async Task Save()
     {
         //Trace.WriteLine($" en:{ExerciseName}, dn:{Difficulty.DifficultyName}, dl:{Difficulty.DifficultyLevel}");
 
-        if (string.IsNullOrEmpty(CurrentDifficulty.DifficultyName) || CurrentDifficulty.DifficultyLevel == 0)
+
+        if (CurrentDifficulty.DifficultyLevel == 0)
             return;
 
         if (ExercisesVM._exercices.Any(
@@ -46,7 +47,7 @@ public partial class ExerciseVM : ObservableObject
             exercise.ExerciseName = CurrentExerciseName;
             exercise.ExerciseDifficulties.Add(CurrentDifficulty);
             ExercisesVM._exercices.Add(exercise);
-            CurrentDifficulty = new DifficultyContainer(0,"Kg");
+            CurrentDifficulty = new DifficultyContainer(0, "Kg");
         }
     }
 
@@ -58,6 +59,6 @@ public partial class ExerciseVM : ObservableObject
 
     public ExerciseVM()
     {
-        
+
     }
 }

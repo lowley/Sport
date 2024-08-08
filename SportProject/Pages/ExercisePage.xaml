@@ -26,7 +26,7 @@
                Text="{Binding Source={x:Reference slider},Path=Value,
                               StringFormat='{0:F0}'}" Margin="0,0,5,0"
                HorizontalOptions="Center" VerticalOptions="Center" />
-        <Label Grid.Row="1" Grid.Column="4" Text="{Binding CurrentDifficulty.DifficultyName}"/>
+        <Label Grid.Row="1" Grid.Column="4" Text="{Binding CurrentDifficulty.ShowName}"/>
         <Entry Grid.Row="2" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" Keyboard="Numeric"
                AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" Focused="DifficultyLevelEntry_Focused"
                />
