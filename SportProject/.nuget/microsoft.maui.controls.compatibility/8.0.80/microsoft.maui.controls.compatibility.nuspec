@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Maui.Controls.Compatibility</id>
+    <version>8.0.80</version>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Icon.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/dotnet/maui</projectUrl>
+    <description>Compatibility APIs and objects for .NET Multi-platform App UI (.NET MAUI) apps. This package contains a collection of APIs and views that allow for easier migration from Xamarin.Forms.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>dotnet-maui dotnet maui cross-platform ios android macos maccatalyst windows winui tizen compatibility xamarin.forms migration</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/dotnet/maui.git" commit="1ddf88cf3145629259d2f1aaa5084a5dcb9051c4" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-ios17.0">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-maccatalyst17.0">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-tizen7.0">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-windows10.0.19041">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-windows10.0.20348">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="Microsoft.Maui.Controls.Core" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Xaml" version="8.0.80" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

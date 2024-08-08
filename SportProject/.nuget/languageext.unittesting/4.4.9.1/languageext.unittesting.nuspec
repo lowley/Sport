@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>LanguageExt.UnitTesting</id>
+    <version>4.4.9.1</version>
+    <authors>Yuriy Lyeshchenko</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <projectUrl>https://github.com/yuriylsh/LanguageExt.UnitTesting</projectUrl>
+    <description>Extension methods to simplify writing unit tests for code written using LanguageExt library</description>
+    <releaseNotes>Adding Fin extenstion methods</releaseNotes>
+    <copyright>Yuriy Lyeshchenko © 2018</copyright>
+    <tags>LanguageExt</tags>
+    <repository type="git" url="https://github.com/yuriylsh/LanguageExt.UnitTesting.git" commit="39d210cff058105388855212e6e91f0b8c67228a" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="LanguageExt.Core" version="4.4.9" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

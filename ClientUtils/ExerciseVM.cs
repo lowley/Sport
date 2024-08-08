@@ -27,21 +27,24 @@ public partial class ExerciseVM : ObservableObject
         if (CurrentDifficulty.DifficultyLevel == 0)
             return;
 
-        var exercise = new ExerciseEntity();
-        exercise.ExerciseName = CurrentExerciseName;
-        exercise.ExerciseDifficulties.Add(CurrentDifficulty);
+        var currentExercise = new ExerciseEntity();
+        currentExercise.ExerciseName = CurrentExerciseName;
+        currentExercise.ExerciseDifficulties.Add(CurrentDifficulty);
 
-        if (ExercisesVM._exercices.Any(x => x == exercise))
+        if (ExercisesVM._exercices.Any(oneExercise => 
+            oneExercise.ExerciseName.Equals(currentExercise.ExerciseName)
+            && oneExercise.ExerciseDifficulties.Any(oneDifficutly =>
+                oneDifficutly == CurrentDifficulty)))
             return;
 
         if (ExercisesVM._exercices.Any(x => x.ExerciseName == CurrentExerciseName))
         {
-            exercise = ExercisesVM._exercices.FirstOrDefault(x => x.ExerciseName == CurrentExerciseName);
-            exercise?.ExerciseDifficulties.Add(CurrentDifficulty);
+            currentExercise = ExercisesVM._exercices.FirstOrDefault(x => x.ExerciseName == CurrentExerciseName);
+            currentExercise?.ExerciseDifficulties.Add(CurrentDifficulty);
         }
         else
         {
-            ExercisesVM._exercices.Add(exercise);
+            ExercisesVM._exercices.Add(currentExercise);
             CurrentDifficulty = new DifficultyContainer(0, "Kg");
         }
     }
