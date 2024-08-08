@@ -1,4 +1,4 @@
-﻿using ClientUtilsProject.Entities;
+﻿using ClientUtilsProject.DataClasses;
 using Sport.VM;
 using System.Collections.ObjectModel;
 

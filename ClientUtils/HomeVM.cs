@@ -26,6 +26,12 @@ public partial class HomeVM : ObservableObject
         await Shell.Current.GoToAsync("exercises/exercises", false);
     }
 
+    [RelayCommand]
+    public void Clear()
+    {
+        ExercisesVM._exercices.Clear();
+    }
+
     public HomeVM()
     {
 

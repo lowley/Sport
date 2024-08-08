@@ -1,5 +1,5 @@
 ﻿using ClientUtilsProject.DataClasses;
-using ClientUtilsProject.Entities;
+using ClientUtilsProject.DataClasses;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;

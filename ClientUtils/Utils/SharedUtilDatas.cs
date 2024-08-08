@@ -1,4 +1,4 @@
-﻿using ClientUtilsProject.Entities;
+﻿using ClientUtilsProject.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

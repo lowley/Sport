@@ -2,11 +2,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientUtilsProject.Entities
+namespace ClientUtilsProject.DataClasses
 {
     public partial class ExerciseEntity : ObservableObject
     {
@@ -14,12 +15,12 @@ namespace ClientUtilsProject.Entities
         public string _exerciseName;
 
         [ObservableProperty]
-        public DifficultyContainer<string> _exerciseDifficulty;
+        public ObservableCollection<DifficultyContainer> _exerciseDifficulties;
 
         public ExerciseEntity()
         {
             ExerciseName = string.Empty;
-            ExerciseDifficulty = new DifficultyContainer<string>(10, "Kg");
+            ExerciseDifficulties = [];
         }
     }
 }

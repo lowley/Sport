@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Sport.Pages.ExercisesPage"
              xmlns:vm="clr-namespace:Sport.VM;assembly=ClientUtilsProject"
-             xmlns:entities="clr-namespace:ClientUtilsProject.Entities;assembly=ClientUtilsProject"
+             xmlns:entities="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              x:DataType="vm:ExercisesVM"
              Title="ExercisesPage"
@@ -23,10 +23,21 @@
                     <Grid ColumnDefinitions="auto, auto, auto" ColumnSpacing="10">
                         <Label Text="{Binding ExerciseName}" AutomationId="exercise"
                                WidthRequest="200"/>
-                        <Label Text="{Binding ExerciseDifficulty.DifficultyLevel}"
-                               Grid.Column="1"/>
-                        <Label Text="{Binding ExerciseDifficulty.DifficultyName}"
-                                Grid.Column="2"/>
+
+                        <CollectionView ItemsSource="{Binding ExerciseDifficulties}"
+                                        Grid.Column="1" Grid.ColumnSpan="3">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="entities:DifficultyContainer">
+                                    <Grid ColumnDefinitions="auto, *, auto">
+                                        <Label Text="{Binding ShowMe}" Grid.Column="0"
+                                               AutomationId="difficulty"/>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

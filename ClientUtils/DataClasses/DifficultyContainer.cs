@@ -10,19 +10,29 @@ using System.Threading.Tasks;
 
 namespace ClientUtilsProject.DataClasses
 {
-    public partial class DifficultyContainer<T> : ObservableObject 
+    public partial class DifficultyContainer : ObservableObject 
     {
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(ShowMe))]
         public int _difficultyLevel;
         
         [ObservableProperty]
-        public T _difficultyName;
+        [NotifyPropertyChangedFor(nameof(ShowMe))]
+        public string _difficultyName;
 
-        public DifficultyContainer(int difficultyLevel, T difficultyName = default)
+        public DifficultyContainer(int difficultyLevel, string difficultyName = default)
         {
             DifficultyLevel = difficultyLevel;
             DifficultyName = difficultyName;
         }
+
+        public DifficultyContainer()
+        {
+            DifficultyName = string.Empty;
+            _difficultyLevel = 1;
+        }
+
+        public string ShowMe => $"Difficulté: {DifficultyLevel}{(DifficultyName.IsDefault() ? string.Empty : " " + DifficultyName)}";
 
         public string ToString() => $"{DifficultyLevel}{(DifficultyName.IsDefault() ? string.Empty : " " + DifficultyName)}";
 

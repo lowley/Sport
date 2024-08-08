@@ -9,31 +9,38 @@
              x:Name="Page"
              >
 
-    <Grid RowDefinitions="auto, auto, auto, *, auto" ColumnDefinitions="auto, *, auto, auto"
+    <Grid RowDefinitions="auto, auto, auto, *, auto" ColumnDefinitions="auto, auto, *, auto, auto"
           Margin="10,5,10,0" RowSpacing="10">
 
         <Label Text="Nom" FontAttributes="Bold" Grid.Row="0"
             VerticalOptions="Center"/>
-
-        <Entry Text="{Binding Exercise.ExerciseName}" AutomationId="ExerciseName"
-               Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+        <Entry Text="{Binding CurrentExerciseName}" AutomationId="ExerciseName"
+               Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4"
                VerticalOptions="Center" Margin="13,0,0,0"/>
 
         <Label Text="Difficulté" FontAttributes="Bold" Grid.Row="1"/>
-
         <Slider x:Name="slider" Grid.Row="1" Grid.Column="1"
-                Maximum="150" Value="{Binding Exercise.ExerciseDifficulty.DifficultyLevel}" 
+                Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}" 
                 VerticalOptions="Center"/>
-
-        <Label x:Name="displayLabel" Grid.Row="1" Grid.Column="2" AutomationId="ExerciseDifficulty"
+        <Label x:Name="displayLabel" Grid.Row="1" Grid.Column="3" AutomationId="ExerciseDifficulty"
                Text="{Binding Source={x:Reference slider},Path=Value,
                               StringFormat='{0:F0}'}" Margin="0,0,5,0"
                HorizontalOptions="Center" VerticalOptions="Center" />
+        <Label Grid.Row="1" Grid.Column="4" Text="{Binding CurrentDifficulty.DifficultyName}"/>
+        <Entry Grid.Row="2" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" Keyboard="Numeric"
+               AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" Focused="DifficultyLevelEntry_Focused"
+               />
+        <Button Grid.Row="2" Grid.Column="3" Text="Chacher clavier"
+                Clicked="HideKeyboard_Clicked" AutomationId="HideKeyboardBtn"/>
 
-        <Label Grid.Row="1" Grid.Column="3" Text="{Binding Exercise.ExerciseDifficulty.DifficultyName}"/>
+        <!-- Boutons du bas de la page -->
+        <Grid ColumnDefinitions="*, auto, auto"
+              Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
 
-        <Button Grid.Row="4" Grid.Column="3" AutomationId="SaveExerciseBtn"
+            <Button Text="Back" Command="{Binding BackCommand}" AutomationId="BackButton"/>
+            <Button Grid.Row="4" Grid.Column="3" AutomationId="SaveExerciseBtn"
                 Text="Enregistrer" Command="{Binding SaveCommand}"/>
 
+        </Grid>
     </Grid>
 </ContentPage>
