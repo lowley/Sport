@@ -23,7 +23,7 @@ namespace ClientUtilsProject.DataClasses
         [NotifyPropertyChangedFor(nameof(ShowName))]
         private Option<string> _difficultyName;
 
-        public DifficultyContainer(Int32 difficultyLevel, string difficultyName = default)
+        public DifficultyContainer(Int32 difficultyLevel, string? difficultyName = default)
         {
             DifficultyLevel = difficultyLevel;
             DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
@@ -31,14 +31,8 @@ namespace ClientUtilsProject.DataClasses
 
         public DifficultyContainer()
         {
-            DifficultyName = default;
-            _difficultyLevel = 1;
-        }
-
-        public static DifficultyContainer Create11Kgs()
-        {
-            var result = new DifficultyContainer(11, "Kg");
-            return result;
+            DifficultyName = "Kg";
+            DifficultyLevel = 0;
         }
 
         public string ShowMe

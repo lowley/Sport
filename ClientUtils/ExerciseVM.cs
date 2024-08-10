@@ -46,8 +46,7 @@ public partial class ExerciseVM : ObservableObject
             ExercisesVM._exercices.Add(currentExercise);
         }
 
-        CurrentDifficulty = DifficultyContainer.Create11Kgs();
-        OnPropertyChanged(nameof(CurrentDifficulty));
+        CurrentDifficulty = new ();
     }
 
     [RelayCommand]
@@ -58,7 +57,7 @@ public partial class ExerciseVM : ObservableObject
 
     public ExerciseVM()
     {
-        CurrentDifficulty = DifficultyContainer.Create11Kgs();
+        CurrentDifficulty = new();
 
     }
 }

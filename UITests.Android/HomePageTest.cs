@@ -81,8 +81,17 @@ namespace UITests
             var name = FindUIElementByAutomationId("ExerciseName");
             name.SendKeys("Dips");
             var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
-            //set to 75Kg by default
-            difficulty.Click();
+            
+            //value : 11Kg
+            var value = FindUIElementByAutomationId("ExerciseValue");
+            value.Click();
+            value.SendKeys("11");
+
+            //cache le clavier
+            var bouton4 = FindUIElementByAutomationId("HideKeyboardBtn");
+            bouton4.Click();
+            Task.Delay(500).Wait();
+            
             var bouton2 = FindUIElementByAutomationId("SaveExerciseBtn");
             bouton2.Click();
             Task.Delay(500).Wait();
@@ -128,7 +137,17 @@ namespace UITests
             var name = FindUIElementByAutomationId("ExerciseName");
             name.SendKeys("Dips");
             var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
-            //on garde la value par défaut
+            
+            //value : 11Kg
+            var value = FindUIElementByAutomationId("ExerciseValue");
+            value.Click();
+            value.SendKeys("11");
+
+            //cache le clavier
+            var bouton6 = FindUIElementByAutomationId("HideKeyboardBtn");
+            bouton6.Click();
+            Task.Delay(500).Wait();
+            
             var bouton2 = FindUIElementByAutomationId("SaveExerciseBtn");
             bouton2.Click();
             Task.Delay(500).Wait();
@@ -153,7 +172,17 @@ namespace UITests
             var name2 = FindUIElementByAutomationId("ExerciseName");
             name2.SendKeys("Crunches");
             var difficulty2 = FindUIElementByAutomationId("ExerciseDifficulty");
-            //on garde la value par défaut
+            
+            //value : 11Kg
+            var value2 = FindUIElementByAutomationId("ExerciseValue");
+            value2.Click();
+            value2.SendKeys("11");
+
+            //cache le clavier
+            var bouton7 = FindUIElementByAutomationId("HideKeyboardBtn");
+            bouton7.Click();
+            Task.Delay(500).Wait();
+            
             var bouton4 = FindUIElementByAutomationId("SaveExerciseBtn");
             bouton4.Click();
             Task.Delay(500).Wait();
