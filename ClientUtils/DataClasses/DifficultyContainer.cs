@@ -15,13 +15,13 @@ namespace ClientUtilsProject.DataClasses
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
-        public int _difficultyLevel;
+        private int _difficultyLevel;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
         [NotifyPropertyChangedFor(nameof(ShowName))]
-        public Option<string> _difficultyName;
+        private Option<string> _difficultyName;
 
         public DifficultyContainer(int difficultyLevel, Option<string> difficultyName = default)
         {

@@ -19,7 +19,7 @@
                VerticalOptions="Center" Margin="13,0,0,0"/>
 
         <Label Text="Difficulté" FontAttributes="Bold" Grid.Row="1"/>
-        <Slider x:Name="slider" Grid.Row="1" Grid.Column="1"
+        <Slider x:Name="slider" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                 Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}" 
                 VerticalOptions="Center"/>
         <Label x:Name="displayLabel" Grid.Row="1" Grid.Column="3" AutomationId="ExerciseDifficulty"
@@ -30,7 +30,7 @@
         <Entry Grid.Row="2" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" Keyboard="Numeric"
                AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" Focused="DifficultyLevelEntry_Focused"
                />
-        <Button Grid.Row="2" Grid.Column="3" Text="Cacher clavier"
+        <Button Grid.Row="2" Grid.Column="3" Text="Cacher"
                 Clicked="HideKeyboard_Clicked" AutomationId="HideKeyboardBtn"/>
 
         <!-- Boutons du bas de la page -->

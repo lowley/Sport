@@ -12,10 +12,10 @@ namespace ClientUtilsProject.DataClasses
     public partial class ExerciseEntity : ObservableObject, IEquatable<ExerciseEntity>
     {
         [ObservableProperty]
-        public string _exerciseName;
+        private string _exerciseName;
 
         [ObservableProperty]
-        public ObservableCollection<DifficultyContainer> _exerciseDifficulties;
+        private ObservableCollection<DifficultyContainer> _exerciseDifficulties;
 
         public ExerciseEntity()
         {
