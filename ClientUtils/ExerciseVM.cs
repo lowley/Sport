@@ -45,8 +45,10 @@ public partial class ExerciseVM : ObservableObject
         else
         {
             ExercisesVM._exercices.Add(currentExercise);
-            CurrentDifficulty = new DifficultyContainer(0, "Kg");
         }
+
+        CurrentDifficulty = new DifficultyContainer(0, "Kg");
+        OnPropertyChanged(nameof(CurrentDifficulty));
     }
 
     [RelayCommand]

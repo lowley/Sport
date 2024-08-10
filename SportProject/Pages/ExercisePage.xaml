@@ -30,7 +30,7 @@
         <Entry Grid.Row="2" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" Keyboard="Numeric"
                AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" Focused="DifficultyLevelEntry_Focused"
                />
-        <Button Grid.Row="2" Grid.Column="3" Text="Chacher clavier"
+        <Button Grid.Row="2" Grid.Column="3" Text="Cacher clavier"
                 Clicked="HideKeyboard_Clicked" AutomationId="HideKeyboardBtn"/>
 
         <!-- Boutons du bas de la page -->
