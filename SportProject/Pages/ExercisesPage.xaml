@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:Sport.VM;assembly=ClientUtilsProject"
              xmlns:entities="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              x:DataType="vm:ExercisesVM"
              Title="ExercisesPage"
              x:Name="Page"
@@ -22,16 +23,30 @@
                 <DataTemplate x:DataType="entities:ExerciseEntity">
                     <Grid ColumnDefinitions="auto, auto, auto" ColumnSpacing="10">
                         <Label Text="{Binding ExerciseName}" AutomationId="exercise"
-                               WidthRequest="200"/>
+                               WidthRequest="200"
+                               VerticalOptions="Center"/>
 
                         <CollectionView ItemsSource="{Binding ExerciseDifficulties}"
-                                        Grid.Column="1" Grid.ColumnSpan="3">
+                                        Grid.Column="0" Grid.ColumnSpan="4"
+                                        Margin="50,0,0,0"
+                                        ItemsLayout="HorizontalList">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="entities:DifficultyContainer">
-                                    <Grid ColumnDefinitions="auto, *, auto">
-                                        <Label Text="{Binding ShowMe}" Grid.Column="0"
-                                               AutomationId="difficulty"/>
-
+                                    <Grid ColumnDefinitions="auto">
+                                        <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
+                                                  AutomationId="difficulty"
+                                                  BackgroundColor="Gold"
+                                                  BorderColor="Goldenrod"
+                                                  TextColor="Black"
+                                                  Margin="0,0,5,0">
+                                            <dxe:Chip.Icon>
+                                                <FontImageSource
+                                                    Color="Brown"
+                                                    FontFamily="FontelloGauge"
+                                                    Glyph="{x:StaticResource IconGauge}"
+                                                    Size="20" />
+                                            </dxe:Chip.Icon>
+                                        </dxe:Chip>
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

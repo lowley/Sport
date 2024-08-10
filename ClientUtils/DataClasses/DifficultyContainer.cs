@@ -14,10 +14,12 @@ namespace ClientUtilsProject.DataClasses
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
+        [NotifyPropertyChangedFor(nameof(ShowMeShort))]
         public int _difficultyLevel;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
+        [NotifyPropertyChangedFor(nameof(ShowMeShort))]
         public Option<string> _difficultyName;
 
         public DifficultyContainer(int difficultyLevel, Option<string> difficultyName = default)
@@ -40,6 +42,18 @@ namespace ClientUtilsProject.DataClasses
                     None: () => string.Empty
                 );
                 return $"Difficulté: {DifficultyLevel}{name}";
+            }
+        }
+
+        public string ShowMeShort
+        {
+            get
+            {
+                var name = DifficultyName.Match(
+                    Some: v => v,
+                    None: () => string.Empty
+                );
+                return $"{DifficultyLevel}{name}";
             }
         }
 

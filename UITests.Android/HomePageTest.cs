@@ -251,15 +251,18 @@ namespace UITests
             var numberOfExercises = exercises.Count;
             Assert.That(numberOfExercises, Is.EqualTo(1));
 
-            var difficulties = FindUIElementsByAutomationId("difficulty");
+            var difficulties = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/difficulty'][1]/android.widget.TextView");
+            var difficulty1 = difficulties.ElementAt(0);
+            var difficulty2 = difficulties.ElementAt(1);
+
             var numberOfDifficulties = difficulties.Count;
 
             var difficulté_11 = new DifficultyContainer(11, "Kg");
             var difficulté_14 = new DifficultyContainer(14, "Kg");
 
             Assert.That(numberOfDifficulties, Is.EqualTo(2));
-            Assert.That(difficulties[0].Text, Is.EqualTo(difficulté_11.ShowMe));
-            Assert.That(difficulties[1].Text, Is.EqualTo(difficulté_14.ShowMe));
+            Assert.That(difficulty1.Text, Is.EqualTo(difficulté_11.ShowMeShort));
+            Assert.That(difficulty2.Text, Is.EqualTo(difficulté_14.ShowMeShort));
 
             AppiumSetup.App.TerminateApp("sxb.sport");
             AppiumSetup.App.ActivateApp("sxb.sport");

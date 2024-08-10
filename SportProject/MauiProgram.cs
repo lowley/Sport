@@ -5,6 +5,7 @@ using Serilog;
 using Sport.Pages;
 using Sport.VM;
 using Serilog.Core;
+using DevExpress.Maui;
 
 namespace Sport
 {
@@ -17,11 +18,17 @@ namespace Sport
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseDevExpress()
+                .UseDevExpressEditors()
+                .UseDevExpressControls()
+                .UseDevExpressCollectionView()
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("gauge.ttf", "FontelloGauge");
+
                 });
 
 #if DEBUG
