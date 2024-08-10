@@ -23,16 +23,16 @@
                 <DataTemplate x:DataType="entities:ExerciseEntity">
                     <Grid ColumnDefinitions="auto, auto, auto" ColumnSpacing="10">
                         <Label Text="{Binding ExerciseName}" AutomationId="exercise"
-                               WidthRequest="200"
                                VerticalOptions="Center"/>
 
                         <CollectionView ItemsSource="{Binding ExerciseDifficulties}"
-                                        Grid.Column="0" Grid.ColumnSpan="4"
-                                        Margin="50,0,0,0"
-                                        ItemsLayout="HorizontalList">
+                                        Grid.Column="1" Grid.ColumnSpan="4"
+                                        Margin="20,0,0,0"
+                                        ItemsLayout="VerticalGrid, 3"
+                                        >
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="entities:DifficultyContainer">
-                                    <Grid ColumnDefinitions="auto">
+                                    <Grid ColumnDefinitions="auto" >
                                         <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
                                                   AutomationId="difficulty"
                                                   BackgroundColor="Gold"
