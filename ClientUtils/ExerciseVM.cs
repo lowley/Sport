@@ -1,5 +1,4 @@
 ﻿using ClientUtilsProject.DataClasses;
-using ClientUtilsProject.DataClasses;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LanguageExt;
@@ -19,7 +18,7 @@ public partial class ExerciseVM : ObservableObject
     public string _currentExerciseName;
 
     [ObservableProperty]
-    public DifficultyContainer _currentDifficulty = new(11, "Kg");
+    public DifficultyContainer _currentDifficulty;
 
     [RelayCommand]
     public async Task Save()
@@ -33,8 +32,8 @@ public partial class ExerciseVM : ObservableObject
 
         if (ExercisesVM._exercices.Any(oneExercise => 
             oneExercise.ExerciseName.Equals(currentExercise.ExerciseName)
-            && oneExercise.ExerciseDifficulties.Any(oneDifficutly =>
-                oneDifficutly == CurrentDifficulty)))
+            && oneExercise.ExerciseDifficulties.Any(oneDifficulty =>
+                oneDifficulty == CurrentDifficulty)))
             return;
 
         if (ExercisesVM._exercices.Any(x => x.ExerciseName == CurrentExerciseName))
@@ -47,7 +46,7 @@ public partial class ExerciseVM : ObservableObject
             ExercisesVM._exercices.Add(currentExercise);
         }
 
-        CurrentDifficulty = new DifficultyContainer(0, "Kg");
+        CurrentDifficulty = DifficultyContainer.Create11Kgs();
         OnPropertyChanged(nameof(CurrentDifficulty));
     }
 
@@ -59,6 +58,7 @@ public partial class ExerciseVM : ObservableObject
 
     public ExerciseVM()
     {
+        CurrentDifficulty = DifficultyContainer.Create11Kgs();
 
     }
 }

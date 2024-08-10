@@ -15,7 +15,7 @@ namespace ClientUtilsProject.DataClasses
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
-        private int _difficultyLevel;
+        private Int32 _difficultyLevel;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
@@ -23,16 +23,22 @@ namespace ClientUtilsProject.DataClasses
         [NotifyPropertyChangedFor(nameof(ShowName))]
         private Option<string> _difficultyName;
 
-        public DifficultyContainer(int difficultyLevel, Option<string> difficultyName = default)
+        public DifficultyContainer(Int32 difficultyLevel, string difficultyName = default)
         {
             DifficultyLevel = difficultyLevel;
-            DifficultyName = difficultyName;
+            DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
         }
 
         public DifficultyContainer()
         {
             DifficultyName = default;
             _difficultyLevel = 1;
+        }
+
+        public static DifficultyContainer Create11Kgs()
+        {
+            var result = new DifficultyContainer(11, "Kg");
+            return result;
         }
 
         public string ShowMe
@@ -102,7 +108,12 @@ namespace ClientUtilsProject.DataClasses
         }
 
         public static bool operator !=(DifficultyContainer left, DifficultyContainer right) => !(left == right);
-        
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(DifficultyLevel, DifficultyName);
+        }
+
         #endregion equality check
     }
 }
