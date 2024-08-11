@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Sport.Pages.ExercisesPage"
@@ -8,55 +9,53 @@
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              x:DataType="vm:ExercisesVM"
-             Title="ExercisesPage"
-             x:Name="Page"
-             >
+             Title="Liste des exercices"
+             x:Name="Page">
 
     <VerticalStackLayout Margin="10,5,10,0">
+        <Border StrokeShape="RoundRectangle 5"
+                Stroke="Goldenrod">
+            
+            <dx:DXCollectionView ItemsSource="{Binding Exercices}"
+                                 ReduceSizeToContent="True" AllowLiveDataShaping="True"
+                                 Orientation="Vertical">
+                <dx:DXCollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="entities:ExerciseEntity">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding ExerciseName}" AutomationId="exercise" 
+                                   Margin="20,5,0,0" FontSize="25"/>
 
-        <Label Text="Liste des exercices" FontAttributes="Bold"
-                VerticalOptions="Start"/>
+                            <FlexLayout x:Name="DifficultiesLayout"
+                                        BindableLayout.ItemsSource="{Binding ExerciseDifficulties}"
+                                        HorizontalOptions="FillAndExpand" Wrap="Wrap"
+                                        VerticalOptions="StartAndExpand"
+                                        Margin="20,5,0,5">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="entities:DifficultyContainer">
+                                        <Grid Margin="0,0,0,5" FlexLayout.Order="{Binding DifficultyLevel}">
+                                            <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
+                                                      AutomationId="difficulty"
+                                                      BackgroundColor="Gold"
+                                                      BorderColor="Goldenrod"
+                                                      TextColor="Black"
+                                                      Margin="0,0,5,0">
+                                                <dxe:Chip.Icon>
+                                                    <FontImageSource
+                                                        Color="Brown"
+                                                        FontFamily="FontelloGauge"
+                                                        Glyph="{x:StaticResource IconGauge}"
+                                                        Size="20" />
+                                                </dxe:Chip.Icon>
+                                            </dxe:Chip>
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
 
-        <dx:DXCollectionView ItemsSource="{Binding Exercices}"
-                        ReduceSizeToContent="True" AllowLiveDataShaping="True">
-            <dx:DXCollectionView.ItemTemplate>
-                <DataTemplate x:DataType="entities:ExerciseEntity">
-                    <VerticalStackLayout BackgroundColor="Bisque">
-                        <Label Text="{Binding ExerciseName}" AutomationId="exercise"/>
-
-                        <FlexLayout x:Name="DifficultiesLayout"
-                                    BindableLayout.ItemsSource="{Binding ExerciseDifficulties}"
-                                    HorizontalOptions="FillAndExpand"
-                                    VerticalOptions="StartAndExpand"
-                                    Margin="20,5,0,5">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="entities:DifficultyContainer">
-                                    <Grid>
-                                        <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
-                                                  AutomationId="difficulty"
-                                                  BackgroundColor="Gold"
-                                                  BorderColor="Goldenrod"
-                                                  TextColor="Black"
-                                                  Margin="0,0,5,0">
-                                            <dxe:Chip.Icon>
-                                                <FontImageSource
-                                                    Color="Brown"
-                                                    FontFamily="FontelloGauge"
-                                                    Glyph="{x:StaticResource IconGauge}"
-                                                    Size="20" />
-                                            </dxe:Chip.Icon>
-                                        </dxe:Chip>
-                                    </Grid>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </FlexLayout>
-                        
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </dx:DXCollectionView.ItemTemplate>
-        </dx:DXCollectionView>
-
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </dx:DXCollectionView.ItemTemplate>
+            </dx:DXCollectionView>
+        </Border>
     </VerticalStackLayout>
-
-
 </ContentPage>
