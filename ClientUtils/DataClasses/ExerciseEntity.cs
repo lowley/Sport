@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LanguageExt;
 
 namespace ClientUtilsProject.DataClasses
 {
@@ -13,10 +14,10 @@ namespace ClientUtilsProject.DataClasses
     {
         [ObservableProperty]
         private string _exerciseName;
-
+        
         [ObservableProperty]
         private ObservableCollection<DifficultyContainer> _exerciseDifficulties;
-
+        
         public ExerciseEntity()
         {
             ExerciseName = string.Empty;

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Sport.Pages.ExercisesPage"
              xmlns:vm="clr-namespace:Sport.VM;assembly=ClientUtilsProject"
+             xmlns:dx="http://schemas.devexpress.com/maui"
              xmlns:entities="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
@@ -11,28 +12,26 @@
              x:Name="Page"
              >
 
-    <Grid RowDefinitions="auto, auto, auto, *, auto" ColumnDefinitions="auto, *, auto, auto"
-          Margin="10,5,10,0" RowSpacing="10">
+    <VerticalStackLayout Margin="10,5,10,0">
 
         <Label Text="Liste des exercices" FontAttributes="Bold"
-               Grid.Row="0" VerticalOptions="Center"/>
+                VerticalOptions="Start"/>
 
-        <CollectionView ItemsSource="{Binding Exercices}"
-                        Grid.Row="1" Grid.ColumnSpan="4">
-            <CollectionView.ItemTemplate>
+        <dx:DXCollectionView ItemsSource="{Binding Exercices}"
+                        ReduceSizeToContent="True" AllowLiveDataShaping="True">
+            <dx:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="entities:ExerciseEntity">
-                    <Grid ColumnDefinitions="auto, auto, auto" ColumnSpacing="10">
-                        <Label Text="{Binding ExerciseName}" AutomationId="exercise"
-                               VerticalOptions="Center"/>
+                    <VerticalStackLayout BackgroundColor="Bisque">
+                        <Label Text="{Binding ExerciseName}" AutomationId="exercise"/>
 
-                        <CollectionView ItemsSource="{Binding ExerciseDifficulties}"
-                                        Grid.Column="1" Grid.ColumnSpan="4"
-                                        Margin="20,0,0,0"
-                                        ItemsLayout="VerticalGrid, 3"
-                                        >
-                            <CollectionView.ItemTemplate>
+                        <FlexLayout x:Name="DifficultiesLayout"
+                                    BindableLayout.ItemsSource="{Binding ExerciseDifficulties}"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="StartAndExpand"
+                                    Margin="20,5,0,5">
+                            <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="entities:DifficultyContainer">
-                                    <Grid ColumnDefinitions="auto" >
+                                    <Grid>
                                         <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
                                                   AutomationId="difficulty"
                                                   BackgroundColor="Gold"
@@ -49,19 +48,15 @@
                                         </dxe:Chip>
                                     </Grid>
                                 </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-
-
-                    </Grid>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                        
+                    </VerticalStackLayout>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
 
-
-
-        </CollectionView>
-
-    </Grid>
+    </VerticalStackLayout>
 
 
 </ContentPage>
