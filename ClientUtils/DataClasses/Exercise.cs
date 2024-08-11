@@ -10,15 +10,15 @@ using LanguageExt;
 
 namespace ClientUtilsProject.DataClasses
 {
-    public partial class ExerciseEntity : ObservableObject, IEquatable<ExerciseEntity>
+    public partial class Exercise : ObservableObject, IEquatable<Exercise>
     {
         [ObservableProperty]
         private string _exerciseName;
         
         [ObservableProperty]
-        private ObservableCollection<DifficultyContainer> _exerciseDifficulties;
+        private ObservableCollection<ExerciceDifficulty> _exerciseDifficulties;
         
-        public ExerciseEntity()
+        public Exercise()
         {
             ExerciseName = string.Empty;
             ExerciseDifficulties = [];
@@ -31,10 +31,10 @@ namespace ClientUtilsProject.DataClasses
             if (other == null || other.GetType() != this.GetType())
                 return false;
 
-            return this.Equals(other as ExerciseEntity);
+            return this.Equals(other as Exercise);
         }
 
-        public bool Equals(ExerciseEntity? other)
+        public bool Equals(Exercise? other)
         {
             if (other == null)
                 return false;
@@ -46,7 +46,7 @@ namespace ClientUtilsProject.DataClasses
                 && ExerciseDifficulties.Equals(other.ExerciseDifficulties);
         }
 
-        public static bool operator ==(ExerciseEntity left, ExerciseEntity right)
+        public static bool operator ==(Exercise left, Exercise right)
         {
             if (left is null || right is null)
                 return false;
@@ -54,7 +54,7 @@ namespace ClientUtilsProject.DataClasses
             return left.Equals(right);
         }
 
-        public static bool operator !=(ExerciseEntity left, ExerciseEntity right) => !(left == right);
+        public static bool operator !=(Exercise left, Exercise right) => !(left == right);
 
         #endregion equality check
 

@@ -20,7 +20,7 @@ namespace WIPClientTests
             //assert
             ExercisesVM._exercices = [];
             SUT._currentExerciseName = "test";
-            var difficulty = new DifficultyContainer(15, "Kg");
+            var difficulty = new ExerciceDifficulty(15, "Kg");
             SUT._currentDifficulty = difficulty;
 
 
@@ -42,7 +42,7 @@ namespace WIPClientTests
             //assert1
             ExercisesVM._exercices = [];
             SUT._currentExerciseName = "test";
-            var difficulty1 = new DifficultyContainer(15, "Kg");
+            var difficulty1 = new ExerciceDifficulty(15, "Kg");
             SUT._currentDifficulty = difficulty1;
 
 
@@ -51,7 +51,7 @@ namespace WIPClientTests
 
             //assert2
             SUT._currentExerciseName = "test2";
-            var difficulty2 = new DifficultyContainer(10, "Kg");
+            var difficulty2 = new ExerciceDifficulty(10, "Kg");
             SUT._currentDifficulty = difficulty2;
 
             //act2
@@ -81,7 +81,7 @@ namespace WIPClientTests
             //assert1
             ExercisesVM._exercices = [];
             SUT._currentExerciseName = "test";
-            var difficulty1 = new DifficultyContainer(15, "Kg");
+            var difficulty1 = new ExerciceDifficulty(15, "Kg");
             SUT._currentDifficulty = difficulty1;
 
 
@@ -89,7 +89,7 @@ namespace WIPClientTests
             SUT.Save();
 
             //assert2
-            var difficulty2 = new DifficultyContainer(10, "Kg");
+            var difficulty2 = new ExerciceDifficulty(10, "Kg");
             SUT._currentDifficulty = difficulty2;
 
             //act2
@@ -115,7 +115,7 @@ namespace WIPClientTests
             //assert1
             ExercisesVM._exercices = [];
             SUT._currentExerciseName = "test";
-            var difficulty1 = new DifficultyContainer(15, "Kg");
+            var difficulty1 = new ExerciceDifficulty(15, "Kg");
             SUT._currentDifficulty = difficulty1;
 
 

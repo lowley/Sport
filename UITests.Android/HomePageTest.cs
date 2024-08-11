@@ -288,8 +288,8 @@ namespace UITests
 
             var numberOfDifficulties = difficulties.Count;
 
-            var difficulté_11 = new DifficultyContainer(11, "Kg");
-            var difficulté_14 = new DifficultyContainer(14, "Kg");
+            var difficulté_11 = new ExerciceDifficulty(11, "Kg");
+            var difficulté_14 = new ExerciceDifficulty(14, "Kg");
 
             Assert.That(numberOfDifficulties, Is.EqualTo(2));
             Assert.That(difficulty1.Text, Is.EqualTo(difficulté_11.ShowMeShort));
@@ -395,9 +395,9 @@ namespace UITests
             var difficulty2 = difficulties.ElementAt(1);
             var difficulty3 = difficulties.ElementAt(2);
 
-            var difficulté_11 = new DifficultyContainer(11, "Kg");
-            var difficulté_14 = new DifficultyContainer(14, "Kg");
-            var difficulté_17 = new DifficultyContainer(17, "Kg");
+            var difficulté_11 = new ExerciceDifficulty(11, "Kg");
+            var difficulté_14 = new ExerciceDifficulty(14, "Kg");
+            var difficulté_17 = new ExerciceDifficulty(17, "Kg");
 
             Assert.That(difficulty1.Text, Is.EqualTo(difficulté_11.ShowMeShort));
             Assert.That(difficulty2.Text, Is.EqualTo(difficulté_14.ShowMeShort));

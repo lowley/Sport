@@ -18,7 +18,7 @@ public partial class ExerciseVM : ObservableObject
     public string _currentExerciseName;
 
     [ObservableProperty]
-    public DifficultyContainer _currentDifficulty;
+    public ExerciceDifficulty _currentDifficulty;
 
     [RelayCommand]
     public async Task Save()
@@ -26,7 +26,7 @@ public partial class ExerciseVM : ObservableObject
         if (CurrentDifficulty.DifficultyLevel == 0)
             return;
 
-        var currentExercise = new ExerciseEntity();
+        var currentExercise = new Exercise();
         currentExercise.ExerciseName = CurrentExerciseName;
         currentExercise.ExerciseDifficulties.Add(CurrentDifficulty);
 

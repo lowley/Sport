@@ -9,7 +9,7 @@
              x:Name="Page"
              >
 
-    <Grid RowDefinitions="auto, auto" ColumnDefinitions="auto, *, auto, auto"
+    <Grid RowDefinitions="auto, auto, auto" ColumnDefinitions="auto, *, auto, auto"
           Margin="10,5,10,0">
 
         <Label Text="Début de la session" FontAttributes="Bold"
@@ -23,7 +23,9 @@
                     AutomationId="InitialTime" Grid.Row="0" Grid.Column="3" 
                     Margin="5,0,5,0"/>
 
-        
+        <Button Command="{Binding CloseSessionCommand}"
+                AutomationId="CloseSessionBtn"
+                Text="Fermer la session"/>
 
     </Grid>
     

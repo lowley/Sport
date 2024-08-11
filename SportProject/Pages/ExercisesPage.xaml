@@ -20,7 +20,7 @@
                                  ReduceSizeToContent="True" AllowLiveDataShaping="True"
                                  Orientation="Vertical">
                 <dx:DXCollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="entities:ExerciseEntity">
+                    <DataTemplate x:DataType="entities:Exercise">
                         <VerticalStackLayout>
                             <Label Text="{Binding ExerciseName}" AutomationId="exercise" 
                                    Margin="20,5,0,0" FontSize="25"/>
@@ -31,7 +31,7 @@
                                         VerticalOptions="StartAndExpand"
                                         Margin="20,5,0,5">
                                 <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="entities:DifficultyContainer">
+                                    <DataTemplate x:DataType="entities:ExerciceDifficulty">
                                         <Grid Margin="0,0,0,5" FlexLayout.Order="{Binding DifficultyLevel}">
                                             <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
                                                       AutomationId="difficulty"

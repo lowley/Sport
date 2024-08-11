@@ -14,7 +14,7 @@ namespace Sport.VM;
 public partial class ExercisesVM : ObservableObject
 {
     [ObservableProperty]
-    public static ObservableCollection<ExerciseEntity> _exercices;
+    public static ObservableCollection<Exercise> _exercices;
 
 
     public ExercisesVM()

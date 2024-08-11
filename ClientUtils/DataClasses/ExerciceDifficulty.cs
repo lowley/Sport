@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ClientUtilsProject.DataClasses
 {
-    public partial class DifficultyContainer : ObservableObject, IEquatable<DifficultyContainer>
+    public partial class ExerciceDifficulty : ObservableObject, IEquatable<ExerciceDifficulty>
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
@@ -23,13 +23,13 @@ namespace ClientUtilsProject.DataClasses
         [NotifyPropertyChangedFor(nameof(ShowName))]
         private Option<string> _difficultyName;
 
-        public DifficultyContainer(Int32 difficultyLevel, string? difficultyName = default)
+        public ExerciceDifficulty(Int32 difficultyLevel, string? difficultyName = default)
         {
             DifficultyLevel = difficultyLevel;
             DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
         }
 
-        public DifficultyContainer()
+        public ExerciceDifficulty()
         {
             DifficultyName = "Kg";
             DifficultyLevel = 0;
@@ -78,10 +78,10 @@ namespace ClientUtilsProject.DataClasses
             if (other == null || other.GetType() != this.GetType())
                 return false;
 
-            return Equals((DifficultyContainer)other);
+            return Equals((ExerciceDifficulty)other);
         }
 
-        public bool Equals(DifficultyContainer other)
+        public bool Equals(ExerciceDifficulty other)
         {
             if (other == null)
                 return false;
@@ -93,7 +93,7 @@ namespace ClientUtilsProject.DataClasses
                 && DifficultyName.Equals(other.DifficultyName);
         }
 
-        public static bool operator ==(DifficultyContainer left, DifficultyContainer right)
+        public static bool operator ==(ExerciceDifficulty left, ExerciceDifficulty right)
         {
             if (left is null || right is null)
                 return false;
@@ -101,7 +101,7 @@ namespace ClientUtilsProject.DataClasses
             return left.Equals(right);
         }
 
-        public static bool operator !=(DifficultyContainer left, DifficultyContainer right) => !(left == right);
+        public static bool operator !=(ExerciceDifficulty left, ExerciceDifficulty right) => !(left == right);
 
         public override int GetHashCode()
         {
