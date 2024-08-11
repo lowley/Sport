@@ -31,14 +31,18 @@ public class AppiumSetup
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
-        AppiumServerHelper.StartAppiumLocalServer();
+        AppiumServerHelper.StartAppiumLocalServer(port:4724);
 
         var androidOptions = new AppiumOptions
         {
             AutomationName = "UiAutomator2",
-            PlatformName = "Android",           
+            PlatformName = "Android",   
+            PlatformVersion = "13",
             App = "C:\\Users\\olivier\\source\\repos\\SportSolution\\SportProject\\bin\\Debug\\net8.0-android\\sxb.sport.apk",
-            DeviceName = "alioth"
+            DeviceName = "alioth",
+            //DeviceName = "OnePlus ONEPLUS A6013"
+            
+
         };
 
         androidOptions.AddAdditionalAppiumOption(MobileCapabilityType.NoReset, "true");
@@ -47,7 +51,7 @@ public class AppiumSetup
 
         //Make sure to set [Register("sxb.wipclient.MainActivity")] on the MainActivity of your android application
         androidOptions.AddAdditionalAppiumOption(AndroidMobileCapabilityType.AppActivity, $"sxb.sport.MainActivity");
-
+        
         driver = new AndroidDriver(androidOptions);
     }
 

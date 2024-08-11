@@ -3,11 +3,12 @@ using ClientUtilsProject.Utils;
 using LanguageExt;
 using ClientUtilsProject.DataClasses;
 
-
 namespace UITests
 {
     public class HomePageTest : BaseTest
     {
+        public const string RESUME_SESSION_BUTTON_TITLE = nameof(RESUME_SESSION_BUTTON_TITLE); 
+        
         [Test]
         public void CreateSessionTest()
         {
@@ -128,6 +129,7 @@ namespace UITests
             //ajoute un exercice
             var bouton = FindUIElementByAutomationId("AddExerciseBtn");
             bouton.Click();
+            
             Task.Delay(500).Wait();
             //verif navigation
             var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
@@ -200,7 +202,7 @@ namespace UITests
             bouton5.Click();
             Task.Delay(500).Wait();
             //verif navigation
-            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisesPage'][1]");
+            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
             Assert.That(title5, Is.Not.Null);
 
             var items = FindUIElementsByAutomationId("exercise");
@@ -273,7 +275,7 @@ namespace UITests
             bouton5.Click();
             Task.Delay(500).Wait();
             //verif navigation
-            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisesPage'][1]");
+            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
             Assert.That(title5, Is.Not.Null);
 
             var exercises = FindUIElementsByAutomationId("exercise");
@@ -377,7 +379,7 @@ namespace UITests
             bouton5.Click();
             Task.Delay(500).Wait();
             //verif navigation
-            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisesPage'][1]");
+            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
             Assert.That(title5, Is.Not.Null);
 
             var exercises = FindUIElementsByAutomationId("exercise");
@@ -404,6 +406,59 @@ namespace UITests
             AppiumSetup.App.TerminateApp("sxb.sport");
             AppiumSetup.App.ActivateApp("sxb.sport");
         }
+
+        [Test]
+        public void AddSessionPage_MenuTitleInHomePageBecomesReprendreSession()
+        {
+            ClearDatas();
+            
+            //ajoute une session
+            var bouton = FindUIElementByAutomationId("AddSessionBtn");
+            bouton.Click();
+            Task.Delay(500).Wait();
+            
+            //stockage pour asserts plus tard
+            var initialDate = FindUIElementByAutomationId("InitialDate").Text;
+            var initialTime = FindUIElementByAutomationId("InitialTime").Text;
+            
+            //clique sur terminer session
+            var bouton2 = FindUIElementByAutomationId("CloseSessionBtn");
+            Assert.That(bouton2, Is.Not.Null);
+            bouton2.Click();
+            Task.Delay(500).Wait();
+            
+            // retour page d'accueil
+            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            Assert.That(title, Is.Not.Null);
+            
+            //vérifie texte du bouton changé
+            var bouton3 = FindUIElementByAutomationId("AddSessionBtn");
+            Assert.That(bouton3, Is.Not.Null);
+            Assert.That(bouton3.Text, Is.EqualTo(RESUME_SESSION_BUTTON_TITLE));
+            
+            bouton3.Click();
+            Task.Delay(500).Wait();
+            
+            // page reprendre session
+            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='SessionPage'][1]");
+            Assert.That(title2, Is.Not.Null);
+            
+            //nouvelles valeurs identiques?
+            var initialDate2 = FindUIElementByAutomationId("InitialDate").Text;
+            var initialTime2 = FindUIElementByAutomationId("InitialTime").Text;
+
+            Assert.That(initialDate2, Is.EqualTo(initialDate));
+            Assert.That(initialTime2, Is.EqualTo(initialTime));
+            
+            AppiumSetup.App.TerminateApp("sxb.sport");
+            AppiumSetup.App.ActivateApp("sxb.sport");
+        }
+        
+        
+        
+        
+        
+        
         void ClearDatas()
         {
             var bouton = FindUIElementByAutomationId("ClearBtn");
