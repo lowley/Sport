@@ -14,7 +14,7 @@
 
         <Label Text="Nom" FontAttributes="Bold" Grid.Row="0"
             VerticalOptions="Center"/>
-        <Entry Text="{Binding CurrentExerciseName}" AutomationId="ExerciseName"
+        <Entry Text="{Binding CurrentExercise.ExerciseName}" AutomationId="ExerciseName"
                Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4"
                VerticalOptions="Center" Margin="13,0,0,0"/>
 

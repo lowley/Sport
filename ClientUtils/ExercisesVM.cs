@@ -13,8 +13,7 @@ namespace Sport.VM;
 
 public partial class ExercisesVM : ObservableObject
 {
-    [ObservableProperty]
-    public static ObservableCollection<Exercise> _exercices;
+    [ObservableProperty] public static ObservableCollection<Exercise> _exercices = [];
 
 
     public ExercisesVM()

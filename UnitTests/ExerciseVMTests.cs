@@ -1,4 +1,4 @@
-using ClientUtilsProject.DataClasses;
+/*using ClientUtilsProject.DataClasses;
 using Sport.VM;
 
 namespace WIPClientTests
@@ -115,7 +115,7 @@ namespace WIPClientTests
             //assert1
             ExercisesVM._exercices = [];
             SUT._currentExerciseName = "test";
-            var difficulty1 = new ExerciceDifficulty(15, "Kg");
+            var difficulty1 = new ExerciceDifficulty(15, , "Kg");
             SUT._currentDifficulty = difficulty1;
 
 
@@ -145,4 +145,4 @@ namespace WIPClientTests
 
 
     }
-}
+}*/

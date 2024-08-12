@@ -12,6 +12,8 @@ namespace ClientUtilsProject.DataClasses
 {
     public partial class ExerciceDifficulty : ObservableObject, IEquatable<ExerciceDifficulty>
     {
+        public Guid Id;
+        
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
@@ -23,16 +25,36 @@ namespace ClientUtilsProject.DataClasses
         [NotifyPropertyChangedFor(nameof(ShowName))]
         private Option<string> _difficultyName;
 
-        public ExerciceDifficulty(Int32 difficultyLevel, string? difficultyName = default)
+        [ObservableProperty]
+        private Exercise _exercice;
+
+        public ExerciceDifficulty(
+            Int32 difficultyLevel, 
+            Exercise exercice,
+            string? difficultyName = default)
         {
             DifficultyLevel = difficultyLevel;
             DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
+            Exercice = exercice;
         }
 
-        public ExerciceDifficulty()
+        public ExerciceDifficulty(Exercise exercice)
         {
             DifficultyName = "Kg";
             DifficultyLevel = 0;
+            Exercice = exercice;
+            Id = Guid.NewGuid();
+        }
+        
+        public ExerciceDifficulty(int level, string exerciceName)
+        {
+            DifficultyName = "Kg";
+            DifficultyLevel = level;
+            Exercice = new Exercise
+            {
+                ExerciseName = exerciceName
+            };
+            Id = Guid.NewGuid();
         }
 
         public string ShowMe
@@ -90,7 +112,8 @@ namespace ClientUtilsProject.DataClasses
                 return true;
 
             return DifficultyLevel == other.DifficultyLevel
-                && DifficultyName.Equals(other.DifficultyName);
+                && DifficultyName.Equals(other.DifficultyName)
+                && Exercice.ExerciseName.Equals(other.Exercice.ExerciseName);
         }
 
         public static bool operator ==(ExerciceDifficulty left, ExerciceDifficulty right)
@@ -105,7 +128,7 @@ namespace ClientUtilsProject.DataClasses
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(DifficultyLevel, DifficultyName);
+            return HashCode.Combine(DifficultyLevel, DifficultyName, Exercice.ExerciseName);
         }
 
         #endregion equality check

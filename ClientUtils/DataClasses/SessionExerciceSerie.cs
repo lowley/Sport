@@ -11,6 +11,6 @@ public partial class SessionExerciceSerie : ObservableObject
     public Int32 _repetitions;
 
     [ObservableProperty]
-    public Int32 _nombreDeLaSerie;
+    public Int32 _nombreDeFoisDeLaSerie;
 
 }

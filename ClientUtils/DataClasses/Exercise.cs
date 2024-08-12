@@ -12,6 +12,8 @@ namespace ClientUtilsProject.DataClasses
 {
     public partial class Exercise : ObservableObject, IEquatable<Exercise>
     {
+        public Guid Id { get; set; }
+        
         [ObservableProperty]
         private string _exerciseName;
         
@@ -22,6 +24,7 @@ namespace ClientUtilsProject.DataClasses
         {
             ExerciseName = string.Empty;
             ExerciseDifficulties = [];
+            Id = Guid.NewGuid();
         }
 
         #region equality check
@@ -46,6 +49,20 @@ namespace ClientUtilsProject.DataClasses
                 && ExerciseDifficulties.Equals(other.ExerciseDifficulties);
         }
 
+        /**
+         * Ne compare que les noms
+         */
+        public bool SameAs(Exercise? other)
+        {
+            if (other == null)
+                return false;
+
+            if (ReferenceEquals(this, other))
+                return true;
+
+            return string.Equals(ExerciseName, other.ExerciseName, StringComparison.CurrentCultureIgnoreCase);
+        }
+        
         public static bool operator ==(Exercise left, Exercise right)
         {
             if (left is null || right is null)

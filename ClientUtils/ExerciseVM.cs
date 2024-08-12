@@ -14,8 +14,8 @@ namespace Sport.VM;
 
 public partial class ExerciseVM : ObservableObject
 {
-    [ObservableProperty]
-    public string _currentExerciseName;
+    [ObservableProperty] 
+    public Exercise _currentExercise;
 
     [ObservableProperty]
     public ExerciceDifficulty _currentDifficulty;
@@ -23,30 +23,41 @@ public partial class ExerciseVM : ObservableObject
     [RelayCommand]
     public async Task Save()
     {
-        if (CurrentDifficulty.DifficultyLevel == 0)
+        if (CurrentDifficulty.DifficultyLevel == 0 || string.IsNullOrEmpty(CurrentExercise.ExerciseName))
             return;
 
-        var currentExercise = new Exercise();
-        currentExercise.ExerciseName = CurrentExerciseName;
-        currentExercise.ExerciseDifficulties.Add(CurrentDifficulty);
-
         if (ExercisesVM._exercices.Any(oneExercise => 
-            oneExercise.ExerciseName.Equals(currentExercise.ExerciseName)
+            oneExercise.Id.Equals(CurrentExercise.Id)
+            && oneExercise.ExerciseName.Equals(CurrentExercise.ExerciseName)
             && oneExercise.ExerciseDifficulties.Any(oneDifficulty =>
                 oneDifficulty == CurrentDifficulty)))
             return;
-
-        if (ExercisesVM._exercices.Any(x => x.ExerciseName == CurrentExerciseName))
+        
+        var existingExercise = ExercisesVM._exercices.FirstOrDefault(oneExercice =>
+            oneExercice.Id == CurrentExercise.Id);
+        
+        if (existingExercise is not null)
         {
-            currentExercise = ExercisesVM._exercices.FirstOrDefault(x => x.ExerciseName == CurrentExerciseName);
-            currentExercise?.ExerciseDifficulties.Add(CurrentDifficulty);
+            //l'exercice existe déjà
+            if (!CurrentExercise.ExerciseName.Equals(existingExercise.ExerciseName))
+                existingExercise.ExerciseName = CurrentExercise.ExerciseName;
+            
+            if (existingExercise.ExerciseDifficulties.All(diff => diff.Id != CurrentDifficulty.Id))
+                existingExercise.ExerciseDifficulties.Add(CurrentDifficulty);
         }
         else
         {
-            ExercisesVM._exercices.Add(currentExercise);
+            //nouvel exercice
+            
+            //on veut en créer un avec un nom existant
+            if (ExercisesVM._exercices.Any(oneExercise => CurrentExercise.SameAs(oneExercise)))
+                return;
+            
+            CurrentExercise.ExerciseDifficulties.Add(CurrentDifficulty);
+            ExercisesVM._exercices.Add(CurrentExercise);
         }
 
-        CurrentDifficulty = new ();
+        CurrentDifficulty = new (0, "Kg");
     }
 
     [RelayCommand]
@@ -57,7 +68,7 @@ public partial class ExerciseVM : ObservableObject
 
     public ExerciseVM()
     {
-        CurrentDifficulty = new();
-
+        CurrentDifficulty = new(0, "Kg");
+        CurrentExercise = new();
     }
 }
