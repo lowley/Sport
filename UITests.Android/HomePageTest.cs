@@ -359,9 +359,15 @@ namespace UITests
             var numberOfSessions = sessions.Count;
             Assert.That(numberOfSessions, Is.EqualTo(1));
             
-            //à finir: temps de départ et de fin à vérifier
+            //todo: temps de départ et de fin à vérifier
+            var startTime = FindUIElementByAutomationId("startTime");
+            Assert.That(startTime, Is.Not.Null);
+            Assert.That(initialTime, Is.EqualTo(startTime.Text));
             
-            
+            var endTime = FindUIElementByAutomationId("endTime");;
+            Assert.That(endTime, Is.Not.Null);
+
+            Assert.That(initialTime, Is.LessThan(endTime.Text));
             
             AppiumSetup.App.TerminateApp("sxb.sport");
             AppiumSetup.App.ActivateApp("sxb.sport");

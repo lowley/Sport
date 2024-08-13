@@ -10,13 +10,13 @@
              x:DataType="vm:SessionsVM"
              Title="Affichage des sessions"
              x:Name="Page">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <SharedUtils:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <VerticalStackLayout Margin="10,5,10,0">
             <Border StrokeShape="RoundRectangle 5"
@@ -28,10 +28,28 @@
                     <dx:DXCollectionView.ItemTemplate>
                         <DataTemplate x:DataType="dataClasses:Session">
                             <VerticalStackLayout>
-                                <Label Text="{Binding SessionStartDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter={x:Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}}" AutomationId="session"
-                                       Margin="20,5,0,0" FontSize="25"
-                                       />
-                                
+                                <Label
+                                    Text="{Binding SessionStartDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter={x:Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}}"
+                                    AutomationId="session"
+                                    Margin="20,5,0,0" FontSize="25" />
+
+                                <Grid ColumnDefinitions="*, auto, *" Margin="20,5,0,0">
+                                    <Label Grid.Column="0" Text="{Binding SessionStartTime, 
+                                        Converter={StaticResource DateTimeFormatConverter}, 
+                                        ConverterParameter={x:Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT2}}"
+                                           AutomationId="startTime"
+                                           HorizontalTextAlignment="Center"/>
+                                    
+                                    <Label Grid.Column="1" Text="->"/>
+                                    
+                                    <Label Grid.Column="2" Text="{Binding SessionEndTime, 
+                                    Converter={StaticResource DateTimeFormatConverter}, 
+                                    ConverterParameter={x:Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT2}}"
+                                           AutomationId="endTime"
+                                           HorizontalTextAlignment="Center"/>
+
+                                </Grid>
+
                             </VerticalStackLayout>
                         </DataTemplate>
                     </dx:DXCollectionView.ItemTemplate>

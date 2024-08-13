@@ -11,6 +11,12 @@ public class DateTimeFormatConverter : IValueConverter
         {
             return dateTime.ToString(format, culture);
         }
+        
+        if (value is TimeSpan timeSpan && parameter is string format2)
+        {
+            return timeSpan.ToString(format2);
+            //return string.Format(culture, format2, timeSpan);
+        }
         return value;
     }
 
