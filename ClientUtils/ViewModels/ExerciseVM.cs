@@ -1,16 +1,9 @@
 ﻿using ClientUtilsProject.DataClasses;
+using ClientUtilsProject.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LanguageExt;
-using Microsoft.Maui.ApplicationModel;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Sport.VM;
+namespace ClientUtilsProject.ViewModels;
 
 public partial class ExerciseVM : ObservableObject
 {
@@ -20,6 +13,8 @@ public partial class ExerciseVM : ObservableObject
     [ObservableProperty]
     public ExerciceDifficulty _currentDifficulty;
 
+    private ISportNavigation Navigation { get; set; }
+    
     [RelayCommand]
     public async Task Save()
     {
@@ -63,11 +58,12 @@ public partial class ExerciseVM : ObservableObject
     [RelayCommand]
     public async Task Back()
     {
-        await Shell.Current.Navigation.PopAsync(false);
+        await Navigation.NavigateBack();
     }
 
-    public ExerciseVM()
+    public ExerciseVM(ISportNavigation navigation)
     {
+        Navigation = navigation;
         CurrentDifficulty = new(0, "Kg");
         CurrentExercise = new();
     }

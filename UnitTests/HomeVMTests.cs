@@ -1,16 +1,19 @@
-using Sport.VM;
+using ClientUtilsProject.Utils;
+using ClientUtilsProject.ViewModels;
+using FakeItEasy;
 
 namespace WIPClientTests
 {
     public class Tests
     {
         public HomeVM SUT { get; set;}
-
+        public ISportNavigation NavigationFake { get; set; }
+        
         [SetUp]
         public void Setup()
         {
-            SUT = new HomeVM();
-
+            NavigationFake = A.Fake<ISportNavigation>();
+            SUT = new HomeVM(NavigationFake);
         }
 
         [Test]

@@ -102,7 +102,7 @@ namespace UITests
             back.Click();
             Task.Delay(500).Wait();
             //verif navigation
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title2, Is.Not.Null);
 
             //navigation vers ExercicesPage pour vérification
@@ -159,7 +159,7 @@ namespace UITests
             back.Click();
             Task.Delay(500).Wait();
             //verif navigation
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title2, Is.Not.Null);
 
             //ajoute un exercice, objet de ce test
@@ -194,7 +194,7 @@ namespace UITests
             back2.Click();
             Task.Delay(500).Wait();
             //verif navigation
-            var title4 = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            var title4 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title4, Is.Not.Null);
 
             //navigation vers ExercicesPage pour vérification
@@ -285,7 +285,7 @@ namespace UITests
             var back = FindUIElementByAutomationId("BackButton");
             back.Click();
             Task.Delay(500).Wait();
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title2, Is.Not.Null);
 
             //navigation vers ExercicesPage pour vérification
@@ -342,27 +342,26 @@ namespace UITests
             Task.Delay(500).Wait();
             
             // retour page d'accueil
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='HomePage'][1]");
+            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title, Is.Not.Null);
             
-            //vérifie texte du bouton changé
-            var bouton3 = FindUIElementByAutomationId("AddSessionBtn");
+            //ouvre page sessions
+            var bouton3 = FindUIElementByAutomationId("SessionsBtn");
             Assert.That(bouton3, Is.Not.Null);
-            Assert.That(bouton3.Text, Is.EqualTo(RESUME_SESSION_BUTTON_TITLE));
-            
             bouton3.Click();
             Task.Delay(500).Wait();
-            
-            // page reprendre session
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='SessionPage'][1]");
+            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Affichage des sessions'][1]");
             Assert.That(title2, Is.Not.Null);
             
-            //nouvelles valeurs identiques?
-            var initialDate2 = FindUIElementByAutomationId("InitialDate").Text;
-            var initialTime2 = FindUIElementByAutomationId("InitialTime").Text;
-
-            Assert.That(initialDate2, Is.EqualTo(initialDate));
-            Assert.That(initialTime2, Is.EqualTo(initialTime));
+            // existence de session avec bonne date et bonne heure?
+            var sessions = FindUIElementsByXPath("//android.widget.TextView[@resource-id='sxb.sport:id/session']");
+            
+            var numberOfSessions = sessions.Count;
+            Assert.That(numberOfSessions, Is.EqualTo(1));
+            
+            //à finir: temps de départ et de fin à vérifier
+            
+            
             
             AppiumSetup.App.TerminateApp("sxb.sport");
             AppiumSetup.App.ActivateApp("sxb.sport");

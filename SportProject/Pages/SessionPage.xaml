@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Sport.Pages.SessionPage"
-             xmlns:vm="clr-namespace:Sport.VM;assembly=ClientUtilsProject"
+             xmlns:vm="clr-namespace:ClientUtilsProject.ViewModels;assembly=ClientUtilsProject"
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              x:DataType="vm:SessionVM"
              Title="SessionPage"
@@ -15,11 +15,11 @@
         <Label Text="Début de la session" FontAttributes="Bold"
                VerticalOptions="Center"/>
 
-        <DatePicker Date="{Binding SessionDate}" Format="{Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}"
+        <DatePicker Date="{Binding Session.SessionStartDate}" Format="{Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}"
                     AutomationId="InitialDate" Grid.Row="0" Grid.Column="2"
                     Margin="5,0,5,0"/>
 
-        <TimePicker Time="{Binding SessionTime}" Format="{Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT}"
+        <TimePicker Time="{Binding Session.SessionStartTime}" Format="{Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT}"
                     AutomationId="InitialTime" Grid.Row="0" Grid.Column="3" 
                     Margin="5,0,5,0"/>
 

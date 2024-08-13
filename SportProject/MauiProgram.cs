@@ -1,11 +1,14 @@
-﻿using CommunityToolkit.Maui;
+﻿using ClientUtilsProject.Utils;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Serilog.Events;
 using Serilog;
 using Sport.Pages;
-using Sport.VM;
+using ClientUtilsProject.ViewModels;
 using Serilog.Core;
 using DevExpress.Maui;
+using Sport.Converters;
+using SportProject.Pages;
 
 namespace Sport
 {
@@ -48,6 +51,11 @@ namespace Sport
             builder.Services.AddTransient<ExercisesVM>();
             builder.Services.AddTransient<ExercisesPage>();
 
+            builder.Services.AddTransient<SessionsVM>();
+            builder.Services.AddTransient<SessionsPage>();
+
+            builder.Services.AddTransient<ISportNavigation, SportNavigation>();
+            
             return builder.Build();
         }
 

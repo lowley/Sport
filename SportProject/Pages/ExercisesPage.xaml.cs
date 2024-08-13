@@ -1,5 +1,5 @@
 using Serilog.Core;
-using Sport.VM;
+using ClientUtilsProject.ViewModels;
 
 namespace Sport.Pages;
 

@@ -1,6 +1,6 @@
 ﻿using Serilog.Core;
 using System.Diagnostics;
-using Sport.VM;
+using ClientUtilsProject.ViewModels;
 using LanguageExt;
 
 namespace Sport.Pages;

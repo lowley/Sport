@@ -1,5 +1,5 @@
 using Serilog.Core;
-using Sport.VM;
+using ClientUtilsProject.ViewModels;
 using SportProject.Platforms.Android;
 
 namespace Sport.Pages;

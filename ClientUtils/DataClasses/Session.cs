@@ -5,12 +5,21 @@ namespace ClientUtilsProject.DataClasses;
 
 public partial class Session : ObservableObject
 {
+    [ObservableProperty]
+    private DateTime _sessionStartDate = DateTime.Now;
 
     [ObservableProperty]
-    public ObservableCollection<SessionExercice> _sessionItems;
+    private TimeSpan _sessionStartTime = DateTime.Now.TimeOfDay;
 
+    [ObservableProperty]
+    private TimeSpan _sessionEndTime = DateTime.Now.TimeOfDay;
     
+    [ObservableProperty]
+    private ObservableCollection<SessionExercice> _sessionItems;
 
 
-
+    public Session()
+    {
+        _sessionItems = [];
+    }
 }
