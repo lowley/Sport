@@ -31,14 +31,14 @@ public class SportRepository : ISportRepository
         Context.Clear();
     }
     
-    /*public IQueryable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> selector)
-    {
-        throw new NotImplementedException();
-    }
-    */
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await Context.SaveChangesAsync(cancellationToken);
+    }
+    
+    public IQueryable<TEntity> Query<TEntity>() where TEntity: class
+    {
+        return Context.Set<TEntity>();
     }
     
     public async Task DisposeAsync()
