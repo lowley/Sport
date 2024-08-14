@@ -2,8 +2,10 @@
 
 namespace ClientUtilsProject.DataClasses;
 
-public partial class SessionExerciceSerie : ObservableObject
+public partial class SessionExerciceSerie : SportEntity
 {
+    public Guid Id;
+
     [ObservableProperty]
     public ExerciceDifficulty _difficulty;
 

@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ClientUtilsProject.DataClasses;
 
-public partial class Session : ObservableObject
+public partial class Session : SportEntity
 {
+    public Guid Id;
+
     [ObservableProperty]
     private DateTime _sessionStartDate = DateTime.Now;
 

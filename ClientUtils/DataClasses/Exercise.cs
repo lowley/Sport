@@ -10,7 +10,7 @@ using LanguageExt;
 
 namespace ClientUtilsProject.DataClasses
 {
-    public partial class Exercise : ObservableObject, IEquatable<Exercise>
+    public partial class Exercise : SportEntity, IEquatable<Exercise>
     {
         public Guid Id { get; set; }
         

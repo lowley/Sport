@@ -1,0 +1,46 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Serilog.Core;
+
+namespace ClientUtilsProject.DataClasses;
+
+public class SportContext : DbContext
+{
+    public DbSet<Exercise> Exercises { get; set; }
+    public DbSet<ExerciceDifficulty> ExerciceDifficulties { get; set; }
+    public DbSet<Session> Sessions { get; set; }
+    public DbSet<SessionExercice> SessionExercices { get; set; }
+    public DbSet<SessionExerciceSerie> SessionExerciceSeries { get; set; }
+
+    public DateTime InitTime { get; set; }
+
+    public Logger Logger
+    { get; set; }
+    public SportContext(Logger logger) : base()
+    {
+        Logger = logger;
+        Database.EnsureCreated();
+        InitTime = DateTime.Now;
+    }
+
+    public void Reload()
+    {
+        ChangeTracker.Entries().ToList().ForEach(e => e.Reload());
+    }
+
+    public void Reload<TEntity>(TEntity entity) where TEntity : class
+    {
+        Entry(entity).Reload();
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        string dbPath = Path.Combine(FileSystem.AppDataDirectory, "sport.db3");
+
+        optionsBuilder.EnableSensitiveDataLogging();
+
+        optionsBuilder
+            .UseSqlite($"Filename={dbPath}");
+
+        optionsBuilder.LogTo(s => Logger.Information(s));
+    }
+}

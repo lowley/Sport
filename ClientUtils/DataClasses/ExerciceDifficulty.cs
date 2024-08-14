@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ClientUtilsProject.DataClasses
 {
-    public partial class ExerciceDifficulty : ObservableObject, IEquatable<ExerciceDifficulty>
+    public partial class ExerciceDifficulty : SportEntity, IEquatable<ExerciceDifficulty>
     {
         public Guid Id;
         

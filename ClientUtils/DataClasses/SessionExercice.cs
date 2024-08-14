@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ClientUtilsProject.DataClasses;
 
-public partial class SessionExercice : ObservableObject
+public partial class SessionExercice : SportEntity
 {
+    public Guid Id;
+
     [ObservableProperty]
     public Exercise _exercice;
 
