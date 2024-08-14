@@ -13,6 +13,7 @@ public partial class ExerciseVM : ObservableObject
     [ObservableProperty]
     public ExerciceDifficulty _currentDifficulty;
 
+    private SportContext Context { get; set; }
     private ISportNavigation Navigation { get; set; }
     
     [RelayCommand]
@@ -61,10 +62,11 @@ public partial class ExerciseVM : ObservableObject
         await Navigation.NavigateBack();
     }
 
-    public ExerciseVM(ISportNavigation navigation)
+    public ExerciseVM(ISportNavigation navigation, SportContext context)
     {
         Navigation = navigation;
         CurrentDifficulty = new(0, "Kg");
         CurrentExercise = new();
+        Context = context;
     }
 }

@@ -8,6 +8,8 @@ namespace ClientUtilsProject.ViewModels;
 public partial class SessionVM : ObservableObject
 {
     [ObservableProperty] private Session _session;
+    
+    private SportContext Context { get; set; }
     private ISportNavigation Navigation { get; set; }
 
     [RelayCommand]
@@ -24,9 +26,10 @@ public partial class SessionVM : ObservableObject
         await Navigation.NavigateBack();
     }
 
-    public SessionVM(ISportNavigation navigation)
+    public SessionVM(ISportNavigation navigation, SportContext context)
     {
         Navigation = navigation;
         Session = new Session();
+        Context = context;
     }
 }

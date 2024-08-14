@@ -1,4 +1,5 @@
-﻿using ClientUtilsProject.Utils;
+﻿using ClientUtilsProject.DataClasses;
+using ClientUtilsProject.Utils;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Serilog.Events;
@@ -55,6 +56,7 @@ namespace Sport
             builder.Services.AddTransient<SessionsPage>();
 
             builder.Services.AddTransient<ISportNavigation, SportNavigation>();
+            builder.Services.AddTransient<SportContext>();
             
             return builder.Build();
         }
