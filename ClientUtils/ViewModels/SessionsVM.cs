@@ -11,13 +11,19 @@ public partial class SessionsVM : ObservableObject
 
     private SportContext Context { get; set; }
     private ISportNavigation Navigation { get; set; }
+    private ISportLogger Logger { get; set; }
+
 
 
     
     
-    public SessionsVM(ISportNavigation navigation, SportContext context)
+    public SessionsVM(
+        ISportNavigation navigation, 
+        SportContext context,
+        ISportLogger logger)
     {
         Navigation = navigation;
         Context = context;
+        Logger = logger;
     }
 }

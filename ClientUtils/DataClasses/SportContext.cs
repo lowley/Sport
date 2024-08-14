@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClientUtilsProject.Utils;
+using Microsoft.EntityFrameworkCore;
 using Serilog.Core;
 
 namespace ClientUtilsProject.DataClasses;
@@ -12,13 +13,13 @@ public class SportContext : DbContext
     public DbSet<SessionExerciceSerie> SessionExerciceSeries { get; set; }
 
     public DateTime InitTime { get; set; }
-
-    public Logger Logger
-    { get; set; }
-    public SportContext(Logger logger) : base()
+    public ISportLogger Logger { get; set; }
+    
+    public SportContext(ISportLogger logger) : base()
     {
         Logger = logger;
-        Database.EnsureCreated();
+        SQLitePCL.Batteries.Init();
+        var b = Database.EnsureCreated();
         InitTime = DateTime.Now;
     }
 
@@ -42,5 +43,17 @@ public class SportContext : DbContext
             .UseSqlite($"Filename={dbPath}");
 
         optionsBuilder.LogTo(s => Logger.Information(s));
+    }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ExerciceDifficulty>()
+            .Property(e => e.DifficultyName)
+            .HasConversion(new OptionStringConverter());
+    }
+
+    public void Clear()
+    {
+        Database.EnsureDeleted();
     }
 }

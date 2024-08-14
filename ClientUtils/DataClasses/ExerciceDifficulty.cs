@@ -38,6 +38,12 @@ namespace ClientUtilsProject.DataClasses
             DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
         }
 
+        public ExerciceDifficulty()
+        {
+            Exercice = new Exercise();
+            DifficultyName = string.Empty;
+        }
+
         public ExerciceDifficulty(Exercise exercice)
         {
             DifficultyName = "Kg";

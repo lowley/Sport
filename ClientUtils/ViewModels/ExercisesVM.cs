@@ -11,12 +11,17 @@ public partial class ExercisesVM : ObservableObject
     
     private SportContext Context { get; set; }
     private ISportNavigation Navigation { get; set; }
+    private ISportLogger Logger { get; set; }
 
-
-    public ExercisesVM(ISportNavigation navigation, SportContext context)
+    public ExercisesVM(
+        ISportNavigation navigation, 
+        SportContext context,
+        ISportLogger logger)
     {
         Navigation = navigation;
         Context = context;
+        Logger = logger;
+
 
     }
 }

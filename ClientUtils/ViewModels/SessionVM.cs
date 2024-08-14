@@ -11,6 +11,8 @@ public partial class SessionVM : ObservableObject
     
     private SportContext Context { get; set; }
     private ISportNavigation Navigation { get; set; }
+    private ISportLogger Logger { get; set; }
+
 
     [RelayCommand]
     public async Task CloseSession()
@@ -26,10 +28,14 @@ public partial class SessionVM : ObservableObject
         await Navigation.NavigateBack();
     }
 
-    public SessionVM(ISportNavigation navigation, SportContext context)
+    public SessionVM(
+        ISportNavigation navigation, 
+        SportContext context,
+        ISportLogger logger)
     {
         Navigation = navigation;
         Session = new Session();
         Context = context;
+        Logger = logger;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ClientUtilsProject.DataClasses;
 using ClientUtilsProject.Utils;
+using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -13,8 +14,10 @@ public partial class ExerciseVM : ObservableObject
     [ObservableProperty]
     public ExerciceDifficulty _currentDifficulty;
 
-    private SportContext Context { get; set; }
+    private ISportRepository Repository { get; set; }
     private ISportNavigation Navigation { get; set; }
+    private ISportLogger Logger { get; set; }
+
     
     [RelayCommand]
     public async Task Save()
@@ -50,7 +53,10 @@ public partial class ExerciseVM : ObservableObject
                 return;
             
             CurrentExercise.ExerciseDifficulties.Add(CurrentDifficulty);
-            ExercisesVM._exercices.Add(CurrentExercise);
+
+            await Repository.AddAsync(CurrentExercise);
+            await Repository.SaveChangesAsync(CancellationToken.None);
+            
         }
 
         CurrentDifficulty = new (0, "Kg");
@@ -62,11 +68,15 @@ public partial class ExerciseVM : ObservableObject
         await Navigation.NavigateBack();
     }
 
-    public ExerciseVM(ISportNavigation navigation, SportContext context)
+    public ExerciseVM(
+        ISportNavigation navigation, 
+        ISportRepository repository,
+        ISportLogger logger)
     {
         Navigation = navigation;
         CurrentDifficulty = new(0, "Kg");
         CurrentExercise = new();
-        Context = context;
+        Repository = repository;
+        Logger = logger;
     }
 }

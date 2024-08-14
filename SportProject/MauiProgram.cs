@@ -1,5 +1,6 @@
 ﻿using ClientUtilsProject.DataClasses;
 using ClientUtilsProject.Utils;
+using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Serilog.Events;
@@ -55,8 +56,13 @@ namespace Sport
             builder.Services.AddTransient<SessionsVM>();
             builder.Services.AddTransient<SessionsPage>();
 
+            builder.Services.AddTransient<ISportLogger, SportLogger>();
+            builder.Services.AddTransient<ISportRepository, SportRepository>();
             builder.Services.AddTransient<ISportNavigation, SportNavigation>();
-            builder.Services.AddTransient<SportContext>();
+            //builder.Services.AddTransient<SportContext>();
+
+            builder.Services.AddDbContext<SportContext>(contextLifetime: ServiceLifetime.Transient,
+                optionsLifetime: ServiceLifetime.Transient);
             
             return builder.Build();
         }
