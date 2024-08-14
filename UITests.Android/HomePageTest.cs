@@ -15,8 +15,6 @@ namespace UITests
             ClearDatas();
 
             ClickButtonWithAutomationId("AddSessionBtn");
-
-            // Assert
             AssertPageTitleIs("SessionPage");
 
             var initialDate = FindUIElementByAutomationId("InitialDate");
@@ -32,7 +30,6 @@ namespace UITests
         public void CreateExerciseTest()
         {
             ClearDatas();
-
             ClickButtonWithAutomationId("AddExerciseBtn");
 
             // Assert
@@ -51,14 +48,11 @@ namespace UITests
         public void ListExercises_one_Test()
         {
             ClearDatas();
-
-            //ajoute un exercice
             ClickButtonWithAutomationId("AddExerciseBtn");
 
             //EXERCISE PAGE
             //*************
             
-            //verif navigation
             AssertPageTitleIs("ExercisePage");
 
             //act
@@ -66,34 +60,21 @@ namespace UITests
             name.SendKeys("Dips");
             var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
             
-            //value : 11Kg
-            var value = FindUIElementByAutomationId("ExerciseValue");
-            value.Click();
-            value.SendKeys("11");
-
-            //cache le clavier
+            SetElementValueWithAutomationId("ExerciseValue", 11);
             ClickButtonWithAutomationId("HideKeyboardBtn");
-
             ClickButtonWithAutomationId("SaveExerciseBtn");
-
-            //navigation
             ClickButtonWithAutomationId("BackBtn");
 
             //HOME PAGE
             //*************
             
-            //verif navigation
             AssertPageTitleIs("Accueil");
-
-            //navigation vers ExercicesPage pour vérification
             ClickButtonWithAutomationId("ExercisesBtn");
 
             //EXERCISES PAGE
             //*************
             
-            //verif navigation
-            var title3 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
-            Assert.That(title3, Is.Not.Null);
+            AssertPageTitleIs("Liste des exercices");
 
             var items = FindUIElementsByAutomationId("exercise");
             var numberOfItems = items.Count;
@@ -103,18 +84,22 @@ namespace UITests
             AppiumSetup.App.ActivateApp("sxb.sport");
         }
 
+        private void SetElementValueWithAutomationId(string automationId, int value)
+        {
+            var element = FindUIElementByAutomationId(automationId);
+            element.Click();
+            element.SendKeys(value.ToString());
+        }
+
         [Test]
         public void ListExercises_twoDifferentExercises_Test()
         {
             ClearDatas();
-
-            //ajoute un exercice
             ClickButtonWithAutomationId("AddExerciseBtn");
 
             //EXERCISE PAGE
             //*************
             
-            //verif navigation
             AssertPageTitleIs("ExercisePage");
 
             //act
@@ -122,68 +107,41 @@ namespace UITests
             name.SendKeys("Dips");
             var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
             
-            //value : 11Kg
-            var value = FindUIElementByAutomationId("ExerciseValue");
-            value.Click();
-            value.SendKeys("11");
-
-            //cache le clavier
+            SetElementValueWithAutomationId("ExerciseValue", 11);
             ClickButtonWithAutomationId("HideKeyboardBtn");
-
             ClickButtonWithAutomationId("SaveExerciseBtn");
-
-            //navigation
             ClickButtonWithAutomationId("BackBtn");
 
             //HOME PAGE
             //*************
             
-            //verif navigation
             AssertPageTitleIs("Accueil");
-
-            //ajoute un exercice, objet de ce test
             ClickButtonWithAutomationId("AddExerciseBtn");
+            AssertPageTitleIs("ExercisePage");
 
             //EXERCISE PAGE
             //*************
-            
-            //verif navigation
-            AssertPageTitleIs("ExercisePage");
 
             //act for this test
             var name2 = FindUIElementByAutomationId("ExerciseName");
             name2.SendKeys("Crunches");
             var difficulty2 = FindUIElementByAutomationId("ExerciseDifficulty");
             
-            //value : 11Kg
-            var value2 = FindUIElementByAutomationId("ExerciseValue");
-            value2.Click();
-            value2.SendKeys("11");
-
-            //cache le clavier
+            SetElementValueWithAutomationId("ExerciseValue", 11);
             ClickButtonWithAutomationId("HideKeyboardBtn");
-            
             ClickButtonWithAutomationId("SaveExerciseBtn");
-
-            //navigation
             ClickButtonWithAutomationId("BackBtn");
 
             //HOME PAGE
             //*************
             
-            //verif navigation
             AssertPageTitleIs("Accueil");
-
-            //navigation vers ExercicesPage pour vérification
             ClickButtonWithAutomationId("ExercisesBtn");
+            AssertPageTitleIs("Liste des exercices");
 
             //EXERCISES PAGE
             //*************
             
-            //verif navigation
-            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
-            Assert.That(title5, Is.Not.Null);
-
             var items = FindUIElementsByAutomationId("exercise");
             var numberOfItems = items.Count;
             Assert.That(numberOfItems, Is.EqualTo(2));
@@ -196,71 +154,44 @@ namespace UITests
         public void ListExercises_threeDifficultiesForSameExercise_Test()
         {
             ClearDatas();
-
-            //ajoute un exercice
             ClickButtonWithAutomationId("AddExerciseBtn");
+            AssertPageTitleIs("ExercisePage");
 
             //EXERCISE PAGE
             //*************
             
-            //verif navigation
-            AssertPageTitleIs("ExercisePage");
-
             //act
             var name = FindUIElementByAutomationId("ExerciseName");
             name.SendKeys("Crunch");
             //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
 
-            //value : 11Kg
-            var value = FindUIElementByAutomationId("ExerciseValue");
-            value.Click();
-            value.SendKeys("11");
-
-            //cache le clavier
+            SetElementValueWithAutomationId("ExerciseValue", 11);
             ClickButtonWithAutomationId("HideKeyboardBtn");
-
             ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
             var name2 = FindUIElementByAutomationId("ExerciseName");
             Assert.That(name2.Text, Is.EqualTo("Crunch"));
 
-            //value : 14Kg
-            var value2 = FindUIElementByAutomationId("ExerciseValue");
-            value2.Click();
-            value2.SendKeys("14");
-
-            //cache le clavier
+            SetElementValueWithAutomationId("ExerciseValue", 14);
             ClickButtonWithAutomationId("HideKeyboardBtn");
-
             ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
             var name5 = FindUIElementByAutomationId("ExerciseName");
             Assert.That(name5.Text, Is.EqualTo("Crunch"));
 
-            //value : 17Kg
-            var value3 = FindUIElementByAutomationId("ExerciseValue");
-            value3.Click();
-            value3.SendKeys("17");
-
-            //cache le clavier
+            SetElementValueWithAutomationId("ExerciseValue", 17);
+            
             ClickButtonWithAutomationId("HideKeyboardBtn");
-
             ClickButtonWithAutomationId("SaveExerciseBtn");
-
-            //navigation
             ClickButtonWithAutomationId("BackBtn");
 
             //HOME PAGE
             //*************
             
             AssertPageTitleIs("Accueil");
-
-            //navigation vers ExercicesPage pour vérification
             ClickButtonWithAutomationId("ExercisesBtn");
-
-            //verif navigation
             AssertPageTitleIs("Liste des exercices");
 
             var exercises = FindUIElementsByAutomationId("exercise");
@@ -292,8 +223,6 @@ namespace UITests
         public void AddSessionPage_MenuTitleInHomePageBecomesReprendreSession()
         {
             ClearDatas();
-            
-            //ajoute une session
             ClickButtonWithAutomationId("AddSessionBtn");
             
             //SESSION PAGE
@@ -303,22 +232,17 @@ namespace UITests
             var initialDate = FindUIElementByAutomationId("InitialDate").Text;
             var initialTime = FindUIElementByAutomationId("InitialTime").Text;
             
-            //clique sur terminer session
             ClickButtonWithAutomationId("CloseSessionBtn");
 
             //HOME PAGE
             //*************
             
-            // retour page d'accueil
             AssertPageTitleIs("Accueil");
-            
-            //ouvre page sessions
             ClickButtonWithAutomationId("SessionsBtn");
 
             //SESSIONS PAGE
             //*************
             
-            Task.Delay(500).Wait();
             AssertPageTitleIs("Affichage des sessions");
             
             // existence de session avec bonne date et bonne heure?
@@ -342,7 +266,7 @@ namespace UITests
         }
         
         
-        
+        //***************************************************************
         
         private void ClickButtonWithAutomationId(string automationId)
         {
