@@ -14,12 +14,7 @@ namespace UITests
         {
             ClearDatas();
 
-            // Arrange
-            var bouton = FindUIElementByAutomationId("AddSessionBtn");
-
-            // Act
-            bouton.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("AddSessionBtn");
 
             // Assert
             var title = FindUIElementByXPath(@"//android.widget.TextView[@text='SessionPage'][1]");
@@ -37,24 +32,16 @@ namespace UITests
             AppiumSetup.App.ActivateApp("sxb.sport");
         }
 
-            [Test]
+        [Test]
         public void CreateExerciseTest()
         {
             ClearDatas();
 
-            // Arrange
-            var bouton = FindUIElementByAutomationId("AddExerciseBtn");
-
-            // Act
-            bouton.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("AddExerciseBtn");
 
             // Assert
             var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
             Assert.That(title, Is.Not.Null);
-
-            //var pageTitle = FindUIElement("PageTitle");
-            //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
 
             var name = FindUIElementByAutomationId("ExerciseName");
             Assert.That(name, Is.Not.Null);
@@ -71,9 +58,11 @@ namespace UITests
             ClearDatas();
 
             //ajoute un exercice
-            var bouton = FindUIElementByAutomationId("AddExerciseBtn");
-            bouton.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("AddExerciseBtn");
+
+            //EXERCISE PAGE
+            //*************
+            
             //verif navigation
             var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
             Assert.That(title, Is.Not.Null);
@@ -89,26 +78,26 @@ namespace UITests
             value.SendKeys("11");
 
             //cache le clavier
-            var bouton4 = FindUIElementByAutomationId("HideKeyboardBtn");
-            bouton4.Click();
-            Task.Delay(500).Wait();
-            
-            var bouton2 = FindUIElementByAutomationId("SaveExerciseBtn");
-            bouton2.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("HideKeyboardBtn");
+
+            ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //navigation
-            var back = FindUIElementByAutomationId("BackButton");
-            back.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("BackBtn");
+
+            //HOME PAGE
+            //*************
+            
             //verif navigation
             var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title2, Is.Not.Null);
 
             //navigation vers ExercicesPage pour vérification
-            var bouton3 = FindUIElementByAutomationId("ExercisesBtn");
-            bouton3.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("ExercisesBtn");
+
+            //EXERCISES PAGE
+            //*************
+            
             //verif navigation
             var title3 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
             Assert.That(title3, Is.Not.Null);
@@ -127,10 +116,11 @@ namespace UITests
             ClearDatas();
 
             //ajoute un exercice
-            var bouton = FindUIElementByAutomationId("AddExerciseBtn");
-            bouton.Click();
+            ClickButtonWithAutomationId("AddExerciseBtn");
+
+            //EXERCISE PAGE
+            //*************
             
-            Task.Delay(500).Wait();
             //verif navigation
             var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
             Assert.That(title, Is.Not.Null);
@@ -146,26 +136,26 @@ namespace UITests
             value.SendKeys("11");
 
             //cache le clavier
-            var bouton6 = FindUIElementByAutomationId("HideKeyboardBtn");
-            bouton6.Click();
-            Task.Delay(500).Wait();
-            
-            var bouton2 = FindUIElementByAutomationId("SaveExerciseBtn");
-            bouton2.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("HideKeyboardBtn");
+
+            ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //navigation
-            var back = FindUIElementByAutomationId("BackButton");
-            back.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("BackBtn");
+
+            //HOME PAGE
+            //*************
+            
             //verif navigation
             var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title2, Is.Not.Null);
 
             //ajoute un exercice, objet de ce test
-            var bouton3 = FindUIElementByAutomationId("AddExerciseBtn");
-            bouton3.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("AddExerciseBtn");
+
+            //EXERCISE PAGE
+            //*************
+            
             //verif navigation
             var title3 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
             Assert.That(title3, Is.Not.Null);
@@ -181,26 +171,26 @@ namespace UITests
             value2.SendKeys("11");
 
             //cache le clavier
-            var bouton7 = FindUIElementByAutomationId("HideKeyboardBtn");
-            bouton7.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("HideKeyboardBtn");
             
-            var bouton4 = FindUIElementByAutomationId("SaveExerciseBtn");
-            bouton4.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //navigation
-            var back2 = FindUIElementByAutomationId("BackButton");
-            back2.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("BackBtn");
+
+            //HOME PAGE
+            //*************
+            
             //verif navigation
             var title4 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title4, Is.Not.Null);
 
             //navigation vers ExercicesPage pour vérification
-            var bouton5 = FindUIElementByAutomationId("ExercisesBtn");
-            bouton5.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("ExercisesBtn");
+
+            //EXERCISES PAGE
+            //*************
+            
             //verif navigation
             var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
             Assert.That(title5, Is.Not.Null);
@@ -219,9 +209,11 @@ namespace UITests
             ClearDatas();
 
             //ajoute un exercice
-            var bouton = FindUIElementByAutomationId("AddExerciseBtn");
-            bouton.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("AddExerciseBtn");
+
+            //EXERCISE PAGE
+            //*************
+            
             //verif navigation
             var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
             Assert.That(title, Is.Not.Null);
@@ -237,13 +229,9 @@ namespace UITests
             value.SendKeys("11");
 
             //cache le clavier
-            var bouton3 = FindUIElementByAutomationId("HideKeyboardBtn");
-            bouton3.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("HideKeyboardBtn");
 
-            var bouton2 = FindUIElementByAutomationId("SaveExerciseBtn");
-            bouton2.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
             var name2 = FindUIElementByAutomationId("ExerciseName");
@@ -255,13 +243,9 @@ namespace UITests
             value2.SendKeys("14");
 
             //cache le clavier
-            var bouton6 = FindUIElementByAutomationId("HideKeyboardBtn");
-            bouton6.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("HideKeyboardBtn");
 
-            var bouton4 = FindUIElementByAutomationId("SaveExerciseBtn");
-            bouton4.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
             var name5 = FindUIElementByAutomationId("ExerciseName");
@@ -273,25 +257,22 @@ namespace UITests
             value3.SendKeys("17");
 
             //cache le clavier
-            var bouton7 = FindUIElementByAutomationId("HideKeyboardBtn");
-            bouton7.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("HideKeyboardBtn");
 
-            var bouton8 = FindUIElementByAutomationId("SaveExerciseBtn");
-            bouton8.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //navigation
-            var back = FindUIElementByAutomationId("BackButton");
-            back.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("BackBtn");
+
+            //HOME PAGE
+            //*************
+            
             var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title2, Is.Not.Null);
 
             //navigation vers ExercicesPage pour vérification
-            var bouton5 = FindUIElementByAutomationId("ExercisesBtn");
-            bouton5.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("ExercisesBtn");
+
             //verif navigation
             var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
             Assert.That(title5, Is.Not.Null);
@@ -327,28 +308,31 @@ namespace UITests
             ClearDatas();
             
             //ajoute une session
-            var bouton = FindUIElementByAutomationId("AddSessionBtn");
-            bouton.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("AddSessionBtn");
+            
+            //SESSION PAGE
+            //*************
             
             //stockage pour asserts plus tard
             var initialDate = FindUIElementByAutomationId("InitialDate").Text;
             var initialTime = FindUIElementByAutomationId("InitialTime").Text;
             
             //clique sur terminer session
-            var bouton2 = FindUIElementByAutomationId("CloseSessionBtn");
-            Assert.That(bouton2, Is.Not.Null);
-            bouton2.Click();
-            Task.Delay(500).Wait();
+            ClickButtonWithAutomationId("CloseSessionBtn");
+
+            //HOME PAGE
+            //*************
             
             // retour page d'accueil
             var title = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
             Assert.That(title, Is.Not.Null);
             
             //ouvre page sessions
-            var bouton3 = FindUIElementByAutomationId("SessionsBtn");
-            Assert.That(bouton3, Is.Not.Null);
-            bouton3.Click();
+            ClickButtonWithAutomationId("SessionsBtn");
+
+            //SESSIONS PAGE
+            //*************
+            
             Task.Delay(500).Wait();
             var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Affichage des sessions'][1]");
             Assert.That(title2, Is.Not.Null);
@@ -376,7 +360,12 @@ namespace UITests
         
         
         
-        
+        private void ClickButtonWithAutomationId(string automationId)
+        {
+            var bouton = FindUIElementByAutomationId(automationId);
+            bouton.Click();
+            Task.Delay(500).Wait();
+        }
         
         void ClearDatas()
         {

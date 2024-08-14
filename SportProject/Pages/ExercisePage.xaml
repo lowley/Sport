@@ -37,7 +37,7 @@
         <Grid ColumnDefinitions="*, auto, auto"
               Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
 
-            <Button Text="Back" Command="{Binding BackCommand}" AutomationId="BackButton"/>
+            <Button Text="Back" Command="{Binding BackCommand}" AutomationId="BackBtn"/>
             <Button Grid.Row="4" Grid.Column="3" AutomationId="SaveExerciseBtn"
                 Text="Enregistrer" Command="{Binding SaveCommand}"/>
 

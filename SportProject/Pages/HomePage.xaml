@@ -13,7 +13,7 @@
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, auto, auto, *, auto" ColumnDefinitions="auto, *">
+    <Grid RowDefinitions="auto, auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, *">
         
         <Button Text="Ajouter une séance" AutomationId="AddSessionBtn"
                 Command="{Binding AddSessionCommand}" Grid.Row="0"/>
@@ -25,7 +25,7 @@
             Command="{Binding ListExercisesCommand}" Grid.Row="2"/>
         
         <Button Text="Liste des séances" AutomationId="SessionsBtn"
-                Command="{Binding ListSessionsCommand}" Grid.Row="2"/>
+                Command="{Binding ListSessionsCommand}" Grid.Row="3"/>
 
         <Button Text="Clear" AutomationId="ClearBtn"
             Command="{Binding ClearCommand}" Grid.Row="4"
