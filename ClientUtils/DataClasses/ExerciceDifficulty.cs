@@ -12,7 +12,7 @@ namespace ClientUtilsProject.DataClasses
 {
     public partial class ExerciceDifficulty : SportEntity, IEquatable<ExerciceDifficulty>
     {
-        public Guid Id;
+        public Guid Id { get; set; }
         
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
@@ -29,13 +29,13 @@ namespace ClientUtilsProject.DataClasses
         private Exercise _exercice;
 
         public ExerciceDifficulty(
-            Int32 difficultyLevel, 
-            Exercise exercice,
+            Int32 difficultyLevel = default, 
+            Exercise? exercice = default,
             string? difficultyName = default)
         {
             DifficultyLevel = difficultyLevel;
+            Exercice = exercice ?? new Exercise();
             DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
-            Exercice = exercice;
         }
 
         public ExerciceDifficulty(Exercise exercice)

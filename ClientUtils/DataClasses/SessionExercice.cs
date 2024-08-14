@@ -5,7 +5,7 @@ namespace ClientUtilsProject.DataClasses;
 
 public partial class SessionExercice : SportEntity
 {
-    public Guid Id;
+    public Guid Id { get; set; }
 
     [ObservableProperty]
     public Exercise _exercice;
@@ -13,6 +13,10 @@ public partial class SessionExercice : SportEntity
     [ObservableProperty]
     public ObservableCollection<SessionExerciceSerie> _series;
 
-    
-
+    public SessionExercice()
+    {
+        Id = Guid.NewGuid();
+        Exercice = new Exercise();
+        Series = [];
+    }
 }
