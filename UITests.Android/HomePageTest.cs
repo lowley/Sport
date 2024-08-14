@@ -17,11 +17,7 @@ namespace UITests
             ClickButtonWithAutomationId("AddSessionBtn");
 
             // Assert
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='SessionPage'][1]");
-            Assert.That(title, Is.Not.Null);
-
-            //var pageTitle = FindUIElement("PageTitle");
-            //Assert.That(pageTitle.Text, Is.EqualTo("CreateSession"));
+            AssertPageTitleIs("SessionPage");
 
             var initialDate = FindUIElementByAutomationId("InitialDate");
             Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString(SharedUtilDatas.COMPLETE_DATE_FORMAT)));
@@ -40,8 +36,7 @@ namespace UITests
             ClickButtonWithAutomationId("AddExerciseBtn");
 
             // Assert
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
-            Assert.That(title, Is.Not.Null);
+            AssertPageTitleIs("ExercisePage");
 
             var name = FindUIElementByAutomationId("ExerciseName");
             Assert.That(name, Is.Not.Null);
@@ -64,8 +59,7 @@ namespace UITests
             //*************
             
             //verif navigation
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
-            Assert.That(title, Is.Not.Null);
+            AssertPageTitleIs("ExercisePage");
 
             //act
             var name = FindUIElementByAutomationId("ExerciseName");
@@ -89,8 +83,7 @@ namespace UITests
             //*************
             
             //verif navigation
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
-            Assert.That(title2, Is.Not.Null);
+            AssertPageTitleIs("Accueil");
 
             //navigation vers ExercicesPage pour vérification
             ClickButtonWithAutomationId("ExercisesBtn");
@@ -122,8 +115,7 @@ namespace UITests
             //*************
             
             //verif navigation
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
-            Assert.That(title, Is.Not.Null);
+            AssertPageTitleIs("ExercisePage");
 
             //act
             var name = FindUIElementByAutomationId("ExerciseName");
@@ -147,8 +139,7 @@ namespace UITests
             //*************
             
             //verif navigation
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
-            Assert.That(title2, Is.Not.Null);
+            AssertPageTitleIs("Accueil");
 
             //ajoute un exercice, objet de ce test
             ClickButtonWithAutomationId("AddExerciseBtn");
@@ -157,8 +148,7 @@ namespace UITests
             //*************
             
             //verif navigation
-            var title3 = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
-            Assert.That(title3, Is.Not.Null);
+            AssertPageTitleIs("ExercisePage");
 
             //act for this test
             var name2 = FindUIElementByAutomationId("ExerciseName");
@@ -182,8 +172,7 @@ namespace UITests
             //*************
             
             //verif navigation
-            var title4 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
-            Assert.That(title4, Is.Not.Null);
+            AssertPageTitleIs("Accueil");
 
             //navigation vers ExercicesPage pour vérification
             ClickButtonWithAutomationId("ExercisesBtn");
@@ -215,8 +204,7 @@ namespace UITests
             //*************
             
             //verif navigation
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='ExercisePage'][1]");
-            Assert.That(title, Is.Not.Null);
+            AssertPageTitleIs("ExercisePage");
 
             //act
             var name = FindUIElementByAutomationId("ExerciseName");
@@ -267,15 +255,13 @@ namespace UITests
             //HOME PAGE
             //*************
             
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
-            Assert.That(title2, Is.Not.Null);
+            AssertPageTitleIs("Accueil");
 
             //navigation vers ExercicesPage pour vérification
             ClickButtonWithAutomationId("ExercisesBtn");
 
             //verif navigation
-            var title5 = FindUIElementByXPath(@"//android.widget.TextView[@text='Liste des exercices'][1]");
-            Assert.That(title5, Is.Not.Null);
+            AssertPageTitleIs("Liste des exercices");
 
             var exercises = FindUIElementsByAutomationId("exercise");
             var numberOfExercises = exercises.Count;
@@ -324,8 +310,7 @@ namespace UITests
             //*************
             
             // retour page d'accueil
-            var title = FindUIElementByXPath(@"//android.widget.TextView[@text='Accueil'][1]");
-            Assert.That(title, Is.Not.Null);
+            AssertPageTitleIs("Accueil");
             
             //ouvre page sessions
             ClickButtonWithAutomationId("SessionsBtn");
@@ -334,8 +319,7 @@ namespace UITests
             //*************
             
             Task.Delay(500).Wait();
-            var title2 = FindUIElementByXPath(@"//android.widget.TextView[@text='Affichage des sessions'][1]");
-            Assert.That(title2, Is.Not.Null);
+            AssertPageTitleIs("Affichage des sessions");
             
             // existence de session avec bonne date et bonne heure?
             var sessions = FindUIElementsByXPath("//android.widget.TextView[@resource-id='sxb.sport:id/session']");
@@ -365,6 +349,12 @@ namespace UITests
             var bouton = FindUIElementByAutomationId(automationId);
             bouton.Click();
             Task.Delay(500).Wait();
+        }
+        
+        private void AssertPageTitleIs(string pageTitle)
+        {
+            var title = FindUIElementByXPath($@"//android.widget.TextView[@text='{pageTitle}'][1]");
+            Assert.That(title, Is.Not.Null);
         }
         
         void ClearDatas()
