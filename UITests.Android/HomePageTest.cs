@@ -7,8 +7,6 @@ namespace UITests
 {
     public class HomePageTest : BaseTest
     {
-        public const string RESUME_SESSION_BUTTON_TITLE = nameof(RESUME_SESSION_BUTTON_TITLE); 
-        
         [Test]
         public void CreateSessionTest()
         {
@@ -17,8 +15,9 @@ namespace UITests
             ClickButtonWithAutomationId("AddSessionBtn");
             AssertPageTitleIs("SessionPage");
 
-            var initialDate = FindUIElementByAutomationId("InitialDate");
-            Assert.That(initialDate.Text, Is.EqualTo(DateTime.Now.ToString(SharedUtilDatas.COMPLETE_DATE_FORMAT)));
+            AssertThatElementWithAutomationIdHasText("InitialDate", 
+                DateTime.Now.ToString(SharedUtilDatas.COMPLETE_DATE_FORMAT));
+
             var initialTime = FindUIElementByAutomationId("InitialTime");
             Assert.That(initialTime.Text, Is.AtLeast(DateTime.Now.AddMinutes(-1).TimeOfDay.ToString(SharedUtilDatas.HOUR_MINUTES_FORMAT)));
 
@@ -32,13 +31,9 @@ namespace UITests
             ClearDatas();
             ClickButtonWithAutomationId("AddExerciseBtn");
 
-            // Assert
             AssertPageTitleIs("ExercisePage");
-
-            var name = FindUIElementByAutomationId("ExerciseName");
-            Assert.That(name, Is.Not.Null);
-            var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
-            Assert.That(difficulty, Is.Not.Null);
+            AssertThatElementWithAutomationIdIsNotNull("ExerciseName");
+            AssertThatElementWithAutomationIdIsNotNull("ExerciseDifficulty");
 
             AppiumSetup.App.TerminateApp("sxb.sport");
             AppiumSetup.App.ActivateApp("sxb.sport");
@@ -58,7 +53,7 @@ namespace UITests
             //act
             var name = FindUIElementByAutomationId("ExerciseName");
             name.SendKeys("Dips");
-            var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
+            //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
             
             SetElementValueWithAutomationId("ExerciseValue", 11);
             ClickButtonWithAutomationId("HideKeyboardBtn");
@@ -84,13 +79,6 @@ namespace UITests
             AppiumSetup.App.ActivateApp("sxb.sport");
         }
 
-        private void SetElementValueWithAutomationId(string automationId, int value)
-        {
-            var element = FindUIElementByAutomationId(automationId);
-            element.Click();
-            element.SendKeys(value.ToString());
-        }
-
         [Test]
         public void ListExercises_twoDifferentExercises_Test()
         {
@@ -105,7 +93,7 @@ namespace UITests
             //act
             var name = FindUIElementByAutomationId("ExerciseName");
             name.SendKeys("Dips");
-            var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
+            //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
             
             SetElementValueWithAutomationId("ExerciseValue", 11);
             ClickButtonWithAutomationId("HideKeyboardBtn");
@@ -170,17 +158,14 @@ namespace UITests
             ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
-            var name2 = FindUIElementByAutomationId("ExerciseName");
-            Assert.That(name2.Text, Is.EqualTo("Crunch"));
+            AssertThatElementWithAutomationIdHasText("ExerciseName", "Crunch");
 
             SetElementValueWithAutomationId("ExerciseValue", 14);
             ClickButtonWithAutomationId("HideKeyboardBtn");
             ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
-            var name5 = FindUIElementByAutomationId("ExerciseName");
-            Assert.That(name5.Text, Is.EqualTo("Crunch"));
-
+            AssertThatElementWithAutomationIdHasText("ExerciseName", "Crunch");
             SetElementValueWithAutomationId("ExerciseValue", 17);
             
             ClickButtonWithAutomationId("HideKeyboardBtn");
@@ -252,9 +237,7 @@ namespace UITests
             Assert.That(numberOfSessions, Is.EqualTo(1));
             
             //todo: temps de départ et de fin à vérifier
-            var startTime = FindUIElementByAutomationId("startTime");
-            Assert.That(startTime, Is.Not.Null);
-            Assert.That(initialTime, Is.EqualTo(startTime.Text));
+            AssertThatElementWithAutomationIdHasText("startTime", initialTime);
             
             var endTime = FindUIElementByAutomationId("endTime");;
             Assert.That(endTime, Is.Not.Null);
@@ -266,7 +249,7 @@ namespace UITests
         }
         
         
-        //***************************************************************
+        #region Helpers
         
         private void ClickButtonWithAutomationId(string automationId)
         {
@@ -281,11 +264,33 @@ namespace UITests
             Assert.That(title, Is.Not.Null);
         }
         
+        private void SetElementValueWithAutomationId(string automationId, int value)
+        {
+            var element = FindUIElementByAutomationId(automationId);
+            element.Click();
+            element.SendKeys(value.ToString());
+        }
+        
+        private void AssertThatElementWithAutomationIdHasText(string elementAutomationId, string text)
+        {
+            var name2 = FindUIElementByAutomationId(elementAutomationId);
+            Assert.That(name2, Is.Not.Null);
+            Assert.That(name2.Text, Is.EqualTo(text));
+        }
+        
+        private void AssertThatElementWithAutomationIdIsNotNull(string elementAutomationId)
+        {
+            var name2 = FindUIElementByAutomationId(elementAutomationId);
+            Assert.That(name2, Is.Not.Null);
+        }
+        
         void ClearDatas()
         {
             var bouton = FindUIElementByAutomationId("ClearBtn");
             bouton.Click();
         }
+        
+        #endregion
 
     }
 }
