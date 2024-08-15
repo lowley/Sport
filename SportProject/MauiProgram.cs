@@ -38,7 +38,12 @@ namespace Sport
 
 #if DEBUG
     		builder.Logging.AddDebug();
+            
 #endif
+            
+            var repo = new SportRepository(new SportContext(new SportLogger(log)));
+            Task.Run(async () => await repo.Clear());
+            
             builder.Services.AddSingleton(log);
             
             builder.Services.AddTransient<HomeVM>();

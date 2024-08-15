@@ -50,6 +50,18 @@ public class SportContext : DbContext
         modelBuilder.Entity<ExerciceDifficulty>()
             .Property(e => e.DifficultyName)
             .HasConversion(new OptionStringConverter());
+        
+        //le code suivant vient de StackOverflow
+        //sinon pb d'update d'Exercise quand on ajoute une ExerciseDifficulty
+        //le pb est lié aux clés primaires générées manuellement et non par EF
+        foreach (var item in modelBuilder.Model.GetEntityTypes())
+        {
+            var p = item.FindPrimaryKey().Properties.FirstOrDefault(i=>i.ValueGenerated!=Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.Never);
+            if (p!=null)
+            {
+                p.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.Never;
+            }
+        }
     }
 
     public void Clear()

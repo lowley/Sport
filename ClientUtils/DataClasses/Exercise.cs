@@ -15,10 +15,10 @@ namespace ClientUtilsProject.DataClasses
         public Guid Id { get; set; }
         
         [ObservableProperty]
-        private string _exerciseName;
+        public string _exerciseName;
         
         [ObservableProperty]
-        private ObservableCollection<ExerciceDifficulty> _exerciseDifficulties;
+        public ObservableCollection<ExerciceDifficulty> _exerciseDifficulties;
         
         public Exercise()
         {

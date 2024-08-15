@@ -1,6 +1,7 @@
 ﻿using System.CodeDom;
 using System.Linq.Expressions;
 using ClientUtilsProject.DataClasses;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ClientUtilsProject.Utils.SportRepository;
@@ -12,7 +13,9 @@ public class SportRepository : ISportRepository
 
     public async Task AddAsync<TEntity>(TEntity entity) where TEntity : class
     {
-        Object o = entity switch
+        Context.Set<TEntity>().AddAsync(entity);
+        
+        /*Object o = entity switch
         {
             Exercise e => await Context.AddAsync(entity as Exercise),
             ExerciceDifficulty ed => await Context.AddAsync(entity as ExerciceDifficulty),
@@ -21,16 +24,25 @@ public class SportRepository : ISportRepository
             SessionExerciceSerie ses => await Context.AddAsync(entity as SessionExerciceSerie),
 
             _ => throw new ArgumentException()
-        };
-
-        return;
+        }
+        */
     }
 
-    public void Clear()
+    public async Task Clear()
     {
-        Context.Clear();
+        await Context.ExerciceDifficulties.ExecuteDeleteAsync();
+        await Context.Exercises.ExecuteDeleteAsync();
+        await Context.Sessions.ExecuteDeleteAsync();
+        await Context.SessionExercices.ExecuteDeleteAsync();
+        await Context.SessionExerciceSeries.ExecuteDeleteAsync();
     }
-    
+
+    public async Task RemoveAsync<TEntity>(TEntity entity) where TEntity: class
+    {
+        Context.Set<TEntity>().Remove(entity);
+        await Context.SaveChangesAsync();
+    }
+
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await Context.SaveChangesAsync(cancellationToken);
@@ -40,7 +52,28 @@ public class SportRepository : ISportRepository
     {
         return Context.Set<TEntity>();
     }
-    
+
+    public async Task<TEntity> GetByIdAsync<TEntity>(Guid id) where TEntity: class
+    {
+        return await Context.Set<TEntity>().FindAsync(id);
+    }
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync<TEntity>() where TEntity : class
+    {
+        return await Context.Set<TEntity>().ToListAsync();
+    }
+
+    public async Task<IEnumerable<TEntity>> FindAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
+    {
+        return await Context.Set<TEntity>().Where(predicate).ToListAsync();
+    }
+
+    public async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+    {
+        Context.Set<TEntity>().Update(entity);
+        await Context.SaveChangesAsync();
+    }
+
     public async Task DisposeAsync()
     {
         await Context.DisposeAsync();

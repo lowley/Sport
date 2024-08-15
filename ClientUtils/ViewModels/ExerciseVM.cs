@@ -3,6 +3,7 @@ using ClientUtilsProject.Utils;
 using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClientUtilsProject.ViewModels;
 
@@ -25,24 +26,30 @@ public partial class ExerciseVM : ObservableObject
         if (CurrentDifficulty.DifficultyLevel == 0 || string.IsNullOrEmpty(CurrentExercise.ExerciseName))
             return;
 
-        if (ExercisesVM._exercices.Any(oneExercise => 
-            oneExercise.Id.Equals(CurrentExercise.Id)
-            && oneExercise.ExerciseName.Equals(CurrentExercise.ExerciseName)
-            && oneExercise.ExerciseDifficulties.Any(oneDifficulty =>
-                oneDifficulty == CurrentDifficulty)))
+        var exerciseInDatabase = Repository.Query<Exercise>()
+            .Where(e => e.Id == CurrentExercise.Id)
+            .Include(e => e.ExerciseDifficulties)
+            .FirstOrDefault();
+        
+        if (exerciseInDatabase is not null &&
+            exerciseInDatabase.ExerciseName.Equals(CurrentExercise.ExerciseName) &&
+            exerciseInDatabase.ExerciseDifficulties.Any(oneDifficulty =>
+                oneDifficulty == CurrentDifficulty))
             return;
         
-        var existingExercise = ExercisesVM._exercices.FirstOrDefault(oneExercice =>
-            oneExercice.Id == CurrentExercise.Id);
-        
-        if (existingExercise is not null)
+        if (exerciseInDatabase is not null)
         {
             //l'exercice existe déjà
-            if (!CurrentExercise.ExerciseName.Equals(existingExercise.ExerciseName))
-                existingExercise.ExerciseName = CurrentExercise.ExerciseName;
+            // changement de nom?
+            if (!CurrentExercise.ExerciseName.Equals(exerciseInDatabase.ExerciseName))
+                exerciseInDatabase.ExerciseName = CurrentExercise.ExerciseName;
             
-            if (existingExercise.ExerciseDifficulties.All(diff => diff.Id != CurrentDifficulty.Id))
-                existingExercise.ExerciseDifficulties.Add(CurrentDifficulty);
+            // ajout de difficulté?
+            if (exerciseInDatabase.ExerciseDifficulties.All(diff => diff.Id != CurrentDifficulty.Id))
+                exerciseInDatabase.ExerciseDifficulties.Add(CurrentDifficulty);
+            
+            //await Repository.UpdateAsync(exerciseInDatabase);
+            await Repository.SaveChangesAsync(CancellationToken.None);
         }
         else
         {

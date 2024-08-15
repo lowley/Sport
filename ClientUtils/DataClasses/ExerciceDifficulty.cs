@@ -25,8 +25,10 @@ namespace ClientUtilsProject.DataClasses
         [NotifyPropertyChangedFor(nameof(ShowName))]
         private Option<string> _difficultyName;
 
+        public Guid ExerciceId { get; set; }
+        
         [ObservableProperty]
-        private Exercise _exercice;
+        public Exercise _exercice;
 
         public ExerciceDifficulty(
             Int32 difficultyLevel = default, 
@@ -36,12 +38,16 @@ namespace ClientUtilsProject.DataClasses
             DifficultyLevel = difficultyLevel;
             Exercice = exercice ?? new Exercise();
             DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
+            Id = Guid.NewGuid();
+            ExerciceId = Guid.Empty;
         }
 
         public ExerciceDifficulty()
         {
             Exercice = new Exercise();
             DifficultyName = string.Empty;
+            Id = Guid.NewGuid();
+            ExerciceId = Guid.NewGuid();
         }
 
         public ExerciceDifficulty(Exercise exercice)
@@ -50,6 +56,7 @@ namespace ClientUtilsProject.DataClasses
             DifficultyLevel = 0;
             Exercice = exercice;
             Id = Guid.NewGuid();
+            ExerciceId = exercice.Id;
         }
         
         public ExerciceDifficulty(int level, string exerciceName)
@@ -58,9 +65,11 @@ namespace ClientUtilsProject.DataClasses
             DifficultyLevel = level;
             Exercice = new Exercise
             {
-                ExerciseName = exerciceName
+                ExerciseName = exerciceName,
+                Id = Guid.NewGuid()
             };
             Id = Guid.NewGuid();
+            ExerciceId = Exercice.Id;
         }
 
         public string ShowMe

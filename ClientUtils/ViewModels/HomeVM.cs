@@ -1,4 +1,5 @@
 ﻿using ClientUtilsProject.Utils;
+using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -7,7 +8,8 @@ namespace ClientUtilsProject.ViewModels;
 public partial class HomeVM : ObservableObject
 {
     private ISportNavigation Navigation { get; set; }
-
+    private ISportRepository Repo { get; set; }
+    
     [RelayCommand]
     public async Task AddSession()
     {
@@ -33,15 +35,15 @@ public partial class HomeVM : ObservableObject
     }
 
     [RelayCommand]
-    public void Clear()
+    public async Task Clear()
     {
-        ExercisesVM._exercices.Clear();
+        await Repo.Clear();
     }
 
-    public HomeVM(ISportNavigation navigation)
+    public HomeVM(ISportNavigation navigation, ISportRepository repo)
     {
         Navigation = navigation;
-
+        Repo = repo;
     }
 }
 

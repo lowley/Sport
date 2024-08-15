@@ -12,6 +12,8 @@ public partial class SessionExerciceSerie : SportEntity
     [ObservableProperty]
     public Int32 _nombreDeFoisDeLaSerie;
 
+    public Guid DifficultyId { get; set; }
+
     [ObservableProperty]
     public ExerciceDifficulty _difficulty;
     
@@ -19,5 +21,7 @@ public partial class SessionExerciceSerie : SportEntity
     {
         Id = Guid.NewGuid();
         Difficulty = new ExerciceDifficulty();
+        DifficultyId = Guid.NewGuid();
+
     }
 }

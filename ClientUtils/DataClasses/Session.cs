@@ -8,16 +8,16 @@ public partial class Session : SportEntity
     public Guid Id { get; set; }
 
     [ObservableProperty]
-    private DateTime _sessionStartDate = DateTime.Now;
+    public DateTime _sessionStartDate = DateTime.Now;
 
     [ObservableProperty]
-    private TimeSpan _sessionStartTime = DateTime.Now.TimeOfDay;
+    public TimeSpan _sessionStartTime = DateTime.Now.TimeOfDay;
 
     [ObservableProperty]
-    private TimeSpan _sessionEndTime = DateTime.Now.TimeOfDay;
+    public TimeSpan _sessionEndTime = DateTime.Now.TimeOfDay;
     
     [ObservableProperty]
-    private ObservableCollection<SessionExercice> _sessionItems;
+    public ObservableCollection<SessionExercice> _sessionItems;
 
 
     public Session()

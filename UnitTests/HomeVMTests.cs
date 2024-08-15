@@ -1,4 +1,5 @@
 using ClientUtilsProject.Utils;
+using ClientUtilsProject.Utils.SportRepository;
 using ClientUtilsProject.ViewModels;
 using FakeItEasy;
 
@@ -8,12 +9,14 @@ namespace WIPClientTests
     {
         public HomeVM SUT { get; set;}
         public ISportNavigation NavigationFake { get; set; }
+        public ISportRepository RepoFake { get; set; }
         
         [SetUp]
         public void Setup()
         {
+            RepoFake = A.Fake<ISportRepository>();
             NavigationFake = A.Fake<ISportNavigation>();
-            SUT = new HomeVM(NavigationFake);
+            SUT = new HomeVM(NavigationFake, RepoFake);
         }
 
         [Test]
