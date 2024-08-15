@@ -55,12 +55,17 @@ public partial class ExerciseVM : ObservableObject
         {
             //nouvel exercice
             
-            //on veut en créer un avec un nom existant
-            if (ExercisesVM._exercices.Any(oneExercise => CurrentExercise.SameAs(oneExercise)))
+            //on veut en créer un avec un nom existant? refusé
+            var exerciseWithSameNameInDatabase = Repository.Query<Exercise>()
+                .Where(e => e.SameAs(CurrentExercise))
+                .Include(e => e.ExerciseDifficulties)
+                .FirstOrDefault();
+            
+            if (exerciseWithSameNameInDatabase is not null)
                 return;
             
+            //autre exercice, on lui ajoute sa difficulté
             CurrentExercise.ExerciseDifficulties.Add(CurrentDifficulty);
-
             await Repository.AddAsync(CurrentExercise);
             await Repository.SaveChangesAsync(CancellationToken.None);
             

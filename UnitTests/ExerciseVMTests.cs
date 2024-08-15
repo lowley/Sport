@@ -67,16 +67,55 @@ public class ExerciseVMTests
     public void add_save_simple_exercise__anotherExerciseInDatabase()
     {
         //arrange
+        SUT.CurrentExercise.ExerciseName = "dips";
+        var difficulty = new ExerciceDifficulty(15, "Kg");
+        SUT.CurrentDifficulty = difficulty;
+
+        var exerciceInDatabase = new Exercise
+        {
+            Id = Guid.NewGuid(),
+            ExerciseDifficulties =
+                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
+            ExerciseName = "crunch",
+        };
+        
+        var feed = new List<Exercise>
+        {
+            exerciceInDatabase
+        }.AsQueryable();
+
+        A.CallTo(() => RepositoryFake.Query<Exercise>())
+            .Returns(feed);
+        
+        //act
+        SUT.Save();
+        
+        //assert
+        A.CallTo(() => RepositoryFake.AddAsync(
+                A<Exercise>.That.Matches(e =>
+                    e.Id == SUT.CurrentExercise.Id &&
+                    e.ExerciseName.Equals(SUT.CurrentExercise.ExerciseName) && 
+                    e.ExerciseDifficulties.Count == 1 &&
+                    e.ExerciseDifficulties[0].DifficultyLevel == 15 &&
+                    e.ExerciseDifficulties[0].DifficultyName.Equals("Kg"))
+            ))
+            .MustHaveHappenedOnceExactly();
+    }
+    
+    [Test]
+    public void add_save_simple_exercise__sameExerciseAndSameDifficultyInDatabase()
+    {
+        //arrange
         SUT.CurrentExercise.ExerciseName = "test";
         var difficulty = new ExerciceDifficulty(15, "Kg");
         SUT.CurrentDifficulty = difficulty;
 
         var exercice = new Exercise
         {
-            Id = Guid.NewGuid(),
+            Id = SUT.CurrentExercise.Id,
+            ExerciseName = SUT.CurrentExercise.ExerciseName,
             ExerciseDifficulties =
                 new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
-            ExerciseName = SUT.CurrentExercise.ExerciseName,
         };
         
         var feed = new List<Exercise>
@@ -91,15 +130,44 @@ public class ExerciseVMTests
         SUT.Save();
         
         //assert
-        A.CallTo(() => RepositoryFake.AddAsync(
-                A<Exercise>.That.Matches(e =>
-                    e.Id == SUT.CurrentExercise.Id &&
-                    e.ExerciseName.Equals("test") && 
-                    e.ExerciseDifficulties.Count == 1 &&
-                    e.ExerciseDifficulties[0].DifficultyLevel == 15 &&
-                    e.ExerciseDifficulties[0].DifficultyName.Equals("Kg"))
-            ))
-            .MustHaveHappenedOnceExactly();
+        A.CallTo(() => RepositoryFake.AddAsync(A<Exercise>._))
+            .MustNotHaveHappened();
+        A.CallTo(() => RepositoryFake.SaveChangesAsync(A<CancellationToken>._))
+            .MustNotHaveHappened();
+    }
+    
+    [Test]
+    public void add_save_simple_exercise__anotherExerciseWithSameNameInDatabase()
+    {
+        //arrange
+        SUT.CurrentExercise.ExerciseName = "test";
+        var difficulty = new ExerciceDifficulty(15, "Kg");
+        SUT.CurrentDifficulty = difficulty;
+
+        var exercice = new Exercise
+        {
+            Id = Guid.NewGuid(),
+            ExerciseName = SUT.CurrentExercise.ExerciseName,
+            ExerciseDifficulties =
+                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { new ExerciceDifficulty(20, "Kg") }),
+        };
+        
+        var feed = new List<Exercise>
+        {
+            exercice
+        }.AsQueryable();
+
+        A.CallTo(() => RepositoryFake.Query<Exercise>())
+            .Returns(feed);
+        
+        //act
+        SUT.Save();
+        
+        //assert
+        A.CallTo(() => RepositoryFake.AddAsync(A<Exercise>._))
+            .MustNotHaveHappened();
+        A.CallTo(() => RepositoryFake.SaveChangesAsync(A<CancellationToken>._))
+            .MustNotHaveHappened();
     }
 
     /*
