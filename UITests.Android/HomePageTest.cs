@@ -2,6 +2,8 @@
 using ClientUtilsProject.Utils;
 using LanguageExt;
 using ClientUtilsProject.DataClasses;
+using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Support.UI;
 
 namespace UITests
 {
@@ -184,7 +186,6 @@ namespace UITests
             Assert.That(numberOfExercises, Is.EqualTo(1));
 
             var difficulties = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/difficulty'][1]/android.widget.TextView");
-            
             var numberOfDifficulties = difficulties.Count;
             Assert.That(numberOfDifficulties, Is.EqualTo(3));
 
@@ -243,6 +244,65 @@ namespace UITests
             Assert.That(endTime, Is.Not.Null);
 
             Assert.That(initialTime, Is.LessThan(endTime.Text));
+            
+            AppiumSetup.App.TerminateApp("sxb.sport");
+            AppiumSetup.App.ActivateApp("sxb.sport");
+        }
+        
+        [Test]
+        public void AddExercice_ExitThenEditName_Test()
+        {
+
+            var ExerciseNameBefore = "Crunch";
+            var ExerciseNameAfter = "Crunches";
+
+            ClearDatas();
+            ClickButtonWithAutomationId("AddExerciseBtn");
+            AssertPageTitleIs("ExercisePage");
+
+            //EXERCISE PAGE
+            //*************
+            
+            //act
+            var name = FindUIElementByAutomationId("NewExerciseName");
+            name.SendKeys(ExerciseNameBefore);
+            //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
+
+            SetElementValueWithAutomationId("ExerciseValue", 11);
+            ClickButtonWithAutomationId("HideKeyboardBtn");
+            ClickButtonWithAutomationId("SaveExerciseBtn");
+            ClickButtonWithAutomationId("BackBtn");
+
+            //HOME PAGE
+            //*************
+            
+            AssertPageTitleIs("Accueil");
+            ClickButtonWithAutomationId("AddExerciseBtn");
+
+            AppiumElement dropdown = FindUIElementByAutomationId("ExerciseDropdown");
+            var dropdownSelect = new SelectElement(dropdown);
+            dropdownSelect.SelectByValue(ExerciseNameBefore);
+            
+            var difficulties = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/selectedDifficulty'][1]/android.widget.TextView");
+            var numberOfDifficulties = difficulties.Count;
+            Assert.That(numberOfDifficulties, Is.EqualTo(1));
+            var difficulty1 = difficulties.ElementAt(0);
+            var difficulté_11 = new ExerciceDifficulty(11, "Kg");
+            Assert.That(difficulty1.Text, Is.EqualTo(difficulté_11.ShowMeShort));
+
+            AppiumElement selectedName = FindUIElementByAutomationId("existingExerciseName");
+            name.SendKeys(ExerciseNameAfter);
+            
+            ClickButtonWithAutomationId("HideKeyboardBtn");
+            ClickButtonWithAutomationId("SaveExerciseBtn");
+            ClickButtonWithAutomationId("BackBtn");
+            
+            ClickButtonWithAutomationId("ExercisesBtn");
+            AssertPageTitleIs("Liste des exercices");
+            var items = FindUIElementsByAutomationId("exercise_name");
+            var numberOfItems = items.Count;
+            Assert.That(numberOfItems, Is.EqualTo(1));
+            Assert.That(items[0].Text, Is.EqualTo(ExerciseNameAfter));
             
             AppiumSetup.App.TerminateApp("sxb.sport");
             AppiumSetup.App.ActivateApp("sxb.sport");

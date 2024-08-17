@@ -27,6 +27,17 @@ namespace ClientUtilsProject.DataClasses
             Id = Guid.NewGuid();
         }
 
+        public override string ToString()
+        {
+            var difficulties = string.Empty;
+            foreach (var difficulty in ExerciseDifficulties)
+            {
+                difficulties.Append($"{difficulty.DifficultyLevel}{difficulty.DifficultyName} ");
+            }
+
+            return $"*{ExerciseName}/{difficulties}*";
+        }
+
         #region equality check
 
         public virtual bool Equals(Object other)

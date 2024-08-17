@@ -59,7 +59,7 @@ namespace ClientUtilsProject.DataClasses
             ExerciceId = exercice.Id;
         }
         
-        public ExerciceDifficulty(int level, string exerciceName)
+        public ExerciceDifficulty(string exerciceName, int level)
         {
             DifficultyName = "Kg";
             DifficultyLevel = level;
@@ -68,6 +68,15 @@ namespace ClientUtilsProject.DataClasses
                 ExerciseName = exerciceName,
                 Id = Guid.NewGuid()
             };
+            Id = Guid.NewGuid();
+            ExerciceId = Exercice.Id;
+        }
+        
+        public ExerciceDifficulty(int level, string difficultyName)
+        {
+            DifficultyName = difficultyName;
+            DifficultyLevel = level;
+            Exercice = new Exercise();
             Id = Guid.NewGuid();
             ExerciceId = Exercice.Id;
         }

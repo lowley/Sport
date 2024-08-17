@@ -1,6 +1,7 @@
 ﻿using ClientUtilsProject.DataClasses;
 using ClientUtilsProject.ViewModels;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls;
 
 namespace Sport
 {
@@ -8,7 +9,7 @@ namespace Sport
     {
         public App()
         {
-            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzM2OTY0NEAzMjM2MmUzMDJlMzBsMndqL0JCMmhrNTlxVFI2MFgxT3F1QXpyYy9GVGc1d0VPclU2TWdsWk1BPQ==");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzQzMzg5NUAzMjM2MmUzMDJlMzBCK0ljNklpMjRCcHo1aTBtem5YaGFMUXZWWjFySU44ZWQ4VWovUHlCeDVvPQ==");
             ExercisesVM._exercices = [];
             SessionsVM._sessions = [];
             

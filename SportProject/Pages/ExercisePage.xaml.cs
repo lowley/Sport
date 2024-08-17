@@ -29,4 +29,10 @@ public partial class ExercisePage : ContentPage
     {
         KeyboardHelper.HideKeyboard();
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        VM.LoadExercises();
+    }
 }

@@ -14,7 +14,7 @@ public class ExerciseVMTests
     public ISportNavigation NavigationFake { get; set; }
     public ISportRepository RepositoryFake { get; set; }
     public ISportLogger LoggerFake { get; set; }
-    
+
     [SetUp]
     public void Setup()
     {
@@ -39,7 +39,7 @@ public class ExerciseVMTests
                 new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
             ExerciseName = SUT.CurrentExercise.ExerciseName,
         };
-        
+
         var feed = new List<Exercise>
         {
             //exercice
@@ -47,22 +47,22 @@ public class ExerciseVMTests
 
         A.CallTo(() => RepositoryFake.Query<Exercise>())
             .Returns(feed);
-        
+
         //act
         SUT.Save();
-        
+
         //assert
         A.CallTo(() => RepositoryFake.AddAsync(
                 A<Exercise>.That.Matches(e =>
                     e.Id == SUT.CurrentExercise.Id &&
-                    e.ExerciseName.Equals("test") && 
+                    e.ExerciseName.Equals("test") &&
                     e.ExerciseDifficulties.Count == 1 &&
                     e.ExerciseDifficulties[0].DifficultyLevel == 15 &&
                     e.ExerciseDifficulties[0].DifficultyName.Equals("Kg"))
-                ))
+            ))
             .MustHaveHappenedOnceExactly();
     }
-    
+
     [Test]
     public void add_save_simple_exercise__anotherExerciseInDatabase()
     {
@@ -78,7 +78,7 @@ public class ExerciseVMTests
                 new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
             ExerciseName = "crunch",
         };
-        
+
         var feed = new List<Exercise>
         {
             exerciceInDatabase
@@ -86,22 +86,22 @@ public class ExerciseVMTests
 
         A.CallTo(() => RepositoryFake.Query<Exercise>())
             .Returns(feed);
-        
+
         //act
         SUT.Save();
-        
+
         //assert
         A.CallTo(() => RepositoryFake.AddAsync(
                 A<Exercise>.That.Matches(e =>
                     e.Id == SUT.CurrentExercise.Id &&
-                    e.ExerciseName.Equals(SUT.CurrentExercise.ExerciseName) && 
+                    e.ExerciseName.Equals(SUT.CurrentExercise.ExerciseName) &&
                     e.ExerciseDifficulties.Count == 1 &&
                     e.ExerciseDifficulties[0].DifficultyLevel == 15 &&
                     e.ExerciseDifficulties[0].DifficultyName.Equals("Kg"))
             ))
             .MustHaveHappenedOnceExactly();
     }
-    
+
     [Test]
     public void add_save_simple_exercise__sameExerciseAndSameDifficultyInDatabase()
     {
@@ -117,7 +117,7 @@ public class ExerciseVMTests
             ExerciseDifficulties =
                 new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
         };
-        
+
         var feed = new List<Exercise>
         {
             exercice
@@ -125,17 +125,63 @@ public class ExerciseVMTests
 
         A.CallTo(() => RepositoryFake.Query<Exercise>())
             .Returns(feed);
-        
+
         //act
         SUT.Save();
-        
+
         //assert
         A.CallTo(() => RepositoryFake.AddAsync(A<Exercise>._))
             .MustNotHaveHappened();
         A.CallTo(() => RepositoryFake.SaveChangesAsync(A<CancellationToken>._))
             .MustNotHaveHappened();
     }
-    
+
+    [Test]
+    public void add_save_simple_exercise__sameExerciseAndAnotherNameInDatabase()
+    {
+        //arrange
+        SUT.CurrentExercise.ExerciseName = "crunch";
+        var difficulty = new ExerciceDifficulty(15, "Kg");
+        SUT.CurrentDifficulty = difficulty;
+
+        var exerciceInDatabase = new Exercise
+        {
+            Id = SUT.CurrentExercise.Id,
+            ExerciseName = "dips",
+            ExerciseDifficulties =
+                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
+        };
+        var newExercise = new Exercise()
+        {
+            ExerciseName = SUT.CurrentExercise.ExerciseName,
+            Id = exerciceInDatabase.Id,
+            ExerciseDifficulties = exerciceInDatabase.ExerciseDifficulties
+        };
+
+        var feed = new List<Exercise>
+        {
+            exerciceInDatabase
+        }.AsQueryable();
+
+        A.CallTo(() => RepositoryFake.Query<Exercise>())
+            .Returns(feed);
+
+        //act
+        SUT.Save();
+
+        //assert
+        A.CallTo(() => RepositoryFake.LikeUpdateAsync(
+                A<Exercise>.That.Matches(e =>
+                    e.Id == newExercise.Id &&
+                    e.ExerciseName.Equals(newExercise.ExerciseName) &&
+                    e.ExerciseDifficulties.Count() == newExercise.ExerciseDifficulties.Count() &&
+                    e.ExerciseDifficulties[0] == newExercise.ExerciseDifficulties[0]
+                )))
+            .MustHaveHappenedOnceExactly();
+        A.CallTo(() => RepositoryFake.SaveChangesAsync(A<CancellationToken>._))
+            .MustHaveHappenedOnceExactly();
+    }
+
     [Test]
     public void add_save_simple_exercise__anotherExerciseWithSameNameInDatabase()
     {
@@ -149,9 +195,10 @@ public class ExerciseVMTests
             Id = Guid.NewGuid(),
             ExerciseName = SUT.CurrentExercise.ExerciseName,
             ExerciseDifficulties =
-                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { new ExerciceDifficulty(20, "Kg") }),
+                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[]
+                    { new ExerciceDifficulty(20, "Kg") }),
         };
-        
+
         var feed = new List<Exercise>
         {
             exercice
@@ -159,10 +206,10 @@ public class ExerciseVMTests
 
         A.CallTo(() => RepositoryFake.Query<Exercise>())
             .Returns(feed);
-        
+
         //act
         SUT.Save();
-        
+
         //assert
         A.CallTo(() => RepositoryFake.AddAsync(A<Exercise>._))
             .MustNotHaveHappened();
@@ -280,7 +327,7 @@ public class ExerciseVMTests
     {
         if (RepositoryFake is not null)
             await RepositoryFake.DisposeAsync();
-        if(LoggerFake is not null)
+        if (LoggerFake is not null)
             await LoggerFake.DisposeAsync();
     }
 }

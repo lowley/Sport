@@ -13,19 +13,19 @@ public class SportRepository : ISportRepository
 
     public async Task AddAsync<TEntity>(TEntity entity) where TEntity : class
     {
-        Context.Set<TEntity>().AddAsync(entity);
         
-        /*Object o = entity switch
-        {
-            Exercise e => await Context.AddAsync(entity as Exercise),
-            ExerciceDifficulty ed => await Context.AddAsync(entity as ExerciceDifficulty),
-            Session s => await Context.AddAsync(entity as Session),
-            SessionExercice se => await Context.AddAsync(entity as SessionExercice),
-            SessionExerciceSerie ses => await Context.AddAsync(entity as SessionExerciceSerie),
-
-            _ => throw new ArgumentException()
-        }
-        */
+        await Context.Set<TEntity>().AddAsync(entity);
+        
+        // Object o = entity switch
+        // {
+        //     Exercise e => await Context.AddAsync(entity as Exercise),
+        //     ExerciceDifficulty ed => await Context.AddAsync(entity as ExerciceDifficulty),
+        //     Session s => await Context.AddAsync(entity as Session),
+        //     SessionExercice se => await Context.AddAsync(entity as SessionExercice),
+        //     SessionExerciceSerie ses => await Context.AddAsync(entity as SessionExerciceSerie),
+        //
+        //     _ => throw new ArgumentException()
+        // };
     }
 
     public async Task Clear()
@@ -68,10 +68,10 @@ public class SportRepository : ISportRepository
         return await Context.Set<TEntity>().Where(predicate).ToListAsync();
     }
 
-    public async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+    public async Task LikeUpdateAsync<TEntity>(TEntity entity) where TEntity : class
     {
-        Context.Set<TEntity>().Update(entity);
-        await Context.SaveChangesAsync();
+        // Context.Set<TEntity>().Update(entity);
+        // await Context.SaveChangesAsync();
     }
 
     public async Task DisposeAsync()

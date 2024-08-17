@@ -11,6 +11,7 @@ using Serilog.Core;
 using DevExpress.Maui;
 using Sport.Converters;
 using SportProject.Pages;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace Sport
 {
@@ -27,6 +28,7 @@ namespace Sport
                 .UseDevExpressEditors()
                 .UseDevExpressControls()
                 .UseDevExpressCollectionView()
+                .ConfigureSyncfusionCore()
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
@@ -41,8 +43,8 @@ namespace Sport
             
 #endif
             
-            var repo = new SportRepository(new SportContext(new SportLogger(log)));
-            Task.Run(async () => await repo.Clear());
+            // var repo = new SportRepository(new SportContext(new SportLogger(log)));
+            // Task.Run(async () => await repo.Clear());
             
             builder.Services.AddSingleton(log);
             
