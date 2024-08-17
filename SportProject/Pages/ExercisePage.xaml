@@ -24,7 +24,8 @@
 
                 <core:SfTextInputLayout Hint="Choisir un exercice" ContainerType="Outlined"
                                         InputViewPadding="15,13,15,13"
-                                        Margin="15,0,15,0">
+                                        Margin="15,0,15,0"
+                                        OutlineCornerRadius="5">
                     <sfe:SfComboBox ItemsSource="{Binding Exercises}"
                                     VerticalOptions="Center" 
                                     x:Name="ExerciseDropdown"
@@ -44,7 +45,9 @@
                             <Grid Margin="0,0,0,5" FlexLayout.Order="{Binding DifficultyLevel}">
                                 <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
                                           AutomationId="selectedDifficulty"
-                                          BackgroundColor="Gold"
+                                          BackgroundColor="Gold" 
+                                          TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ExerciseVM}}, Path= ExistingDifficultyTappedCommand}"
+                                          TapCommandParameter="{Binding Id}"
                                           BorderColor="Goldenrod"
                                           TextColor="Black"
                                           Margin="0,0,5,0">

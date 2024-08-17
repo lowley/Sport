@@ -10,19 +10,16 @@ namespace ClientUtilsProject.ViewModels;
 
 public partial class ExerciseVM : ObservableObject
 {
-    [ObservableProperty] public ObservableCollection<Exercise> _exercises;
-
+    //majors
     [ObservableProperty] public Exercise _currentExercise;
-
     [ObservableProperty] public ExerciceDifficulty _currentDifficulty;
-
-    [ObservableProperty] public Exercise _selectedExercise;
-
+    [ObservableProperty] public string _existingExerciseName;
     [ObservableProperty] public string _newExerciseName;
 
-    [ObservableProperty] public string _existingExerciseName;
-
+    //minors
+    [ObservableProperty] public Exercise _selectedExercise;
     [ObservableProperty] public bool _existingExerciseNameInError;
+    [ObservableProperty] public ObservableCollection<Exercise> _exercises;
 
     private ISportRepository Repository { get; set; }
     private ISportNavigation Navigation { get; set; }
@@ -66,8 +63,7 @@ public partial class ExerciseVM : ObservableObject
             ExistingExerciseNameInError = true;
         }
     }
-
-
+    
     [RelayCommand]
     public async Task Save()
     {
@@ -122,6 +118,18 @@ public partial class ExerciseVM : ObservableObject
         CurrentDifficulty = new(0, "Kg");
     }
 
+    [RelayCommand]
+    public async Task ExistingDifficultyTapped(Guid id)
+    {
+        var difficulty = SelectedExercise.ExerciseDifficulties
+            .FirstOrDefault(d => d.Id == id);
+
+        if (difficulty is null)
+            return;
+
+        CurrentDifficulty = difficulty;
+    }
+    
     [RelayCommand]
     public async Task Back()
     {
