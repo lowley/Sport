@@ -9,10 +9,15 @@
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              xmlns:dataClasses="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:core="http://schemas.syncfusion.com/maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vm:ExerciseVM"
              Title="ExercisePage"
              x:Name="Page">
 
+    <ContentPage.Resources>
+        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter"/>
+    </ContentPage.Resources>
+    
     <Grid RowDefinitions="auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, auto, *, auto, auto"
           Margin="10,5,10,0" RowSpacing="5">
 
@@ -68,7 +73,8 @@
                                         InputViewPadding="15,0,15,0"
                                         Margin="15,0,15,0">
                     <Entry Text="{Binding ExistingExerciseName}"
-                           AutomationId="existingExerciseName" TextColor="Black" />
+                           AutomationId="existingExerciseName" TextColor="Black" 
+                           IsEnabled="{Binding SelectedExercise, Converter={x:StaticResource IsNotNullConverter}}"/>
                 </core:SfTextInputLayout>
             </VerticalStackLayout>
         </Border>
