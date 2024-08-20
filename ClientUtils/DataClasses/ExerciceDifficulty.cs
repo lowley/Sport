@@ -17,7 +17,7 @@ namespace ClientUtilsProject.DataClasses
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
-        private Int32 _difficultyLevel;
+        private Int32? _difficultyLevel;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
@@ -31,7 +31,7 @@ namespace ClientUtilsProject.DataClasses
         public Exercise _exercice;
 
         public ExerciceDifficulty(
-            Int32 difficultyLevel = default, 
+            Int32? difficultyLevel = default, 
             Exercise? exercice = default,
             string? difficultyName = default)
         {

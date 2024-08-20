@@ -34,15 +34,16 @@ public partial class ExerciseVM : ObservableObject
         if (value is null || EditingNewExerciseName)
         {
             CurrentExercise = new();
-            return;
+        }
+        else
+        {
+            CurrentExercise = value;
+
+            EditingSelectedExercise = true;
+            NewExerciseName = string.Empty;
+            EditingSelectedExercise = false;
         }
 
-        CurrentExercise = value;
-        
-        EditingSelectedExercise = true;
-        NewExerciseName = string.Empty;
-        EditingSelectedExercise = false;
-        
         CurrentDifficulty = new ExerciceDifficulty(0, "Kg");
     }
 
@@ -50,18 +51,18 @@ public partial class ExerciseVM : ObservableObject
     {
         if (value is null || EditingSelectedExercise)
             return;
-        
+
         var existingExercice = Exercises
             .FirstOrDefault(e => e.ExerciseName.Equals(value));
 
         if (existingExercice is null)
         {
             ExistingExerciseNameInError = false;
-            
+
             EditingNewExerciseName = true;
             SelectedExercise = null;
             EditingNewExerciseName = false;
-            
+
             CurrentExercise = new Exercise()
             {
                 ExerciseName = value,
@@ -74,19 +75,36 @@ public partial class ExerciseVM : ObservableObject
             ExistingExerciseNameInError = true;
         }
     }
-    
+
     [RelayCommand]
     public async Task ExistingDifficultyTapped(Guid id)
     {
-        var difficulty = SelectedExercise.ExerciseDifficulties
-            .FirstOrDefault(d => d.Id == id);
-
-        if (difficulty is null)
+        if (CurrentDifficulty.DifficultyLevel != 0)
+        {
+            CurrentDifficulty = new();
             return;
+        }
+        else
+        {
+            var difficulty = SelectedExercise.ExerciseDifficulties
+                .FirstOrDefault(d => d.Id == id);
 
-        CurrentDifficulty = difficulty;
+            if (difficulty is null)
+                return;
+
+            CurrentDifficulty = new()
+            {
+                Id = difficulty.Id,
+                DifficultyName = difficulty.DifficultyName,
+                DifficultyLevel = difficulty.DifficultyLevel,
+                Exercice = difficulty.Exercice,
+                ExerciceId = difficulty.ExerciceId
+            };
+        }
+
+        Task.Run(async () => Repository.LikeUpdateAsync(CurrentDifficulty));
     }
-    
+
     [RelayCommand]
     public async Task Save()
     {
@@ -102,7 +120,7 @@ public partial class ExerciseVM : ObservableObject
                 && (CurrentDifficulty.DifficultyName.Equals(
                     CurrentExercise.ExerciseDifficulties.FirstOrDefault(d => d.Id == CurrentDifficulty.Id)
                         ?.DifficultyName ?? "µ*ù"
-                    )));
+                )));
 
         if (CurrentExercise is not null
             && existingExerciseNameEmptyOrSame && currentDifficultyZeroOrNewOrSame)
@@ -112,7 +130,7 @@ public partial class ExerciseVM : ObservableObject
             .Where(e => e.Id == CurrentExercise.Id)
             .Include(e => e.ExerciseDifficulties)
             .FirstOrDefault();
-        
+
         // if (exerciseInDatabase is not null &&
         //     exerciseInDatabase.ExerciseName.Equals(CurrentExercise.ExerciseName) &&
         //     exerciseInDatabase.ExerciseDifficulties.Any(oneDifficulty =>
@@ -120,15 +138,15 @@ public partial class ExerciseVM : ObservableObject
         //     return;
 
         var recoveryExerciseId = Guid.Empty;
-        
+
         if (exerciseInDatabase is not null)
         {
             recoveryExerciseId = exerciseInDatabase.Id;
             //l'exercice existe déjà
             // changement de nom?
             if (!ExistingExerciseName.Equals(exerciseInDatabase.ExerciseName)
-                    && !string.IsNullOrEmpty(ExistingExerciseName)
-                    && !Exercises.Any(e => e.ExerciseName.Equals(ExistingExerciseName)))
+                && !string.IsNullOrEmpty(ExistingExerciseName)
+                && !Exercises.Any(e => e.ExerciseName.Equals(ExistingExerciseName)))
                 exerciseInDatabase.ExerciseName = ExistingExerciseName;
 
             // ajout de difficulté?
@@ -153,26 +171,27 @@ public partial class ExerciseVM : ObservableObject
                 return;
 
             recoveryExerciseId = CurrentExercise.Id;
-            
+
             //autre exercice, on lui ajoute sa difficulté
-            CurrentExercise.ExerciseName = NewExerciseName;
-            
+            Exercise newExercise = new()
+            {
+                Id = CurrentExercise.Id,
+                ExerciseName = NewExerciseName,
+                ExerciseDifficulties = new()
+            };
             if (CurrentDifficulty.DifficultyLevel != 0)
-                CurrentExercise.ExerciseDifficulties.Add(CurrentDifficulty);
-            
-            await Repository.AddAsync(CurrentExercise);
+                newExercise.ExerciseDifficulties.Add(CurrentDifficulty);
+
+            await Repository.AddAsync(newExercise);
             await Repository.SaveChangesAsync(CancellationToken.None);
-            
         }
 
         await LoadExercises();
+        CurrentDifficulty = new(0, "Kg");
         SelectedExercise = Exercises
             .FirstOrDefault(e => e.Id == recoveryExerciseId);
-        CurrentDifficulty = new(0, "Kg");
     }
 
-    
-    
     [RelayCommand]
     public async Task Back()
     {
@@ -182,6 +201,8 @@ public partial class ExerciseVM : ObservableObject
     [RelayCommand]
     public async Task LoadExercises()
     {
+        await Repository.ReloadAsync();
+        
         Exercises = new ObservableCollection<Exercise>(Repository.Query<Exercise>()
             .Include(e => e.ExerciseDifficulties)
             .ToList());

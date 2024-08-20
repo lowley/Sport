@@ -20,7 +20,8 @@ namespace Sport
         public static MauiApp CreateMauiApp()
         {
             var log = SetupSerilog();
-
+            Environment.SetEnvironmentVariable("DX.UITESTINGENABLED", "True");
+            
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()

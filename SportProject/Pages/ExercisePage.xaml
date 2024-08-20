@@ -15,9 +15,10 @@
              x:Name="Page">
 
     <ContentPage.Resources>
-        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter"/>
+        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+        <SharedUtils:MyIsEqualConverter x:Key="MyIsEqualConverter" />
     </ContentPage.Resources>
-    
+
     <Grid RowDefinitions="auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, auto, *, auto, auto"
           Margin="10,5,10,0" RowSpacing="5">
 
@@ -27,18 +28,33 @@
                 <Label Text="Exercice existant" FontAttributes="Bold"
                        VerticalOptions="Center" />
 
-                <core:SfTextInputLayout Hint="Choisir un exercice" ContainerType="Outlined"
-                                        InputViewPadding="15,13,15,13"
-                                        Margin="15,0,15,0"
-                                        OutlineCornerRadius="5">
-                    <sfe:SfComboBox ItemsSource="{Binding Exercises}"
-                                    VerticalOptions="Center" 
-                                    x:Name="ExerciseDropdown"
-                                    TextMemberPath="ExerciseName" DisplayMemberPath="ExerciseName"
-                                    SelectedItem="{Binding SelectedExercise}">
-
-                    </sfe:SfComboBox>
-                </core:SfTextInputLayout>
+                <Picker ItemsSource="{Binding Exercises}"
+                        VerticalOptions="Center" Margin="15,0,15,0"
+                        x:Name="ExerciseDropdown" AutomationId="ExerciseDropdown"
+                        SelectedItem="{Binding SelectedExercise}"
+                        >
+                    
+                </Picker>
+                
+                <!-- <dxe:ComboBoxEdit ItemsSource="{Binding Exercises}" -->
+                <!--                   VerticalOptions="Center" Margin="15,0,15,0" -->
+                <!--                   x:Name="ExerciseDropdown" AutomationId="ExerciseDropdown" -->
+                <!--                   SelectedItem="{Binding SelectedExercise}" -->
+                <!--                   BoxMode="Outlined"> -->
+                <!--     <dxe:ComboBoxEdit.ItemTemplate> -->
+                <!--         <DataTemplate x:DataType="dataClasses:Exercise"> -->
+                <!--             <Grid ColumnDefinitions="auto, *, auto" -->
+                <!--                   Padding="10,0,10,0"> -->
+                <!--                 <Label Text="{Binding ExerciseName}" VerticalOptions="Center" -->
+                <!--                        VerticalTextAlignment="Center" -->
+                <!--                        TextColor="Black" AutomationId="DropdownItem" /> -->
+                <!--                 <Label Text="{Binding ExerciseDifficulties.Count}" VerticalOptions="Center" -->
+                <!--                        VerticalTextAlignment="Center" -->
+                <!--                        Grid.Column="2" TextColor="Black" /> -->
+                <!--             </Grid> -->
+                <!--         </DataTemplate> -->
+                <!--     </dxe:ComboBoxEdit.ItemTemplate> -->
+                <!-- </dxe:ComboBoxEdit> -->
                 
                 <FlexLayout x:Name="DifficultiesLayout"
                             BindableLayout.ItemsSource="{Binding CurrentExercise.ExerciseDifficulties}"
@@ -50,12 +66,28 @@
                             <Grid Margin="0,0,0,5" FlexLayout.Order="{Binding DifficultyLevel}">
                                 <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
                                           AutomationId="selectedDifficulty"
-                                          BackgroundColor="Gold" 
+                                          BackgroundColor="Gold"
                                           TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ExerciseVM}}, Path= ExistingDifficultyTappedCommand}"
                                           TapCommandParameter="{Binding Id}"
-                                          BorderColor="Goldenrod"
                                           TextColor="Black"
                                           Margin="0,0,5,0">
+
+                                    <dxe:Chip.BorderColor>
+                                        <MultiBinding Converter="{x:StaticResource MyIsEqualConverter}">
+                                            <Binding Source="{x:Reference Page}"
+                                                     Path="BindingContext.CurrentDifficulty.DifficultyLevel" />
+                                            <Binding Path="DifficultyLevel" />
+                                        </MultiBinding>
+                                    </dxe:Chip.BorderColor>
+
+                                    <dxe:Chip.BorderThickness>
+                                        <MultiBinding Converter="{x:StaticResource MyIsEqualConverter}">
+                                            <Binding Source="{x:Reference Page}"
+                                                     Path="BindingContext.CurrentDifficulty.DifficultyLevel" />
+                                            <Binding Path="DifficultyLevel" />
+                                        </MultiBinding>
+                                    </dxe:Chip.BorderThickness>
+
                                     <dxe:Chip.Icon>
                                         <FontImageSource
                                             Color="Brown"
@@ -69,32 +101,25 @@
                     </BindableLayout.ItemTemplate>
                 </FlexLayout>
 
-                <core:SfTextInputLayout Hint="Modifier le nom" ContainerType="Outlined"
-                                        InputViewPadding="15,0,15,0"
-                                        Margin="15,0,15,0">
-                    <Entry Text="{Binding ExistingExerciseName}"
-                           AutomationId="existingExerciseName" TextColor="Black" 
-                           IsEnabled="{Binding SelectedExercise, Converter={x:StaticResource IsNotNullConverter}}"/>
-                </core:SfTextInputLayout>
+                <Entry Text="{Binding ExistingExerciseName}" Margin="15,0,15,0"
+                       AutomationId="existingExerciseName" TextColor="Black"
+                       IsEnabled="{Binding SelectedExercise, Converter={x:StaticResource IsNotNullConverter}}" />
             </VerticalStackLayout>
         </Border>
 
-        <core:SfTextInputLayout Hint="Nom du nouvel exercice" Grid.Row="1"
-                                Grid.ColumnSpan="5" ContainerType="Outlined"
-                                InputViewPadding="15,0,15,0"
-                                Margin="15,0,15,0">
-            <Entry Text="{Binding NewExerciseName}"
-                   AutomationId="ExistingExerciseName" TextColor="Black">
-                <Entry.Triggers>
-                    <DataTrigger Binding="{Binding ExistingExerciseNameInError}"
-                                 Value="True" TargetType="Entry">
-                        <DataTrigger.Setters>
-                            <Setter Property="TextColor" Value="Red" />
-                        </DataTrigger.Setters>
-                    </DataTrigger>
-                </Entry.Triggers>
-            </Entry>
-        </core:SfTextInputLayout>
+        <Entry Text="{Binding NewExerciseName}"
+               TextColor="Black" AutomationId="newExerciseName"
+               Grid.Row="1" Margin="15,0,15,0"
+               Grid.ColumnSpan="5">
+            <Entry.Triggers>
+                <DataTrigger Binding="{Binding ExistingExerciseNameInError}"
+                             Value="True" TargetType="Entry">
+                    <DataTrigger.Setters>
+                        <Setter Property="TextColor" Value="Red" />
+                    </DataTrigger.Setters>
+                </DataTrigger>
+            </Entry.Triggers>
+        </Entry>
 
         <!-- <Entry Text="{Binding CurrentExercise.ExerciseName}" AutomationId="ExerciseName" -->
         <!--        Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" -->

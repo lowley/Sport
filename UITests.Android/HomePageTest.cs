@@ -264,7 +264,7 @@ namespace UITests
             //*************
             
             //act
-            var name = FindUIElementByAutomationId("NewExerciseName");
+            var name = FindUIElementByAutomationId("newExerciseName");
             name.SendKeys(ExerciseNameBefore);
             //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
 
@@ -278,10 +278,21 @@ namespace UITests
             
             AssertPageTitleIs("Accueil");
             ClickButtonWithAutomationId("AddExerciseBtn");
+            
+            //EXERCISE PAGE
+            //*************
 
             AppiumElement dropdown = FindUIElementByAutomationId("ExerciseDropdown");
-            var dropdownSelect = new SelectElement(dropdown);
-            dropdownSelect.SelectByValue(ExerciseNameBefore);
+            dropdown.Click();
+            Task.Delay(500).Wait();
+
+            //dropdown.SendKeys($"{ExerciseNameBefore.First()}");
+            var dropdownItems = FindUIElementsByXPath("//android.widget.ListView[@resource-id='sxb.sport:id/select_dialog_listview'][1]/android.widget.TextView");
+            var item = dropdownItems.ElementAt(0);
+            item.Click();
+            
+            // var dropdownSelect = new SelectElement(dropdown);
+            // dropdownSelect.SelectByValue(ExerciseNameBefore);
             
             var difficulties = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/selectedDifficulty'][1]/android.widget.TextView");
             var numberOfDifficulties = difficulties.Count;
@@ -291,7 +302,7 @@ namespace UITests
             Assert.That(difficulty1.Text, Is.EqualTo(difficulté_11.ShowMeShort));
 
             AppiumElement selectedName = FindUIElementByAutomationId("existingExerciseName");
-            name.SendKeys(ExerciseNameAfter);
+            selectedName.SendKeys(ExerciseNameAfter);
             
             ClickButtonWithAutomationId("HideKeyboardBtn");
             ClickButtonWithAutomationId("SaveExerciseBtn");
@@ -299,7 +310,7 @@ namespace UITests
             
             ClickButtonWithAutomationId("ExercisesBtn");
             AssertPageTitleIs("Liste des exercices");
-            var items = FindUIElementsByAutomationId("exercise_name");
+            var items = FindUIElementsByAutomationId("exercise");
             var numberOfItems = items.Count;
             Assert.That(numberOfItems, Is.EqualTo(1));
             Assert.That(items[0].Text, Is.EqualTo(ExerciseNameAfter));

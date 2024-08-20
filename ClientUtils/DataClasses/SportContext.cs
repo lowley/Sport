@@ -23,9 +23,9 @@ public class SportContext : DbContext
         InitTime = DateTime.Now;
     }
 
-    public void Reload()
+    public async Task ReloadAsync()
     {
-        ChangeTracker.Entries().ToList().ForEach(e => e.Reload());
+        ChangeTracker.Entries().ToList().ForEach(async e => await e.ReloadAsync());
     }
 
     public void Reload<TEntity>(TEntity entity) where TEntity : class

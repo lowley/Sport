@@ -47,7 +47,12 @@ public class SportRepository : ISportRepository
     {
         await Context.SaveChangesAsync(cancellationToken);
     }
-    
+
+    public async Task ReloadAsync()
+    {
+        await Context.ReloadAsync();
+    }
+
     public IQueryable<TEntity> Query<TEntity>() where TEntity: class
     {
         return Context.Set<TEntity>();
@@ -70,8 +75,8 @@ public class SportRepository : ISportRepository
 
     public async Task LikeUpdateAsync<TEntity>(TEntity entity) where TEntity : class
     {
-        // Context.Set<TEntity>().Update(entity);
-        // await Context.SaveChangesAsync();
+        Context.Set<TEntity>().Update(entity);
+        await Context.SaveChangesAsync();
     }
 
     public async Task DisposeAsync()

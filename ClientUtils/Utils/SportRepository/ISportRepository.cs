@@ -13,6 +13,7 @@ public interface ISportRepository
     Task LikeUpdateAsync<TEntity>(TEntity entity) where TEntity : class;
     Task RemoveAsync<TEntity>(TEntity entity) where TEntity : class;
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task ReloadAsync();
     Task DisposeAsync();
     Task Clear();
 }
