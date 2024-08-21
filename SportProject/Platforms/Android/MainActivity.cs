@@ -8,14 +8,5 @@ namespace WIPClient
     public class MainActivity : MauiAppCompatActivity
     {
         
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            // Ajouter une variable d'environnement
-            Java.Lang.JavaSystem.SetProperty("DX.UITESTINGENABLED", "True");
-        }
-        
-        
     }
 }

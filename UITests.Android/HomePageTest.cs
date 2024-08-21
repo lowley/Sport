@@ -34,7 +34,8 @@ namespace UITests
             ClickButtonWithAutomationId("AddExerciseBtn");
 
             AssertPageTitleIs("ExercisePage");
-            AssertThatElementWithAutomationIdIsNotNull("ExerciseName");
+            AssertThatElementWithAutomationIdIsNotNull("newExerciseName");
+            AssertThatElementWithAutomationIdIsNotNull("existingExerciseName");
             AssertThatElementWithAutomationIdIsNotNull("ExerciseDifficulty");
 
             AppiumSetup.App.TerminateApp("sxb.sport");
@@ -53,7 +54,7 @@ namespace UITests
             AssertPageTitleIs("ExercisePage");
 
             //act
-            var name = FindUIElementByAutomationId("ExerciseName");
+            var name = FindUIElementByAutomationId("newExerciseName");
             name.SendKeys("Dips");
             //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
             
@@ -93,7 +94,7 @@ namespace UITests
             AssertPageTitleIs("ExercisePage");
 
             //act
-            var name = FindUIElementByAutomationId("ExerciseName");
+            var name = FindUIElementByAutomationId("newExerciseName");
             name.SendKeys("Dips");
             //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
             
@@ -113,7 +114,7 @@ namespace UITests
             //*************
 
             //act for this test
-            var name2 = FindUIElementByAutomationId("ExerciseName");
+            var name2 = FindUIElementByAutomationId("newExerciseName");
             name2.SendKeys("Crunches");
             var difficulty2 = FindUIElementByAutomationId("ExerciseDifficulty");
             
@@ -151,7 +152,7 @@ namespace UITests
             //*************
             
             //act
-            var name = FindUIElementByAutomationId("ExerciseName");
+            var name = FindUIElementByAutomationId("newExerciseName");
             name.SendKeys("Crunch");
             //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
 
@@ -160,14 +161,22 @@ namespace UITests
             ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
-            AssertThatElementWithAutomationIdHasText("ExerciseName", "Crunch");
-
+            AppiumElement dropdown = FindUIElementByAutomationId("ExerciseDropdown");
+            Assert.That(dropdown.Text, Is.EqualTo(new Exercise()
+            {
+                ExerciseName = "Crunch"
+            }.ToString()));
+            
             SetElementValueWithAutomationId("ExerciseValue", 14);
             ClickButtonWithAutomationId("HideKeyboardBtn");
             ClickButtonWithAutomationId("SaveExerciseBtn");
 
             //le nom n'a pas été effacé
-            AssertThatElementWithAutomationIdHasText("ExerciseName", "Crunch");
+            dropdown = FindUIElementByAutomationId("ExerciseDropdown");
+            Assert.That(dropdown.Text, Is.EqualTo(new Exercise()
+            {
+                ExerciseName = "Crunch"
+            }.ToString()));
             SetElementValueWithAutomationId("ExerciseValue", 17);
             
             ClickButtonWithAutomationId("HideKeyboardBtn");
