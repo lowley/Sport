@@ -105,9 +105,87 @@ public partial class ExerciseVM : ObservableObject
         Task.Run(async () => Repository.LikeUpdateAsync(CurrentDifficulty));
     }
 
+    /**
+     * CurrentExercise:
+     * - l' exercice sélectionné<br/>
+     * - ou NOUVEAU<br/>
+     *
+     * CurrentDifficulty:<br/>
+     * - si un exercice sélectionné<br/>
+     * - - si un Chip sélectionné: EXISTANTE<br/>
+     * - - si aucun Chip sélectionné: NOUVELLE<br/>
+     * - si aucun exercice sélectionné: NOUVELLE<br/>
+     */
     [RelayCommand]
     public async Task Save()
     {
+        if (CreationExercise())
+        {
+            
+            
+            
+            if (CreationDifficulty())
+            {
+                
+            }
+        }
+        else
+        {
+            if (ModificationExercise())
+            {
+                if (ModificationExerciseName())
+                {
+                    
+                    
+                    
+                    
+                }
+
+                if (AdditionDifficulty())
+                {
+                    
+                    
+                    
+                }
+                else if (ModificationDifficulty())
+                {
+                    
+                    
+                    
+                }
+            }
+        }
+        
+        bool CreationExercise()
+        {
+            throw new NotImplementedException();
+        }
+        
+        bool CreationDifficulty()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ModificationExercise()
+        {
+            throw new NotImplementedException();
+        }
+        
+        bool ModificationExerciseName()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool AdditionDifficulty()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ModificationDifficulty()
+        {
+            throw new NotImplementedException();
+        }
+        
         var existingExerciseNameEmptyOrSame =
             string.IsNullOrEmpty(ExistingExerciseName)
             || ExistingExerciseName.Equals(CurrentExercise.ExerciseName);
@@ -117,10 +195,10 @@ public partial class ExerciseVM : ObservableObject
             || (CurrentDifficulty.DifficultyLevel ==
                 (CurrentExercise.ExerciseDifficulties.FirstOrDefault(d => d.Id == CurrentDifficulty.Id)
                     ?.DifficultyLevel ?? -1)
-                && (CurrentDifficulty.DifficultyName.Equals(
+                && CurrentDifficulty.DifficultyName.Equals(
                     CurrentExercise.ExerciseDifficulties.FirstOrDefault(d => d.Id == CurrentDifficulty.Id)
                         ?.DifficultyName ?? "µ*ù"
-                )));
+                ));
 
         if (CurrentExercise is not null
             && existingExerciseNameEmptyOrSame && currentDifficultyZeroOrNewOrSame)
@@ -202,7 +280,7 @@ public partial class ExerciseVM : ObservableObject
     public async Task LoadExercises()
     {
         await Repository.ReloadAsync();
-        
+
         Exercises = new ObservableCollection<Exercise>(Repository.Query<Exercise>()
             .Include(e => e.ExerciseDifficulties)
             .ToList());
