@@ -1,5 +1,6 @@
 ﻿using ClientUtilsProject.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Serilog.Core;
 
 namespace ClientUtilsProject.DataClasses;
@@ -43,6 +44,7 @@ public class SportContext : DbContext
             .UseSqlite($"Filename={dbPath}");
 
         optionsBuilder.LogTo(s => Logger.Information(s));
+        optionsBuilder.AddInterceptors([new MyCommandInterceptor(Logger)]);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -37,6 +37,11 @@ public class SportRepository : ISportRepository
         await Context.SessionExerciceSeries.ExecuteDeleteAsync();
     }
 
+    public void Attach<TEntity>(TEntity entity) where TEntity : class
+    {
+        Context.Set<TEntity>().Attach(entity);
+    }
+
     public async Task RemoveAsync<TEntity>(TEntity entity) where TEntity: class
     {
         Context.Set<TEntity>().Remove(entity);
@@ -51,6 +56,11 @@ public class SportRepository : ISportRepository
     public async Task ReloadAsync()
     {
         await Context.ReloadAsync();
+    }
+
+    public SportContext GetContext()
+    {
+        return Context;
     }
 
     public IQueryable<TEntity> Query<TEntity>() where TEntity: class
@@ -75,8 +85,8 @@ public class SportRepository : ISportRepository
 
     public async Task LikeUpdateAsync<TEntity>(TEntity entity) where TEntity : class
     {
-        Context.Set<TEntity>().Update(entity);
-        await Context.SaveChangesAsync();
+        // await Context.Set<TEntity>().ExecuteUpdateAsync(entity);
+        // await Context.SaveChangesAsync();
     }
 
     public async Task DisposeAsync()

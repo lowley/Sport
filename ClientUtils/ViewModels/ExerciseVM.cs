@@ -4,6 +4,7 @@ using ClientUtilsProject.Utils;
 using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.Generic;
 using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 
@@ -101,8 +102,8 @@ public partial class ExerciseVM : ObservableObject
                 ExerciceId = difficulty.ExerciceId
             };
         }
-
-        Task.Run(async () => Repository.LikeUpdateAsync(CurrentDifficulty));
+        
+        Repository.GetContext().Entry(CurrentDifficulty).State = EntityState.Unchanged;
     }
 
     /**
@@ -120,7 +121,7 @@ public partial class ExerciseVM : ObservableObject
     public async Task Save()
     {
         Guid recoveryId = Guid.Empty;
-        
+
         if (IsCreationExercise())
         {
             var savedNewExercise = await CreateExerciseAsync();
@@ -131,7 +132,7 @@ public partial class ExerciseVM : ObservableObject
             if (IsCreationDifficulty() && savedNewExercise is not null)
                 await CreateDifficulty(savedNewExercise);
         }
-        
+
         else
         {
             if (IsModificationExercise())
@@ -142,11 +143,11 @@ public partial class ExerciseVM : ObservableObject
                     exercise = await ModifyExerciseName();
 
                 recoveryId = exercise.Id;
-                
-                if (IsCreationDifficulty())
-                    await CreateDifficulty(exercise);
-                else if (IsModificationDifficulty())
+
+                if (IsModificationDifficulty())
                     await ModifyDifficulty(exercise);
+                else if (IsCreationDifficulty())
+                    await CreateDifficulty(exercise);
             }
 
             await Repository.SaveChangesAsync();
@@ -181,10 +182,10 @@ public partial class ExerciseVM : ObservableObject
         bool IsModificationDifficulty()
         {
             var result = CurrentDifficulty is not null
-                && CurrentExercise.ExerciseDifficulties
-                    .Any(d => d.Id == CurrentDifficulty.Id)
-                && CurrentDifficulty.DifficultyLevel > 0
-                && CurrentDifficulty.DifficultyName.IsSome;
+                         && CurrentExercise.ExerciseDifficulties
+                             .Any(d => d.Id == CurrentDifficulty.Id)
+                         && CurrentDifficulty.DifficultyLevel > 0
+                         && CurrentDifficulty.DifficultyName.IsSome;
 
             return result;
         }
@@ -204,7 +205,14 @@ public partial class ExerciseVM : ObservableObject
             var savedExercise = Repository.Query<Exercise>()
                 .Include(e => e.ExerciseDifficulties)
                 .FirstOrDefault(e => e.Id == newExercise.Id);
-            
+
+            Repository.GetContext().Entry(savedExercise).State = EntityState.Unchanged;
+            foreach (var d in savedExercise.ExerciseDifficulties)
+            {
+                Repository.GetContext().Entry(d).State = EntityState.Detached;
+            }
+
+
             return savedExercise;
         }
 
@@ -217,21 +225,21 @@ public partial class ExerciseVM : ObservableObject
             var savedDifficulty = Repository.Query<ExerciceDifficulty>()
                 .Include(d => d.Exercice)
                 .FirstOrDefault(d => d.Id == CurrentDifficulty.Id);
-            
+
             return savedDifficulty;
         }
 
         async Task<Exercise> ModifyExerciseName()
         {
             CurrentExercise.ExerciseName = ExistingExerciseName;
-            await Repository.LikeUpdateAsync(CurrentExercise);
+            await Repository.SaveChangesAsync();
             return CurrentExercise;
         }
 
         async Task ModifyDifficulty(Exercise exercise)
         {
             CurrentDifficulty.Exercice = exercise;
-            await Repository.LikeUpdateAsync(CurrentDifficulty);
+            await Repository.SaveChangesAsync(CancellationToken.None);
         }
 
         //*********************************
@@ -331,12 +339,39 @@ public partial class ExerciseVM : ObservableObject
     {
         await Repository.ReloadAsync();
 
-        Exercises = new ObservableCollection<Exercise>(Repository.Query<Exercise>()
+        var exercises = Repository.Query<Exercise>()
             .Include(e => e.ExerciseDifficulties)
-            .ToList());
+            .AsNoTracking()
+            .ToList();
+
+        exercises.ForEach(e =>
+        {
+            Repository.GetContext().Entry(e).State = EntityState.Detached;
+            foreach (var d in e.ExerciseDifficulties)
+            {
+                Repository.GetContext().Entry(d).State = EntityState.Detached;
+            }
+        });
+
+        Exercises = new ObservableCollection<Exercise>(exercises);
+
+        foreach (var e in Exercises)
+        {
+            Repository.GetContext().Entry(e).State = EntityState.Detached;
+            foreach (var d in e.ExerciseDifficulties)
+            {
+                Repository.GetContext().Entry(d).State = EntityState.Detached;
+            }
+        }
+
+        ;
+
         SelectedExercise = null;
         NewExerciseName = string.Empty;
         ExistingExerciseName = string.Empty;
+
+        // var trackedEntities = Repository.GetContext().ExerciceDifficulties.Local;
+        // Console.WriteLine(trackedEntities.Count);
     }
 
 
