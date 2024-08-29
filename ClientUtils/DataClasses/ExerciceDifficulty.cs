@@ -12,8 +12,6 @@ namespace ClientUtilsProject.DataClasses
 {
     public partial class ExerciceDifficulty : SportEntity, IEquatable<ExerciceDifficulty>
     {
-        public Guid Id { get; set; }
-        
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]

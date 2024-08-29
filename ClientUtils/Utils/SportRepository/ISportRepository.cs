@@ -6,7 +6,7 @@ namespace ClientUtilsProject.Utils.SportRepository;
 
 public interface ISportRepository
 {
-    Task AddAsync<TEntity>(TEntity entity) where TEntity : class;
+    Task<TEntity?> AddAsync<TEntity>(TEntity entity) where TEntity : class;
     IQueryable<TEntity> Query<TEntity>() where TEntity : class;
     Task<TEntity> GetByIdAsync<TEntity>(Guid id) where TEntity : class;
     Task<IEnumerable<TEntity>> GetAllAsync<TEntity>() where TEntity : class;
@@ -16,7 +16,7 @@ public interface ISportRepository
     Task RemoveAsync<TEntity>(TEntity entity) where TEntity : class;
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
     Task ReloadAsync();
-    SportContext GetContext();
+    SportContext? GetContext();
     Task DisposeAsync();
     Task Clear();
 }

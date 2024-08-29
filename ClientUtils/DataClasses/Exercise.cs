@@ -12,8 +12,6 @@ namespace ClientUtilsProject.DataClasses
 {
     public partial class Exercise : SportEntity, IEquatable<Exercise>
     {
-        public Guid Id { get; set; }
-        
         [ObservableProperty]
         public string _exerciseName;
         
@@ -35,7 +33,7 @@ namespace ClientUtilsProject.DataClasses
                 difficulties.Append($"{difficulty.DifficultyLevel}{difficulty.DifficultyName} ");
             }
 
-            return $"*{ExerciseName}/{difficulties}*";
+            return $"*{Id.ToString().Take(5)}/{ExerciseName}/{difficulties}*";
         }
 
         #region equality check

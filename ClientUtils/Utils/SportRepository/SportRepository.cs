@@ -11,11 +11,16 @@ public class SportRepository : ISportRepository
     private SportContext Context { get; set; }
 
 
-    public async Task AddAsync<TEntity>(TEntity entity) where TEntity : class
+    public async Task<TEntity?> AddAsync<TEntity>(TEntity entity) where TEntity : class
     {
-        
         await Context.Set<TEntity>().AddAsync(entity);
-        
+        await Context.SaveChangesAsync();
+        await ReloadAsync();
+        var savedExercise = Query<Exercise>()
+            .Include(e => e.ExerciseDifficulties)
+            .First(e => e.Id == (entity as SportEntity).Id);
+        return savedExercise as TEntity;
+
         // Object o = entity switch
         // {
         //     Exercise e => await Context.AddAsync(entity as Exercise),
@@ -58,7 +63,7 @@ public class SportRepository : ISportRepository
         await Context.ReloadAsync();
     }
 
-    public SportContext GetContext()
+    public SportContext? GetContext()
     {
         return Context;
     }

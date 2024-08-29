@@ -5,8 +5,6 @@ namespace ClientUtilsProject.DataClasses;
 
 public partial class Session : SportEntity
 {
-    public Guid Id { get; set; }
-
     [ObservableProperty]
     public DateTime _sessionStartDate = DateTime.Now;
 

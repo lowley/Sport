@@ -125,14 +125,13 @@ public partial class ExerciseVM : ObservableObject
         if (IsCreationExercise())
         {
             var savedNewExercise = await CreateExerciseAsync();
-            recoveryId = savedNewExercise.Id;
+            recoveryId = savedNewExercise?.Id ?? Guid.Empty;
 
             //the exercise is created
             //because CreationExercise tests if datas are valid
             if (IsCreationDifficulty() && savedNewExercise is not null)
                 await CreateDifficulty(savedNewExercise);
         }
-
         else
         {
             if (IsModificationExercise())
@@ -198,33 +197,31 @@ public partial class ExerciseVM : ObservableObject
                 ExerciseName = NewExerciseName,
                 ExerciseDifficulties = []
             };
-
-            await Repository.AddAsync(newExercise);
+            
+            var savedExercise = await Repository.AddAsync(newExercise);
             await Repository.SaveChangesAsync(CancellationToken.None);
             await Repository.ReloadAsync();
-            var savedExercise = Repository.Query<Exercise>()
-                .Include(e => e.ExerciseDifficulties)
-                .FirstOrDefault(e => e.Id == newExercise.Id);
 
-            Repository.GetContext().Entry(savedExercise).State = EntityState.Unchanged;
+            var state = Repository.GetContext()?.Entry(savedExercise).State;
+            if (state is not null)
+                state = EntityState.Unchanged;
+            
             foreach (var d in savedExercise.ExerciseDifficulties)
             {
-                Repository.GetContext().Entry(d).State = EntityState.Detached;
+                state = Repository.GetContext()?.Entry(d).State;
+                if (state is not null)
+                    state = EntityState.Detached;
             }
-
-
+            
             return savedExercise;
         }
 
         async Task<ExerciceDifficulty> CreateDifficulty(Exercise savedNewExercise)
         {
             CurrentDifficulty.Exercice = savedNewExercise;
-            await Repository.AddAsync(CurrentDifficulty);
+            var savedDifficulty = await Repository.AddAsync(CurrentDifficulty);
             await Repository.SaveChangesAsync(CancellationToken.None);
             await Repository.ReloadAsync();
-            var savedDifficulty = Repository.Query<ExerciceDifficulty>()
-                .Include(d => d.Exercice)
-                .FirstOrDefault(d => d.Id == CurrentDifficulty.Id);
 
             return savedDifficulty;
         }

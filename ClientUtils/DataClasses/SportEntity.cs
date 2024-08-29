@@ -6,6 +6,8 @@ namespace ClientUtilsProject.DataClasses;
 
 public class SportEntity : ObservableObject
 {
+    public Guid Id { get; set; }
+
     private readonly Dictionary<string, INotifyPropertyChanged> _propertySubscriptions = new();
 
     public void ManageChangedEventForProperties()

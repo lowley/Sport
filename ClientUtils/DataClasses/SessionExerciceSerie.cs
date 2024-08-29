@@ -4,8 +4,6 @@ namespace ClientUtilsProject.DataClasses;
 
 public partial class SessionExerciceSerie : SportEntity
 {
-    public Guid Id { get; set; }
-    
     [ObservableProperty]
     public Int32 _repetitions;
 
