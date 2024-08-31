@@ -29,20 +29,16 @@ public class ExerciseVMTests
     [Test]
     public void add_save_simple_exercise__nothingInDatabase()
     {
+        var NEW_EXERCISE_NAME = "test";
+        var DIFFICULTY_LEVEL = 15;
+        string DIFFICULTY_NAME = "Kg";
+        
         //arrange
         SUT.Exercises = new ObservableCollection<Exercise>();
 
-        SUT.NewExerciseName = "test";
-        var difficulty = new ExerciceDifficulty(15, "Kg");
+        SUT.NewExerciseName = NEW_EXERCISE_NAME;
+        var difficulty = new ExerciceDifficulty(DIFFICULTY_LEVEL, DIFFICULTY_NAME);
         SUT.CurrentDifficulty = difficulty;
-
-        var exercice = new Exercise
-        {
-            Id = SUT.CurrentExercise.Id,
-            ExerciseDifficulties =
-                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
-            ExerciseName = SUT.CurrentExercise.ExerciseName,
-        };
 
         A.CallTo(() => RepositoryFake.GetContext())
             .Returns(null);
@@ -62,8 +58,6 @@ public class ExerciseVMTests
         SUT.Save();
 
         //assert
-        // var savedExercise = A.Captured<Exercise>();
-
         A.CallTo(() => RepositoryFake.AddAsync(
                 savedExercise.GetLastValue()))
             .MustHaveHappenedOnceExactly();
@@ -71,174 +65,233 @@ public class ExerciseVMTests
         A.CallTo(() => RepositoryFake.AddAsync(
                 savedDifficulty.GetLastValue()))
             .MustHaveHappenedOnceExactly();
+        
+        Assert.That(savedExercise.Values[0].ExerciseName, Is.EqualTo(NEW_EXERCISE_NAME));
+        Assert.That(savedExercise.Values[0].ExerciseDifficulties.Count, Is.EqualTo(0));
+        
+        Assert.That(savedDifficulty.Values[0].DifficultyLevel, Is.EqualTo(DIFFICULTY_LEVEL));
+        
+        Assert.That(savedDifficulty.Values[0].DifficultyName
+            .Match(
+                s => s,
+                () => DIFFICULTY_NAME+"error"
+                ), Is.EqualTo(DIFFICULTY_NAME));
     }
 
     [Test]
     public void add_save_simple_exercise__anotherExerciseInDatabase()
     {
+        var NEW_EXERCISE_NAME = "test";
+        var OLD_EXERCISE_NAME = NEW_EXERCISE_NAME + "2";
+        var DIFFICULTY_LEVEL = 15;
+        string DIFFICULTY_NAME = "Kg";
+        
         //arrange
-        var difficulty = new ExerciceDifficulty(15, "Kg");
+        var difficulty = new ExerciceDifficulty(DIFFICULTY_LEVEL, DIFFICULTY_NAME);
         SUT.CurrentDifficulty = difficulty;
-        var exerciceInDatabase = new Exercise
-        {
-            Id = Guid.NewGuid(),
-            ExerciseDifficulties =
-                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
-            ExerciseName = "crunch",
-        };
-        var feed = new ObservableCollection<Exercise> { exerciceInDatabase };
-        SUT.Exercises = feed;
-
-        SUT.NewExerciseName = "dips";
-        A.CallTo(() => RepositoryFake.Query<Exercise>())
-            .Returns(new List<Exercise>()
-                {
-                    new Exercise()
-                    {
-                        Id = Guid.NewGuid(),
-                        ExerciseName = SUT.NewExerciseName,
-                        ExerciseDifficulties = []
-                    }
-                }
-                .AsQueryable());
 
         A.CallTo(() => RepositoryFake.GetContext())
-            .Returns(ContextFake);
+            .Returns(null);
 
+        //addition & récupération éxercice sauvegardé
+        var savedExercise = A.Captured<Exercise>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            savedExercise._
+        )).ReturnsLazily(() => savedExercise.GetLastValue());
+
+        var savedDifficulty = A.Captured<ExerciceDifficulty>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            savedDifficulty._
+        )).ReturnsLazily(() => savedDifficulty.GetLastValue());
+
+        SUT.Exercises = new ObservableCollection<Exercise>() { new Exercise()
+        {
+            Id = Guid.NewGuid(),
+            ExerciseName = OLD_EXERCISE_NAME,
+            ExerciseDifficulties = []
+        } };
+        
+        SUT.NewExerciseName = NEW_EXERCISE_NAME;
+        
         //act
         SUT.Save();
 
         //assert
         A.CallTo(() => RepositoryFake.AddAsync(
-                A<Exercise>.That.Matches(e =>
-                    e.ExerciseName.Equals(SUT.NewExerciseName) &&
-                    e.ExerciseDifficulties != null &&
-                    e.ExerciseDifficulties.Count == 0)
-            ))
+                savedExercise.GetLastValue()))
             .MustHaveHappenedOnceExactly();
 
         A.CallTo(() => RepositoryFake.AddAsync(
-                A<ExerciceDifficulty>.That.Matches(d =>
-                    d.DifficultyName.Equals(difficulty.DifficultyName) &&
-                    d.DifficultyLevel == difficulty.DifficultyLevel &&
-                    d.Exercice.ExerciseName.Equals(SUT.NewExerciseName))
-            ))
+                savedDifficulty.GetLastValue()))
             .MustHaveHappenedOnceExactly();
+        
+        Assert.That(savedExercise.Values[0].ExerciseName, Is.EqualTo(NEW_EXERCISE_NAME));
+        Assert.That(savedExercise.Values[0].ExerciseDifficulties.Count, Is.EqualTo(0));
+        
+        Assert.That(savedDifficulty.Values[0].DifficultyLevel, Is.EqualTo(DIFFICULTY_LEVEL));
+        
+        Assert.That(savedDifficulty.Values[0].DifficultyName
+            .Match(
+                s => s,
+                () => DIFFICULTY_NAME+"error"
+            ), Is.EqualTo(DIFFICULTY_NAME));
     }
 
     [Test]
     public void add_save_simple_exercise__sameExerciseAndSameDifficultyInDatabase()
     {
+        var NEW_EXERCISE_NAME = "test";
+        var DIFFICULTY_LEVEL = 15;
+        string DIFFICULTY_NAME = "Kg";
+        
         //arrange
-        SUT.CurrentExercise.ExerciseName = "test";
-        var difficulty = new ExerciceDifficulty(15, "Kg");
+        var difficulty = new ExerciceDifficulty(DIFFICULTY_LEVEL, DIFFICULTY_NAME);
         SUT.CurrentDifficulty = difficulty;
 
-        var exercice = new Exercise
+        A.CallTo(() => RepositoryFake.GetContext())
+            .Returns(null);
+
+        //addition & récupération éxercice sauvegardé
+        var savedExercise = A.Captured<Exercise>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<Exercise>._
+        )).ReturnsLazily(() => savedExercise.GetLastValue());
+
+        var savedDifficulty = A.Captured<ExerciceDifficulty>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<ExerciceDifficulty>._
+        )).ReturnsLazily(() => savedDifficulty.GetLastValue());
+
+        SUT.Exercises = new ObservableCollection<Exercise>() { new Exercise()
         {
-            Id = SUT.CurrentExercise.Id,
-            ExerciseName = SUT.CurrentExercise.ExerciseName,
-            ExerciseDifficulties =
-                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
-        };
-
-        var feed = new List<Exercise>
-        {
-            exercice
-        }.AsQueryable();
-
-        A.CallTo(() => RepositoryFake.Query<Exercise>())
-            .Returns(feed);
-
+            Id = Guid.NewGuid(),
+            ExerciseName = NEW_EXERCISE_NAME,
+            ExerciseDifficulties = {difficulty}
+        } };
+        
+        SUT.NewExerciseName = NEW_EXERCISE_NAME;
+        
         //act
         SUT.Save();
 
         //assert
-        A.CallTo(() => RepositoryFake.AddAsync(A<Exercise>._))
-            .MustNotHaveHappened();
-        A.CallTo(() => RepositoryFake.SaveChangesAsync(A<CancellationToken>._))
-            .MustNotHaveHappened();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<Exercise>._)).MustNotHaveHappened();
+
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<ExerciceDifficulty>._)).MustNotHaveHappened();
     }
 
     [Test]
     public void add_save_simple_exercise__sameExerciseAndAnotherNameInDatabase()
     {
+        var NEW_EXERCISE_NAME = "test";
+        var OLD_EXERCISE_NAME = NEW_EXERCISE_NAME + "2";
+        var DIFFICULTY_LEVEL = 15;
+        string DIFFICULTY_NAME = "Kg";
+        
         //arrange
-        SUT.CurrentExercise.ExerciseName = "crunch";
-        var difficulty = new ExerciceDifficulty(15, "Kg");
+        var difficulty = new ExerciceDifficulty(DIFFICULTY_LEVEL, DIFFICULTY_NAME);
         SUT.CurrentDifficulty = difficulty;
 
-        var exerciceInDatabase = new Exercise
+        A.CallTo(() => RepositoryFake.GetContext())
+            .Returns(null);
+
+        var savedExercise = new Exercise()
         {
-            Id = SUT.CurrentExercise.Id,
-            ExerciseName = "dips",
-            ExerciseDifficulties =
-                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[] { difficulty }),
+            Id = Guid.NewGuid(),
+            ExerciseName = NEW_EXERCISE_NAME,
+            ExerciseDifficulties = { difficulty }
         };
-        var newExercise = new Exercise()
+        
+        //addition & récupération exercice sauvegardé
+        var exerciseToSave = A.Captured<Exercise>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            exerciseToSave._
+        )).ReturnsLazily(() => savedExercise);
+
+        var savedDifficulty = A.Captured<ExerciceDifficulty>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            savedDifficulty._
+        )).ReturnsLazily(() => savedDifficulty.GetLastValue());
+
+        SUT.Exercises = new ObservableCollection<Exercise>() { new Exercise()
         {
-            ExerciseName = SUT.CurrentExercise.ExerciseName,
-            Id = exerciceInDatabase.Id,
-            ExerciseDifficulties = exerciceInDatabase.ExerciseDifficulties
-        };
-
-        var feed = new List<Exercise>
-        {
-            exerciceInDatabase
-        }.AsQueryable();
-
-        A.CallTo(() => RepositoryFake.Query<Exercise>())
-            .Returns(feed);
-
+            Id = savedExercise.Id,
+            ExerciseName = OLD_EXERCISE_NAME,
+            ExerciseDifficulties = []
+        } };
+        
+        SUT.NewExerciseName = NEW_EXERCISE_NAME;
+        
         //act
         SUT.Save();
 
         //assert
-        A.CallTo(() => RepositoryFake.LikeUpdateAsync(
-                A<Exercise>.That.Matches(e =>
-                    e.Id == newExercise.Id &&
-                    e.ExerciseName.Equals(newExercise.ExerciseName) &&
-                    e.ExerciseDifficulties.Count() == newExercise.ExerciseDifficulties.Count() &&
-                    e.ExerciseDifficulties[0] == newExercise.ExerciseDifficulties[0]
-                )))
+        A.CallTo(() => RepositoryFake.AddAsync(
+                A<Exercise>._))
             .MustHaveHappenedOnceExactly();
-        A.CallTo(() => RepositoryFake.SaveChangesAsync(A<CancellationToken>._))
+
+        A.CallTo(() => RepositoryFake.AddAsync(
+                savedDifficulty.GetLastValue()))
             .MustHaveHappenedOnceExactly();
+        
+        Assert.That(exerciseToSave.Values[0].ExerciseName, Is.EqualTo(NEW_EXERCISE_NAME));
+        Assert.That(exerciseToSave.Values[0].ExerciseDifficulties.Count, Is.EqualTo(0));
+        
+        Assert.That(savedDifficulty.Values[0].DifficultyLevel, Is.EqualTo(DIFFICULTY_LEVEL));
+        
+        Assert.That(savedDifficulty.Values[0].DifficultyName
+            .Match(
+                s => s,
+                () => DIFFICULTY_NAME+"error"
+            ), Is.EqualTo(DIFFICULTY_NAME));
     }
 
     [Test]
     public void add_save_simple_exercise__anotherExerciseWithSameNameInDatabase()
     {
+        var NEW_EXERCISE_NAME = "test";
+        var OLD_EXERCISE_NAME = NEW_EXERCISE_NAME + "2";
+        var DIFFICULTY_LEVEL = 15;
+        string DIFFICULTY_NAME = "Kg";
+        
         //arrange
-        SUT.CurrentExercise.ExerciseName = "test";
-        var difficulty = new ExerciceDifficulty(15, "Kg");
+        var difficulty = new ExerciceDifficulty(DIFFICULTY_LEVEL, DIFFICULTY_NAME);
         SUT.CurrentDifficulty = difficulty;
 
-        var exercice = new Exercise
+        A.CallTo(() => RepositoryFake.GetContext())
+            .Returns(null);
+
+        //addition & récupération éxercice sauvegardé
+        var savedExercise = A.Captured<Exercise>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<Exercise>._
+        )).ReturnsLazily(() => savedExercise.GetLastValue());
+
+        var savedDifficulty = A.Captured<ExerciceDifficulty>();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<ExerciceDifficulty>._
+        )).ReturnsLazily(() => savedDifficulty.GetLastValue());
+
+        SUT.Exercises = new ObservableCollection<Exercise>() { new Exercise()
         {
             Id = Guid.NewGuid(),
-            ExerciseName = SUT.CurrentExercise.ExerciseName,
-            ExerciseDifficulties =
-                new ObservableCollection<ExerciceDifficulty>(new ExerciceDifficulty[]
-                    { new ExerciceDifficulty(20, "Kg") }),
-        };
-
-        var feed = new List<Exercise>
-        {
-            exercice
-        }.AsQueryable();
-
-        A.CallTo(() => RepositoryFake.Query<Exercise>())
-            .Returns(feed);
-
+            ExerciseName = NEW_EXERCISE_NAME,
+            ExerciseDifficulties = []
+        } };
+        
+        SUT.NewExerciseName = NEW_EXERCISE_NAME;
+        
         //act
         SUT.Save();
 
         //assert
-        A.CallTo(() => RepositoryFake.AddAsync(A<Exercise>._))
-            .MustNotHaveHappened();
-        A.CallTo(() => RepositoryFake.SaveChangesAsync(A<CancellationToken>._))
-            .MustNotHaveHappened();
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<Exercise>._)).MustNotHaveHappened();
+
+        A.CallTo(() => RepositoryFake.AddAsync(
+            A<ExerciceDifficulty>._)).MustNotHaveHappened();
     }
 
     /*

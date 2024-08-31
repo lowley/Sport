@@ -154,8 +154,9 @@ public partial class ExerciseVM : ObservableObject
 
         bool IsCreationExercise()
         {
-            var result = !string.IsNullOrEmpty(NewExerciseName);
-            return result;
+            var bad = string.IsNullOrEmpty(NewExerciseName)
+                || Exercises.Any(e => e.ExerciseName == NewExerciseName);
+            return !bad;
         }
 
         bool IsCreationDifficulty()
