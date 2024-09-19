@@ -33,7 +33,8 @@ namespace ClientUtilsProject.DataClasses
                 difficulties.Append($"{difficulty.DifficultyLevel}{difficulty.DifficultyName} ");
             }
 
-            return $"*{Id.ToString().Take(5)}/{ExerciseName}/{difficulties}*";
+            return $"*{ExerciseName}/{difficulties}*";
+            //return $"*{Id.ToString().Substring(0,5)}/{ExerciseName}/{difficulties}*";
         }
 
         #region equality check

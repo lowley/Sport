@@ -219,25 +219,51 @@ public partial class ExerciseVM : ObservableObject
 
         async Task<ExerciceDifficulty> CreateDifficulty(Exercise savedNewExercise)
         {
-            CurrentDifficulty.Exercice = savedNewExercise;
-            var savedDifficulty = await Repository.AddAsync(CurrentDifficulty);
+            Repository.GetContext().Entry(savedNewExercise).State = EntityState.Unchanged;
+            savedNewExercise.ExerciseDifficulties.Add(CurrentDifficulty);
+            // CurrentDifficulty.Exercice = savedNewExercise;
+            // Repository.GetContext().Entry(savedNewExercise).State = EntityState.Detached;
+            // var savedDifficulty = await Repository.AddAsync(CurrentDifficulty);
             await Repository.SaveChangesAsync(CancellationToken.None);
             await Repository.ReloadAsync();
+            var savedDifficulty = await Repository.Query<ExerciceDifficulty>()
+                .AsNoTracking()
+                .Include(d => d.Exercice)
+                .FirstOrDefaultAsync(d => d.Id == CurrentDifficulty.Id);
 
+            if (savedDifficulty == null)
+                return null;
+            
             return savedDifficulty;
         }
 
         async Task<Exercise> ModifyExerciseName()
         {
+            Repository.Attach(CurrentExercise);
             CurrentExercise.ExerciseName = ExistingExerciseName;
             await Repository.SaveChangesAsync();
+            await Repository.ReloadAsync();
+            CurrentExercise = Repository.Query<Exercise>()
+                .Include(e => e.ExerciseDifficulties)
+                .AsNoTracking()
+                .FirstOrDefault(e => e.Id == CurrentExercise.Id);
+
+            if (CurrentExercise is null)
+                return null;
+            
             return CurrentExercise;
         }
 
         async Task ModifyDifficulty(Exercise exercise)
         {
+            Repository.Attach(CurrentDifficulty);
             CurrentDifficulty.Exercice = exercise;
             await Repository.SaveChangesAsync(CancellationToken.None);
+            await Repository.ReloadAsync();
+            CurrentDifficulty = Repository.Query<ExerciceDifficulty>()
+                .Include(d => d.Exercice)
+                .AsNoTracking()
+                .FirstOrDefault(e => e.Id == CurrentDifficulty.Id);
         }
 
         //*********************************

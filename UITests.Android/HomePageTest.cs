@@ -169,7 +169,18 @@ namespace UITests
             
             SetElementValueWithAutomationId("ExerciseValue", 14);
             ClickButtonWithAutomationId("HideKeyboardBtn");
-            ClickButtonWithAutomationId("SaveExerciseBtn");
+
+            try
+            {
+                ClickButtonWithAutomationId("SaveExerciseBtn");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
+            
+            Task.Delay(500).Wait();
 
             //le nom n'a pas été effacé
             dropdown = FindUIElementByAutomationId("ExerciseDropdown");

@@ -367,3 +367,6 @@ FodyWeavers.xsd
 
 #.nugets
 **/.nuget/
+
+#code editors
+.idea/
