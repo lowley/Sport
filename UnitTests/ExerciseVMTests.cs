@@ -70,7 +70,7 @@ public class ExerciseVMTests
         Assert.That(savedExercise.Values[0].ExerciseDifficulties.Count, Is.EqualTo(0));
         
         Assert.That(savedDifficulty.Values[0].DifficultyLevel, Is.EqualTo(DIFFICULTY_LEVEL));
-        
+        Assert.That(savedDifficulty.Values[0].ExerciceId, Is.EqualTo(savedExercise.Values[0].Id));
         Assert.That(savedDifficulty.Values[0].DifficultyName
             .Match(
                 s => s,
@@ -240,7 +240,7 @@ public class ExerciseVMTests
         Assert.That(exerciseToSave.Values[0].ExerciseDifficulties.Count, Is.EqualTo(0));
         
         Assert.That(savedDifficulty.Values[0].DifficultyLevel, Is.EqualTo(DIFFICULTY_LEVEL));
-        
+        Assert.That(savedDifficulty.Values[0].ExerciceId, Is.EqualTo(savedExercise.Id));
         Assert.That(savedDifficulty.Values[0].DifficultyName
             .Match(
                 s => s,
