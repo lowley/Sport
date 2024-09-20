@@ -5,6 +5,7 @@ using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.Generic;
+using System.Diagnostics;
 using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 
@@ -220,9 +221,10 @@ public partial class ExerciseVM : ObservableObject
         async Task<ExerciceDifficulty> CreateDifficulty(Exercise savedNewExercise)
         {
             CurrentDifficulty.ExerciceId = savedNewExercise.Id;
+            CurrentDifficulty.Exercice = null;
             var savedDifficulty = await Repository.AddAsync(CurrentDifficulty);
-            await Repository.SaveChangesAsync(CancellationToken.None); 
             
+            await Repository.SaveChangesAsync(CancellationToken.None); 
             return savedDifficulty;
         }
 

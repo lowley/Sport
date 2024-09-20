@@ -33,17 +33,6 @@ public class SportRepository : ISportRepository
         }
 
         return savedEntity;
-
-        // Object o = entity switch
-        // {
-        //     Exercise e => await Context.AddAsync(entity as Exercise),
-        //     ExerciceDifficulty ed => await Context.AddAsync(entity as ExerciceDifficulty),
-        //     Session s => await Context.AddAsync(entity as Session),
-        //     SessionExercice se => await Context.AddAsync(entity as SessionExercice),
-        //     SessionExerciceSerie ses => await Context.AddAsync(entity as SessionExerciceSerie),
-        //
-        //     _ => throw new ArgumentException()
-        // };
     }
 
     public async Task Clear()

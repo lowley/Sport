@@ -168,6 +168,7 @@ namespace UITests
             }.ToString()));
             
             SetElementValueWithAutomationId("ExerciseValue", 14);
+            Task.Delay(500).Wait();
             ClickButtonWithAutomationId("HideKeyboardBtn");
 
             try
@@ -178,7 +179,6 @@ namespace UITests
             {
                 Console.WriteLine(e.Message);
             }
-            
             
             Task.Delay(500).Wait();
 
