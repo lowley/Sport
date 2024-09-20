@@ -93,7 +93,7 @@ public class ExerciseVMTests
         A.CallTo(() => RepositoryFake.GetContext())
             .Returns(null);
 
-        //addition & récupération éxercice sauvegardé
+        //addition & récupération exercice sauvegardé
         var savedExercise = A.Captured<Exercise>();
         A.CallTo(() => RepositoryFake.AddAsync(
             savedExercise._
@@ -128,8 +128,8 @@ public class ExerciseVMTests
         Assert.That(savedExercise.Values[0].ExerciseName, Is.EqualTo(NEW_EXERCISE_NAME));
         Assert.That(savedExercise.Values[0].ExerciseDifficulties.Count, Is.EqualTo(0));
         
+        Assert.That(savedDifficulty.Values[0].ExerciceId, Is.EqualTo(savedExercise.Values[0].Id));
         Assert.That(savedDifficulty.Values[0].DifficultyLevel, Is.EqualTo(DIFFICULTY_LEVEL));
-        
         Assert.That(savedDifficulty.Values[0].DifficultyName
             .Match(
                 s => s,
