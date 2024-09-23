@@ -65,6 +65,45 @@ public abstract class BaseTest
 
         return result;
     }
+    
+    protected void ClickButtonWithAutomationId(string automationId)
+    {
+        var bouton = FindUIElementByAutomationId(automationId);
+        bouton.Click();
+        Task.Delay(500).Wait();
+    }
+        
+    protected void AssertPageTitleIs(string pageTitle)
+    {
+        var title = FindUIElementByXPath($@"//android.widget.TextView[@text='{pageTitle}'][1]");
+        Assert.That(title, Is.Not.Null);
+    }
+        
+    protected void SetElementValueWithAutomationId(string automationId, int value)
+    {
+        var element = FindUIElementByAutomationId(automationId);
+        element.Click();
+        element.SendKeys(value.ToString());
+    }
+        
+    protected void AssertThatElementWithAutomationIdHasText(string elementAutomationId, string text)
+    {
+        var name2 = FindUIElementByAutomationId(elementAutomationId);
+        Assert.That(name2, Is.Not.Null);
+        Assert.That(name2.Text, Is.EqualTo(text));
+    }
+        
+    protected void AssertThatElementWithAutomationIdIsNotNull(string elementAutomationId)
+    {
+        var name2 = FindUIElementByAutomationId(elementAutomationId);
+        Assert.That(name2, Is.Not.Null);
+    }
+        
+    protected void ClearDatas()
+    {
+        var bouton = FindUIElementByAutomationId("ClearBtn");
+        bouton.Click();
+    }
 
     //[SetUp]
     //public void AfterEachTest()

@@ -40,7 +40,6 @@ public class SportRepository : ISportRepository
         await Context.ExerciceDifficulties.ExecuteDeleteAsync();
         await Context.Exercises.ExecuteDeleteAsync();
         await Context.Sessions.ExecuteDeleteAsync();
-        await Context.SessionExercices.ExecuteDeleteAsync();
         await Context.SessionExerciceSeries.ExecuteDeleteAsync();
     }
 

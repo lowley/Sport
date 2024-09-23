@@ -10,7 +10,6 @@ public class SportContext : DbContext
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<ExerciceDifficulty> ExerciceDifficulties { get; set; }
     public DbSet<Session> Sessions { get; set; }
-    public DbSet<SessionExercice> SessionExercices { get; set; }
     public DbSet<SessionExerciceSerie> SessionExerciceSeries { get; set; }
 
     public DateTime InitTime { get; set; }
@@ -58,6 +57,9 @@ public class SportContext : DbContext
         //le pb est lié aux clés primaires générées manuellement et non par EF
         foreach (var item in modelBuilder.Model.GetEntityTypes())
         {
+            // if (item.ClrType == typeof(Grouping))
+            //     continue;
+            
             var p = item.FindPrimaryKey().Properties.FirstOrDefault(i=>i.ValueGenerated!=Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.Never);
             if (p!=null)
             {
