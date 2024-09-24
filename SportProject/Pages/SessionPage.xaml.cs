@@ -41,9 +41,10 @@ public partial class SessionPage : ContentPage
         VM.Session.GroupedSessionItems.RaisePropertyChanged("CollectionOfGroupings");
         VM.Session.GroupedSessionItems.RaisePropertyChanged("GroupingsCount");
         VM.Session.GroupedSessionItems.RaisePropertyChanged("Key");
-        VM.Session.GroupedSessionItems.CollectionOfGroupings.ForEach(g =>
+        GroupedSessionItemsType.Instance.CollectionOfGroupings.ForEach(g =>
         {
             g.RaisePropertyChanged("Key");
+            g.RaisePropertyChanged("Group");
         });
         
         Trace.WriteLine("test");

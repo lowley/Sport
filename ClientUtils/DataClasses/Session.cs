@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ClientUtilsProject.DataClasses;
@@ -43,27 +43,24 @@ public partial class Session : SportEntity
 }
 
 [INotifyPropertyChanged]
-public partial class Grouping : System.Linq.IGrouping<string, SessionExerciceSerie>
+public partial class Grouping
 {
-    [ObservableProperty]
-    public IGrouping<string, SessionExerciceSerie> _group;
+    [ObservableProperty] public ObservableCollection<SessionExerciceSerie> _group = [];
     
     public IEnumerator<SessionExerciceSerie> GetEnumerator()
     {
         return Group.GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    [ObservableProperty] public string _key;
+    [ObservableProperty] public string _key = string.Empty;
     
     public Grouping(System.Linq.IGrouping<string, SessionExerciceSerie> grouping)
     {
-        Group = grouping;
-        Key = Group.Count() == 0 ? "" : Group.Key;
+        List<SessionExerciceSerie> liste = [];
+        
+        grouping.ToList().ForEach(ses => liste.Add(ses));
+        Group = new ObservableCollection<SessionExerciceSerie>(liste);
+        Key = liste.Any() ? grouping.Key : "";
     }
 
     public void RaisePropertyChanged(string property)
@@ -132,7 +129,8 @@ public partial class GroupedSessionItemsType : ObservableObject
         {
             instance.CollectionOfGroupings.Add(g);
         });
-        instance.Key = Instance.CollectionOfGroupings.Count == 0 ? "" : instance.CollectionOfGroupings[0].Key ?? "";
+        //instance.Key = instance.CollectionOfGroupings.Count == 0 ? "" : (instance.CollectionOfGroupings[0].Key ?? "");
+        instance.Key = string.Empty;
         //instance.OnPropertyChanged(nameof(GroupingsCount));
 
         return instance;

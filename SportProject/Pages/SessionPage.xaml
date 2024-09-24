@@ -7,14 +7,15 @@
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              xmlns:dataClasses="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:dx="http://schemas.devexpress.com/maui"
+             xmlns:local="clr-namespace:Sport.Pages"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:linq="clr-namespace:System.Linq;assembly=System.Linq"
              x:DataType="vm:SessionVM"
              Title="SessionPage"
              x:Name="Page">
 
     <ContentPage.Resources>
         <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+        <dataClasses:GroupedSessionItemsType x:Key="GroupedSessionItemsType"/>
     </ContentPage.Resources>
 
     <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *, auto"
@@ -80,7 +81,7 @@
                />
 
         <dx:DXCollectionView x:Name="ExercicesCollection"
-               ItemsSource="{Binding Session.GroupedSessionItems.CollectionOfGroupings}"
+               ItemsSource="{Binding Source={x:Static dataClasses:GroupedSessionItemsType.Instance}, Path=CollectionOfGroupings}"
                Orientation="Vertical" Margin="10,0,0,0"
                Grid.Row="10" Grid.ColumnSpan="5">
         
@@ -91,7 +92,7 @@
                                            TextColor="Black" Margin="0,0,10,0"/>
         
                                     <dx:DXCollectionView Grid.Column="1"
-                                                        ItemsSource="{Binding .}">
+                                                        ItemsSource="{Binding Group}">
                                           <dx:DXCollectionView.ItemTemplate>
                                                  <DataTemplate x:DataType="{x:Type dataClasses:SessionExerciceSerie}">
                                                         <HorizontalStackLayout>
@@ -114,13 +115,14 @@
         
         <Label Grid.Row="11" Grid.Column="1" TextColor="Red"
                Text="{Binding Session.GroupedSessionItems.GroupingsCount, Mode=OneWay}"/>
-        
-        <Label Grid.Row="11" Grid.Column="2" TextColor="LimeGreen"
-               Text="{Binding Session.GroupedSessionItems.Key, Mode=OneWay}"/>
 
+        <Label Grid.Row="11" Grid.Column="3" TextColor="Green"
+               Text="{Binding Source={x:Static dataClasses:GroupedSessionItemsType.Instance}, Path=CollectionOfGroupings[0].Key, Mode=OneWay}"/>
+        
+        
         <Button Clicked="Button_OnClicked"
                 AutomationId="CloseSessionBtn" Text="Fermer la session"
-                Grid.Row="11" Grid.Column="4" Margin="0,0,0,10"/>
+                Grid.Row="10" Grid.Column="4" Margin="0,0,0,10"/>
         <!--Command="{Binding CloseSessionCommand}" Clicked="Button_OnClicked"-->
 
     </Grid>
