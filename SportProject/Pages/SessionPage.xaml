@@ -7,6 +7,8 @@
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              xmlns:dataClasses="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:dx="http://schemas.devexpress.com/maui"
+             xmlns:ext="clr-namespace:ClientUtilsProject.Utils.Converters;assembly=ClientUtilsProject"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:local="clr-namespace:Sport.Pages"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vm:SessionVM"
@@ -18,23 +20,25 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *, auto"
-          ColumnDefinitions="auto, auto, *, auto, auto"
-          Margin="10,5,10,0">
+          ColumnDefinitions="auto, auto, auto, auto"
+          Margin="0,5,0,0">
 
         <Label Text="Début de la session" FontAttributes="Bold"
                VerticalOptions="Center" />
 
-        <DatePicker Date="{Binding Session.SessionStartDate}"
-                    Format="{Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}"
-                    AutomationId="InitialDate" Grid.Row="1" Grid.Column="3"
-                    HorizontalOptions="Center"
-                    Margin="5,0,5,0" />
+        <FlexLayout Grid.Row="1" Grid.ColumnSpan="4" JustifyContent="SpaceAround">
+            <DatePicker Date="{Binding Session.SessionStartDate}"
+                        Format="{Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}"
+                        AutomationId="InitialDate"
+                        HorizontalOptions="Center"
+                        Margin="5,0,5,0" />
 
-        <TimePicker Time="{Binding Session.SessionStartTime}"
-                    Format="{Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT}"
-                    AutomationId="InitialTime" Grid.Row="1" Grid.Column="4"
-                    HorizontalOptions="Center"
-                    Margin="5,0,5,0" />
+            <TimePicker Time="{Binding Session.SessionStartTime}"
+                        Format="{Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT}"
+                        AutomationId="InitialTime"
+                        HorizontalOptions="Center"
+                        Margin="5,0,5,0" />
+        </FlexLayout>
 
         <Label Text="Exercices ajoutés" FontAttributes="Bold"
                VerticalOptions="Center" Margin="0,10,0,0"
@@ -42,49 +46,57 @@
 
         <dx:DXCollectionView x:Name="ExercicesCollection"
                              ItemsSource="{Binding Path=Session.GroupedSessionItems}"
-                             Orientation="Vertical" Margin="10,5,10,0"
-                             Grid.Row="3" Grid.ColumnSpan="5"
+                             Orientation="Vertical"
+                             Grid.Row="3" Grid.ColumnSpan="5" Grid.Column="0"
                              AllowLiveDataShaping="True"
                              ReduceSizeToContent="True">
 
             <dx:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type dataClasses:Grouping}">
-                    <Border StrokeShape="RoundRectangle 5"
-                            Stroke="Gold" BackgroundColor="Transparent">
-                        <Grid ColumnDefinitions="auto" RowDefinitions="auto, auto">
+                    <FlexLayout JustifyContent="Center" WidthRequest="300">
+                        <Border StrokeShape="RoundRectangle 5"
+                                Stroke="Gold" BackgroundColor="Transparent">
+                            <Grid ColumnDefinitions="auto" RowDefinitions="auto, auto">
+                                <Label Text="{Binding Key, Mode=OneWay}" FontAttributes="Bold"
+                                       TextColor="Black" Margin="0,0,0,0" HorizontalOptions="Center"
+                                       FontSize="22" />
 
-                            <Label Text="{Binding Key, Mode=OneWay}" FontAttributes="Bold"
-                                   TextColor="Black" Margin="0,5,0,0" HorizontalOptions="Center"
-                                   FontSize="22" />
+                                <dx:DXCollectionView x:Name="DifficultiesLayout" Grid.Row="1"
+                                                     ItemsSource="{Binding Group}"
+                                                     Orientation="Vertical" Grid.ColumnSpan="5"
+                                                     ReduceSizeToContent="True"
+                                                     Margin="5,0,5,0">
+                                    <dx:DXCollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="dataClasses:SessionExerciceSerie">
+                                            <FlexLayout Margin="0,-8,0,0" Padding="0"
+                                                  JustifyContent="Center" BackgroundColor="Aquamarine"
+                                                  Direction="Column" AlignItems="Center">
+                                                <buttons:SfSegmentedControl AutomationId="selectedDifficulty"
+                                                                            ItemsSource="{Binding SegmentedControlItems}"
+                                                                            SegmentHeight="20"
+                                                                            Margin="0" Padding="0" />
 
-                            <FlexLayout x:Name="DifficultiesLayout" Grid.Row="1"
-                                        BindableLayout.ItemsSource="{Binding Group}"
-                                        HorizontalOptions="Start" Wrap="Wrap" WidthRequest="320"
-                                        VerticalOptions="Fill"
-                                        Margin="5,5,5,0">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="dataClasses:SessionExerciceSerie">
-                                        <Grid Margin="0,0,0,5">
-                                            <dx:Chip Text="{Binding ShowSummary}" IsIconVisible="True"
-                                                     AutomationId="selectedDifficulty"
-                                                     BackgroundColor="Gold"
-                                                     TextColor="Black"
-                                                     Margin="0,0,5,0">
-
-                                                <!-- <dx:Chip.Icon> -->
-                                                <!--     <FontImageSource -->
-                                                <!--         Color="Brown" -->
-                                                <!--         FontFamily="FontelloGauge" -->
-                                                <!--         Glyph="{x:StaticResource IconGauge}" -->
-                                                <!--         Size="20" /> -->
-                                                <!-- </dx:Chip.Icon> -->
-                                            </dx:Chip>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </FlexLayout>
-                        </Grid>
-                    </Border>
+                                                <!-- <dx:Chip Text="{Binding ShowSummary}" IsIconVisible="True" -->
+                                                <!--          AutomationId="selectedDifficulty" -->
+                                                <!--          BackgroundColor="Gold" -->
+                                                <!--          TextColor="Black" -->
+                                                <!--          Margin="0,0,5,0"> -->
+                                                <!-- -->
+                                                <!--     ~1~ <dx:Chip.Icon> @1@ -->
+                                                <!--     ~1~     <FontImageSource @1@ -->
+                                                <!--     ~1~         Color="Brown" @1@ -->
+                                                <!--     ~1~         FontFamily="FontelloGauge" @1@ -->
+                                                <!--     ~1~         Glyph="{x:StaticResource IconGauge}" @1@ -->
+                                                <!--     ~1~         Size="20" /> @1@ -->
+                                                <!--     ~1~ </dx:Chip.Icon> @1@ -->
+                                                <!-- </dx:Chip> -->
+                                            </FlexLayout>
+                                        </DataTemplate>
+                                    </dx:DXCollectionView.ItemTemplate>
+                                </dx:DXCollectionView>
+                            </Grid>
+                        </Border>
+                    </FlexLayout>
                 </DataTemplate>
             </dx:DXCollectionView.ItemTemplate>
         </dx:DXCollectionView>
@@ -126,12 +138,9 @@
                  TapCommand="{Binding AddOneSerieCommand}"
                  IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
 
-        <Label Text="{Binding Source={x:Reference ExercicesCollection}, Path=Width}"
-               Grid.Row="12" Grid.Column="1"/>
-        
         <Button Clicked="Button_OnClicked"
                 AutomationId="CloseSessionBtn" Text="Fermer la session"
-                Grid.Row="12" Grid.Column="4" Margin="0,0,0,10" />
+                Grid.Row="13" Grid.Column="4" Margin="0,0,0,10" />
         <!--Command="{Binding CloseSessionCommand}" Clicked="Button_OnClicked"-->
 
     </Grid>
