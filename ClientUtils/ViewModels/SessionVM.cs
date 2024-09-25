@@ -59,11 +59,10 @@ public partial class SessionVM : ObservableObject
         
         OnPropertyChanged(nameof(Session.SessionItems));
         OnPropertyChanged(nameof(Session.GroupedSessionItems));
-        OnPropertyChanged(nameof(Session.GroupedSessionItems.Key));
-        OnPropertyChanged(nameof(Session.GroupedSessionItems.CollectionOfGroupings));
-        foreach (var item in Session.GroupedSessionItems.CollectionOfGroupings)
+        foreach (var item in Session.GroupedSessionItems)
         {
             OnPropertyChanged(nameof(Grouping.Key));
+            OnPropertyChanged(nameof(Grouping.Group));
         }
     }
 

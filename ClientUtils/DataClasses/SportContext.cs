@@ -48,6 +48,8 @@ public class SportContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<Grouping>();
+        
         modelBuilder.Entity<ExerciceDifficulty>()
             .Property(e => e.DifficultyName)
             .HasConversion(new OptionStringConverter());
@@ -57,8 +59,8 @@ public class SportContext : DbContext
         //le pb est lié aux clés primaires générées manuellement et non par EF
         foreach (var item in modelBuilder.Model.GetEntityTypes())
         {
-            // if (item.ClrType == typeof(Grouping))
-            //     continue;
+            if (item.ClrType == typeof(Grouping))
+                 continue;
             
             var p = item.FindPrimaryKey().Properties.FirstOrDefault(i=>i.ValueGenerated!=Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.Never);
             if (p!=null)

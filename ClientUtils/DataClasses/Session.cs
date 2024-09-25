@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ClientUtilsProject.DataClasses;
@@ -16,16 +15,28 @@ public partial class Session : SportEntity
 
     [ObservableProperty]
     public TimeSpan _sessionEndTime = DateTime.Now.TimeOfDay;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(GroupedSessionItems))]
-    public ObservableCollection<SessionExerciceSerie> _sessionItems;
 
-    [NotMapped]
-    public GroupedSessionItemsType GroupedSessionItems
-        => GroupedSessionItemsType.InstanceWithCollection(
-            SessionItems.GroupBy(si => si.Exercice.ExerciseName));
-    
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(GroupedSessionItems))]
+    public ObservableCollection<SessionExerciceSerie> _sessionItems = [];
+
+    [NotMapped] 
+    [ObservableProperty] 
+    public ObservableCollection<Grouping> _groupedSessionItems = [];
+
+    partial void OnSessionItemsChanged(ObservableCollection<SessionExerciceSerie> value)
+    { }
+
+    private ObservableCollection<Grouping> CreateCollection(IEnumerable<IGrouping<string,SessionExerciceSerie>> collection)
+    {
+        var result = new ObservableCollection<Grouping>();
+        collection.Select(g => new Grouping(g)).ToList().ForEach(g =>
+        {
+            if (g.Group.Any())
+                result.Add(g);
+        });
+        return result;
+    }
+
     public Session()
     {
         Id = Guid.NewGuid();
@@ -34,10 +45,24 @@ public partial class Session : SportEntity
         PropertyChanged += (sender, args) =>
         {
             Trace.WriteLine($"Session: {args.PropertyName}");
-            foreach (var g in GroupedSessionItems.CollectionOfGroupings)
+            foreach (var g in GroupedSessionItems)
             {
                 g.RaisePropertyChanged("Key"); 
             }
+        };
+
+        SessionItems.CollectionChanged += (sender, args) =>
+        {
+            var group = SessionItems.GroupBy(si => si.Exercice.ExerciseName);
+        
+            GroupedSessionItems.Clear();
+            group.Select(g => new Grouping(g)).ToList().ForEach(g =>
+            {
+                GroupedSessionItems.Add(g);
+            });
+            //OnPropertyChanged(nameof(GroupedSessionItems));
+            
+            
         };
     }
 }
@@ -46,11 +71,6 @@ public partial class Session : SportEntity
 public partial class Grouping
 {
     [ObservableProperty] public ObservableCollection<SessionExerciceSerie> _group = [];
-    
-    public IEnumerator<SessionExerciceSerie> GetEnumerator()
-    {
-        return Group.GetEnumerator();
-    }
 
     [ObservableProperty] public string _key = string.Empty;
     
@@ -58,8 +78,8 @@ public partial class Grouping
     {
         List<SessionExerciceSerie> liste = [];
         
-        grouping.ToList().ForEach(ses => liste.Add(ses));
-        Group = new ObservableCollection<SessionExerciceSerie>(liste);
+        Group.Clear();
+        grouping.ToList().ForEach(ses => Group.Add(ses));
         Key = liste.Any() ? grouping.Key : "";
     }
 
@@ -69,70 +89,3 @@ public partial class Grouping
     }
 }
 
-public partial class GroupedSessionItemsType : ObservableObject
-{
-    [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(Key))] 
-    [NotifyPropertyChangedFor(nameof(GroupingsCount))]
-    public ObservableCollection<Grouping> _collectionOfGroupings = [];
-
-    [ObservableProperty]
-    public string _key = string.Empty;
-
-    public static GroupedSessionItemsType Instance;
-
-    public static GroupedSessionItemsType GetInstance()
-    {
-        if (Instance is not null)
-            return Instance;
-
-        Instance = new();
-        return Instance;
-    }
-    
-    public int GroupingsCount => CollectionOfGroupings?.Count ?? 0;
-
-    public GroupedSessionItemsType()
-    {
-    }
-
-    public GroupedSessionItemsType(IEnumerable<System.Linq.IGrouping<string, SessionExerciceSerie>> collection)
-    {
-        PropertyChanged += (sender, args) =>
-        {
-            var propName = "GroupingsCount";
-            Trace.WriteLine($"GroupedSessionItemsType: {args.PropertyName},{sender.GetType()}");
-            if (args.PropertyName == propName)
-                Trace.WriteLine($"  GroupingCounts: {GroupingsCount}");
-        };
-        
-        CollectionOfGroupings.Clear();
-        collection.Select(g => new Grouping(g)).ToList().ForEach(g =>
-        {
-            CollectionOfGroupings.Add(g);
-        });
-        Key = CollectionOfGroupings.Count == 0 ? "" : CollectionOfGroupings[0].Key ?? "";
-        OnPropertyChanged(nameof(GroupingsCount));
-    }
-
-    public void RaisePropertyChanged(string property)   
-    {
-        OnPropertyChanged(property);
-    }
-
-    public static GroupedSessionItemsType InstanceWithCollection(IEnumerable<IGrouping<string, SessionExerciceSerie>> collection)
-    {
-        var instance = GetInstance();
-        
-        instance.CollectionOfGroupings.Clear();
-        collection.Select(g => new Grouping(g)).ToList().ForEach(g =>
-        {
-            instance.CollectionOfGroupings.Add(g);
-        });
-        //instance.Key = instance.CollectionOfGroupings.Count == 0 ? "" : (instance.CollectionOfGroupings[0].Key ?? "");
-        instance.Key = string.Empty;
-        //instance.OnPropertyChanged(nameof(GroupingsCount));
-
-        return instance;
-    }
-}

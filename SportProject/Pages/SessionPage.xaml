@@ -15,7 +15,6 @@
 
     <ContentPage.Resources>
         <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
-        <dataClasses:GroupedSessionItemsType x:Key="GroupedSessionItemsType"/>
     </ContentPage.Resources>
 
     <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *, auto"
@@ -77,52 +76,66 @@
 
         <Label Text="Séries de cette session" FontAttributes="Bold"
                VerticalOptions="Center" Margin="0,10,0,0"
-               Grid.Row="9" Grid.ColumnSpan="5"
-               />
+               Grid.Row="9" Grid.ColumnSpan="5" />
 
         <dx:DXCollectionView x:Name="ExercicesCollection"
-               ItemsSource="{Binding Source={x:Static dataClasses:GroupedSessionItemsType.Instance}, Path=CollectionOfGroupings}"
-               Orientation="Vertical" Margin="10,0,0,0"
-               Grid.Row="10" Grid.ColumnSpan="5">
-        
-               <dx:DXCollectionView.ItemTemplate>
-                      <DataTemplate x:DataType="{x:Type dataClasses:Grouping}">
-                             <Grid ColumnDefinitions="auto, *">
-                                    <Label Text="{Binding Key, Mode=OneWay}" FontAttributes="Bold"
-                                           TextColor="Black" Margin="0,0,10,0"/>
-        
-                                    <dx:DXCollectionView Grid.Column="1"
-                                                        ItemsSource="{Binding Group}">
-                                          <dx:DXCollectionView.ItemTemplate>
-                                                 <DataTemplate x:DataType="{x:Type dataClasses:SessionExerciceSerie}">
-                                                        <HorizontalStackLayout>
-                                                               <Label Text="{Binding Path=Difficulty.ShowMeShort, Mode=OneWay}"/>
-                                                               <Label Text=":"/>
-                                                               <Label Text="{Binding Path=Repetitions, Mode=OneWay}"/>
-                                                               <Label Text="x"/>
-                                                               <Label Text="{Binding Path=Series, Mode=OneWay}"/>
-                                                        </HorizontalStackLayout>
-                                                 </DataTemplate>
-                                          </dx:DXCollectionView.ItemTemplate>
-                                   </dx:DXCollectionView>
-                             </Grid>
-                      </DataTemplate>
-               </dx:DXCollectionView.ItemTemplate>
-        </dx:DXCollectionView>
-        
-        <Label Grid.Row="11" Grid.Column="0" TextColor="Blue"
-               Text="{Binding Session.SessionItems.Count, Mode=OneWay}"/>
-        
-        <Label Grid.Row="11" Grid.Column="1" TextColor="Red"
-               Text="{Binding Session.GroupedSessionItems.GroupingsCount, Mode=OneWay}"/>
+                             ItemsSource="{Binding Path=Session.GroupedSessionItems}"
+                             Orientation="Vertical" Margin="10,0,0,0"
+                             Grid.Row="10" Grid.ColumnSpan="5">
 
-        <Label Grid.Row="11" Grid.Column="3" TextColor="Green"
-               Text="{Binding Source={x:Static dataClasses:GroupedSessionItemsType.Instance}, Path=CollectionOfGroupings[0].Key, Mode=OneWay}"/>
-        
-        
+            <dx:DXCollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type dataClasses:Grouping}">
+                    <Grid ColumnDefinitions="auto, *">
+                        <Label Text="{Binding Key, Mode=OneWay}" FontAttributes="Bold"
+                               TextColor="Black" Margin="0,5,10,0" />
+
+
+                        <FlexLayout x:Name="DifficultiesLayout" Grid.Column="1"
+                                    BindableLayout.ItemsSource="{Binding Group}"
+                                    HorizontalOptions="FillAndExpand" Wrap="Wrap"
+                                    VerticalOptions="StartAndExpand"
+                                    Margin="15,0,0,0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="dataClasses:SessionExerciceSerie">
+                                    <Grid Margin="0,0,0,5" FlexLayout.Order="{Binding Difficulty.DifficultyLevel}">
+                                        <dx:Chip Text="{Binding Difficulty.ShowMeShort}" IsIconVisible="True"
+                                                 AutomationId="selectedDifficulty"
+                                                 BackgroundColor="Gold"
+                                                 TextColor="Black"
+                                                 Margin="0,0,5,0">
+
+                                            <dx:Chip.Icon>
+                                                <FontImageSource
+                                                    Color="Brown"
+                                                    FontFamily="FontelloGauge"
+                                                    Glyph="{x:StaticResource IconGauge}"
+                                                    Size="20" />
+                                            </dx:Chip.Icon>
+                                        </dx:Chip>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+
+                        
+                    </Grid>
+                </DataTemplate>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
+
+        <!-- <Label Grid.Row="11" Grid.Column="3" TextColor="Blue" -->
+        <!--        Text="{Binding Session.SessionItems.Count, Mode=OneWay}" /> -->
+
+        <Label Grid.Row="11" Grid.Column="1" TextColor="Red"
+               Text="{Binding Session.GroupedSessionItems.Count, Mode=OneWay}" />
+
+         <Label Grid.Row="11" Grid.Column="0" TextColor="Green"
+               Text="{Binding Path=Session.GroupedSessionItems[0].Group[0].Exercice.ExerciseName, Mode=OneWay}"/> 
+
+
         <Button Clicked="Button_OnClicked"
                 AutomationId="CloseSessionBtn" Text="Fermer la session"
-                Grid.Row="10" Grid.Column="4" Margin="0,0,0,10"/>
+                Grid.Row="10" Grid.Column="4" Margin="0,0,0,10" />
         <!--Command="{Binding CloseSessionCommand}" Clicked="Button_OnClicked"-->
 
     </Grid>
