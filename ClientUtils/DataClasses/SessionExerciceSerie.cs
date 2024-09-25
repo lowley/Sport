@@ -14,13 +14,18 @@ public partial class SessionExerciceSerie : SportEntity
     
     public Guid DifficultyId { get; set; }
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowSummary))]
     public ExerciceDifficulty _difficulty;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowSummary))]
     public Int32 _series;
     
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowSummary))]
     public Int32 _repetitions;
+    
+    public string ShowSummary => $"{Difficulty.ShowMeShort}*{Repetitions}:{Series}";
     
     public SessionExerciceSerie()
     {

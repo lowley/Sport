@@ -17,7 +17,7 @@
         <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *, auto"
+    <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *, auto"
           ColumnDefinitions="auto, auto, *, auto, auto"
           Margin="10,5,10,0">
 
@@ -36,27 +36,80 @@
                     HorizontalOptions="Center"
                     Margin="5,0,5,0" />
 
-        <Label Text="Exercices existants" FontAttributes="Bold"
+        <Label Text="Exercices ajoutés" FontAttributes="Bold"
                VerticalOptions="Center" Margin="0,10,0,0"
                Grid.Row="2" Grid.ColumnSpan="5" />
+
+        <dx:DXCollectionView x:Name="ExercicesCollection"
+                             ItemsSource="{Binding Path=Session.GroupedSessionItems}"
+                             Orientation="Vertical" Margin="10,5,10,0"
+                             Grid.Row="3" Grid.ColumnSpan="5"
+                             AllowLiveDataShaping="True"
+                             ReduceSizeToContent="True">
+
+            <dx:DXCollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type dataClasses:Grouping}">
+                    <Border StrokeShape="RoundRectangle 5"
+                            Stroke="Gold" BackgroundColor="Transparent">
+                        <Grid ColumnDefinitions="auto" RowDefinitions="auto, auto">
+
+                            <Label Text="{Binding Key, Mode=OneWay}" FontAttributes="Bold"
+                                   TextColor="Black" Margin="0,5,0,0" HorizontalOptions="Center"
+                                   FontSize="22" />
+
+                            <FlexLayout x:Name="DifficultiesLayout" Grid.Row="1"
+                                        BindableLayout.ItemsSource="{Binding Group}"
+                                        HorizontalOptions="Start" Wrap="Wrap" WidthRequest="320"
+                                        VerticalOptions="Fill"
+                                        Margin="5,5,5,0">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="dataClasses:SessionExerciceSerie">
+                                        <Grid Margin="0,0,0,5">
+                                            <dx:Chip Text="{Binding ShowSummary}" IsIconVisible="True"
+                                                     AutomationId="selectedDifficulty"
+                                                     BackgroundColor="Gold"
+                                                     TextColor="Black"
+                                                     Margin="0,0,5,0">
+
+                                                <!-- <dx:Chip.Icon> -->
+                                                <!--     <FontImageSource -->
+                                                <!--         Color="Brown" -->
+                                                <!--         FontFamily="FontelloGauge" -->
+                                                <!--         Glyph="{x:StaticResource IconGauge}" -->
+                                                <!--         Size="20" /> -->
+                                                <!-- </dx:Chip.Icon> -->
+                                            </dx:Chip>
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
+
+        <Label Text="Ajouter un exercice" FontAttributes="Bold"
+               VerticalOptions="Center" Margin="0,10,0,0"
+               Grid.Row="4" Grid.ColumnSpan="5" />
 
         <dx:ChoiceChipGroup SelectedItem="{Binding SelectedExercise}"
                             ItemsSource="{Binding Exercises}"
                             DisplayMember="ExerciseName" Margin="0,-15,0,0"
-                            Grid.Row="3" Grid.ColumnSpan="5" IsMultiline="True" />
+                            Grid.Row="5" Grid.ColumnSpan="5" IsMultiline="True" />
 
         <Label Text="{Binding AvailableDifficultiesText}" FontAttributes="Bold"
                VerticalOptions="Center" Margin="0, 0,0,0"
-               Grid.Row="4" Grid.ColumnSpan="5"
+               Grid.Row="6" Grid.ColumnSpan="5"
                IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
 
         <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}"
                             ItemsSource="{Binding SelectedExercise.ExerciseDifficulties}"
                             DisplayMember="ShowMeShort" IsMultiline="True" Margin="0,-15,0,0"
-                            Grid.Row="5" Grid.ColumnSpan="5"
+                            Grid.Row="7" Grid.ColumnSpan="5"
                             IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
 
-        <HorizontalStackLayout Spacing="10" Grid.Row="6" Grid.Column="0">
+        <HorizontalStackLayout Spacing="10" Grid.Row="8" Grid.Column="0">
             <Label Text="{Binding Repetitions}" VerticalOptions="Center"
                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
 
@@ -64,78 +117,21 @@
                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
         </HorizontalStackLayout>
 
-        <dx:DXSlider Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Padding="10,0,10,0"
+        <dx:DXSlider Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5" Padding="10,0,10,0"
                      MinValue="1" MaxValue="150" VerticalOptions="Center"
                      TickmarkStep="25" Value="{Binding Repetitions}"
                      IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
 
-
-        <dx:Chip Grid.Row="8" Text="+1" Margin="0,5,0,0"
+        <dx:Chip Grid.Row="10" Text="+1" Margin="0,5,0,0"
                  TapCommand="{Binding AddOneSerieCommand}"
                  IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
 
-        <Label Text="Séries de cette session" FontAttributes="Bold"
-               VerticalOptions="Center" Margin="0,10,0,0"
-               Grid.Row="9" Grid.ColumnSpan="5" />
-
-        <dx:DXCollectionView x:Name="ExercicesCollection"
-                             ItemsSource="{Binding Path=Session.GroupedSessionItems}"
-                             Orientation="Vertical" Margin="10,0,0,0"
-                             Grid.Row="10" Grid.ColumnSpan="5">
-
-            <dx:DXCollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type dataClasses:Grouping}">
-                    <Grid ColumnDefinitions="auto, *">
-                        <Label Text="{Binding Key, Mode=OneWay}" FontAttributes="Bold"
-                               TextColor="Black" Margin="0,5,10,0" />
-
-
-                        <FlexLayout x:Name="DifficultiesLayout" Grid.Column="1"
-                                    BindableLayout.ItemsSource="{Binding Group}"
-                                    HorizontalOptions="FillAndExpand" Wrap="Wrap"
-                                    VerticalOptions="StartAndExpand"
-                                    Margin="15,0,0,0">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="dataClasses:SessionExerciceSerie">
-                                    <Grid Margin="0,0,0,5" FlexLayout.Order="{Binding Difficulty.DifficultyLevel}">
-                                        <dx:Chip Text="{Binding Difficulty.ShowMeShort}" IsIconVisible="True"
-                                                 AutomationId="selectedDifficulty"
-                                                 BackgroundColor="Gold"
-                                                 TextColor="Black"
-                                                 Margin="0,0,5,0">
-
-                                            <dx:Chip.Icon>
-                                                <FontImageSource
-                                                    Color="Brown"
-                                                    FontFamily="FontelloGauge"
-                                                    Glyph="{x:StaticResource IconGauge}"
-                                                    Size="20" />
-                                            </dx:Chip.Icon>
-                                        </dx:Chip>
-                                    </Grid>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </FlexLayout>
-
-                        
-                    </Grid>
-                </DataTemplate>
-            </dx:DXCollectionView.ItemTemplate>
-        </dx:DXCollectionView>
-
-        <!-- <Label Grid.Row="11" Grid.Column="3" TextColor="Blue" -->
-        <!--        Text="{Binding Session.SessionItems.Count, Mode=OneWay}" /> -->
-
-        <Label Grid.Row="11" Grid.Column="1" TextColor="Red"
-               Text="{Binding Session.GroupedSessionItems.Count, Mode=OneWay}" />
-
-         <Label Grid.Row="11" Grid.Column="0" TextColor="Green"
-               Text="{Binding Path=Session.GroupedSessionItems[0].Group[0].Exercice.ExerciseName, Mode=OneWay}"/> 
-
-
+        <Label Text="{Binding Source={x:Reference ExercicesCollection}, Path=Width}"
+               Grid.Row="12" Grid.Column="1"/>
+        
         <Button Clicked="Button_OnClicked"
                 AutomationId="CloseSessionBtn" Text="Fermer la session"
-                Grid.Row="10" Grid.Column="4" Margin="0,0,0,10" />
+                Grid.Row="12" Grid.Column="4" Margin="0,0,0,10" />
         <!--Command="{Binding CloseSessionCommand}" Clicked="Button_OnClicked"-->
 
     </Grid>
