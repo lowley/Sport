@@ -34,10 +34,14 @@ public partial class SessionVM : ObservableObject
     {
         //SelectedExercise, SelectedDifficulty, Repetitions
         var foundExerciseSeries = Session.SessionItems
-            .FirstOrDefault(ses =>
-                ses.ExerciceId == SelectedExercise.Id &&
-                ses.DifficultyId == _selectedDifficulty.Id &&
-                ses.Repetitions == Repetitions);
+            .LastOrDefault();
+
+        if (foundExerciseSeries?.ExerciceId == SelectedExercise.Id &&
+            foundExerciseSeries?.DifficultyId == _selectedDifficulty.Id &&
+            foundExerciseSeries?.Repetitions == Repetitions)
+        { }
+        else
+            foundExerciseSeries = null;
 
         if (foundExerciseSeries == null)
         {

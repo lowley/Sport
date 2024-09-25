@@ -21,7 +21,7 @@
 
     <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *, auto"
           ColumnDefinitions="auto, auto, auto, auto"
-          Margin="0,5,0,0">
+          Margin="10,5,10,0">
 
         <Label Text="Début de la session" FontAttributes="Bold"
                VerticalOptions="Center" />
@@ -56,7 +56,7 @@
                     <FlexLayout JustifyContent="Center" WidthRequest="300">
                         <Border StrokeShape="RoundRectangle 5"
                                 Stroke="Gold" BackgroundColor="Transparent">
-                            <Grid ColumnDefinitions="auto" RowDefinitions="auto, auto">
+                            <Grid ColumnDefinitions="*" RowDefinitions="auto, auto">
                                 <Label Text="{Binding Key, Mode=OneWay}" FontAttributes="Bold"
                                        TextColor="Black" Margin="0,0,0,0" HorizontalOptions="Center"
                                        FontSize="22" />
@@ -68,9 +68,8 @@
                                                      Margin="5,0,5,0">
                                     <dx:DXCollectionView.ItemTemplate>
                                         <DataTemplate x:DataType="dataClasses:SessionExerciceSerie">
-                                            <FlexLayout Margin="0,-8,0,0" Padding="0"
-                                                  JustifyContent="Center" BackgroundColor="Aquamarine"
-                                                  Direction="Column" AlignItems="Center">
+                                            <VerticalStackLayout Margin="0,-8,0,0" Padding="0"
+                                                  HorizontalOptions="Center">
                                                 <buttons:SfSegmentedControl AutomationId="selectedDifficulty"
                                                                             ItemsSource="{Binding SegmentedControlItems}"
                                                                             SegmentHeight="20"
@@ -90,7 +89,7 @@
                                                 <!--     ~1~         Size="20" /> @1@ -->
                                                 <!--     ~1~ </dx:Chip.Icon> @1@ -->
                                                 <!-- </dx:Chip> -->
-                                            </FlexLayout>
+                                            </VerticalStackLayout>
                                         </DataTemplate>
                                     </dx:DXCollectionView.ItemTemplate>
                                 </dx:DXCollectionView>
