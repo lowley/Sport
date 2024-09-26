@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Groups =
+    System.Collections.ObjectModel.ObservableCollection<ClientUtilsProject.DataClasses.Group>;
 
 namespace ClientUtilsProject.DataClasses;
 
@@ -13,88 +14,69 @@ public partial class Session : SportEntity
 
     [ObservableProperty] public TimeSpan _sessionEndTime = DateTime.Now.TimeOfDay;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(GroupedSessionItems))]
-    public ObservableCollection<SessionExerciceSerie> _sessionItems = [];
+    [ObservableProperty] public ObservableCollection<SessionExerciceSerie> _sessionItems = [];
 
-    [NotMapped] [ObservableProperty] public ObservableCollection<Grouping> _groupedSessionItems = [];
-
-    partial void OnSessionItemsChanged(ObservableCollection<SessionExerciceSerie> value)
-    {
-    }
-
-    private ObservableCollection<Grouping> CreateCollection(
-        IEnumerable<IGrouping<string, SessionExerciceSerie>> collection)
-    {
-        var result = new ObservableCollection<Grouping>();
-        collection.Select(g => new Grouping(g)).ToList().ForEach(g =>
-        {
-            if (g.Group.Any())
-                result.Add(g);
-        });
-        return result;
-    }
+    [NotMapped] [ObservableProperty] public Groups _groupedSessionItems = [];
 
     public Session()
     {
         Id = Guid.NewGuid();
         _sessionItems = [];
 
-        PropertyChanged += (sender, args) =>
-        {
-            Trace.WriteLine($"Session: {args.PropertyName}");
-            foreach (var g in GroupedSessionItems)
-            {
-                g.RaisePropertyChanged("Key");
-            }
-            
-            var group = SessionItems.GroupBy(si => si.Exercice.ExerciseName);
-
-            GroupedSessionItems.Clear();
-            group.Select(g => new Grouping(g)).ToList().ForEach(g => { GroupedSessionItems.Add(g); });
-            //OnPropertyChanged(nameof(GroupedSessionItems));
-        };
-
         SessionItems.CollectionChanged += (sender, args) =>
         {
-            var group = SessionItems.GroupBy(si => si.Exercice.ExerciseName);
+            Groups result = [];
+
+            if (SessionItems.Any())
+                result.Add(new Group());
+
+            foreach (var serie in SessionItems)
+            {
+                if (result.Last().Name.Equals(string.Empty))
+                {
+                    result.Last().Name = serie.Exercice.ExerciseName;
+                    result.Last().Series = new() { serie };
+
+                    continue;
+                }
+
+                if (result.Last().Series.Last().ExerciceId.Equals(serie.Exercice.Id))
+                {
+                    if (result.Last().Series.Last().Difficulty.DifficultyName
+                            .Equals(serie.Difficulty.DifficultyName) &&
+                        result.Last().Series.Last().Difficulty.DifficultyLevel == serie.Difficulty.DifficultyLevel &&
+                        result.Last().Series.Last().Repetitions == serie.Repetitions
+                       )
+
+                        result.Last().Series.Last().Series += 1;
+                    else
+                        result.Last().Series.Add(serie);
+
+                    continue;
+                }
+
+                result.Add(new Group()
+                {
+                    Name = serie.Exercice.ExerciseName,
+                    Series = new() { serie }
+                });
+            }
 
             GroupedSessionItems.Clear();
-            group.Select(g => new Grouping(g)).ToList().ForEach(g =>
-            {
-                g.Key = g.Group.Any() ? g.Group[0].Exercice.ExerciseName : string.Empty;
-                GroupedSessionItems.Add(g);
-                
-            });
-            //OnPropertyChanged(nameof(GroupedSessionItems));
-            
+            foreach (var grp in result)
+                GroupedSessionItems.Add(grp);
         };
     }
 }
 
-[INotifyPropertyChanged]
-public partial class Grouping
+public class Group
 {
-    [ObservableProperty] public ObservableCollection<SessionExerciceSerie> _group = [];
+    public string Name { get; set; }
+    public ObservableCollection<SessionExerciceSerie> Series { get; set; }
 
-    [ObservableProperty] public string _key = string.Empty;
-
-    public Grouping(System.Linq.IGrouping<string, SessionExerciceSerie> grouping)
+    public Group(string name = "", ObservableCollection<SessionExerciceSerie> series = null)
     {
-        List<SessionExerciceSerie> liste = [];
-
-        Group.Clear();
-        grouping.ToList().ForEach(ses => Group.Add(ses));
-        Key = liste.Any() ? grouping.Key : "";
-
-        Group.CollectionChanged += (sender, args) =>
-        {
-            if (Group.Any())
-                Key = Group[0].Exercice.ExerciseName;
-        };
-    }
-
-    public void RaisePropertyChanged(string property)
-    {
-        OnPropertyChanged(property);
+        Name = name;
+        Series = series ?? [];
     }
 }

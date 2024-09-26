@@ -37,11 +37,5 @@ public partial class SessionPage : ContentPage
     {
         OnPropertyChanged(nameof(VM.Session.SessionItems));
         OnPropertyChanged(nameof(VM.Session.GroupedSessionItems));
-        
-        VM.Session.GroupedSessionItems.ForEach(g =>
-        {
-            g.RaisePropertyChanged("Key");
-            g.RaisePropertyChanged("Group");
-        });
     }
 }

@@ -63,11 +63,18 @@ public partial class SessionVM : ObservableObject
         
         OnPropertyChanged(nameof(Session.SessionItems));
         OnPropertyChanged(nameof(Session.GroupedSessionItems));
-        foreach (var item in Session.GroupedSessionItems)
-        {
-            OnPropertyChanged(nameof(Grouping.Key));
-            OnPropertyChanged(nameof(Grouping.Group));
-        }
+    }
+
+    [RelayCommand]
+    public void RepetitionsMinus1()
+    {
+        Repetitions -= 1;
+    }
+    
+    [RelayCommand]
+    public void RepetitionsPlus1()
+    {
+        Repetitions += 1;
     }
 
     [RelayCommand]
