@@ -20,7 +20,15 @@ public partial class SessionVM : ObservableObject
     [NotifyPropertyChangedFor(nameof(AvailableDifficultiesText))]
     [ObservableProperty] public ExerciceDifficulty _selectedDifficulty;
 
-    [ObservableProperty] public int _repetitions = 10;
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(RepetitionTotal))]
+    public int _repetitions = 10;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RepetitionTotal))]
+    public int _repetitionAdjustment = 0;
+    
+    public int RepetitionTotal => Repetitions + RepetitionAdjustment;
     
     public string AvailableDifficultiesText
         => $"Difficultés pour {SelectedExercise?.ExerciseName}";
@@ -82,6 +90,13 @@ public partial class SessionVM : ObservableObject
         Repetitions += 1;
     }
 
+    [RelayCommand]
+    public void SetNumberRepetitions(string number)
+    {
+        Repetitions = int.Parse(number);
+        RepetitionAdjustment = 0;
+    }
+    
     [RelayCommand]
     public async Task CloseSession()
     {

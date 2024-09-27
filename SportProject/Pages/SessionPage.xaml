@@ -7,6 +7,7 @@
              xmlns:SharedUtils="clr-namespace:ClientUtilsProject.Utils;assembly=ClientUtilsProject"
              xmlns:dataClasses="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:dx="http://schemas.devexpress.com/maui"
+             xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
              xmlns:ext="clr-namespace:ClientUtilsProject.Utils.Converters;assembly=ClientUtilsProject"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:local="clr-namespace:Sport.Pages"
@@ -75,7 +76,7 @@
                                                         ItemsSource="{Binding SegmentedControlItems}"
                                                         SegmentHeight="20"
                                                         Margin="0" Padding="0" />
-                                                    
+
                                                 </VerticalStackLayout>
                                             </DataTemplate>
                                         </dx:DXCollectionView.ItemTemplate>
@@ -106,41 +107,173 @@
                                 DisplayMember="ShowMeShort" IsMultiline="True" Margin="0,-15,0,0"
                                 Grid.Row="7" Grid.ColumnSpan="5"
                                 IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
+            
+            <Label Text="Répétitions" FontAttributes="Bold" VerticalOptions="Center" Grid.Row="8" Grid.Column="0"
+                   IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
 
-            <HorizontalStackLayout Spacing="10" Grid.Row="8" Grid.Column="0">
-                <Label Text="{Binding Repetitions}" VerticalOptions="Center" FontAttributes="Bold" FontSize="18"
-                       IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+            <AbsoluteLayout
+                Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5" Padding="10,0,10,0"
+                IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}">
 
-                <Label Text="Répétitions" FontAttributes="Bold" VerticalOptions="Center"
-                       IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
-            </HorizontalStackLayout>
+                <Border AbsoluteLayout.LayoutBounds="0.5,0.5,250,250" StrokeThickness="0"
+                        AbsoluteLayout.LayoutFlags="PositionProportional">
+                    <gauge:SfRadialGauge WidthRequest="250" HeightRequest="250">
+                        <gauge:SfRadialGauge.Axes>
+                            <gauge:RadialAxis x:Name="radialAxis"
+                                              Minimum="-5.001"
+                                              Maximum="5" EnableLoadingAnimation="True"
+                                              Interval="1" LabelOffset=".01" OffsetUnit="Factor"
+                                              MinorTicksPerInterval="0"
+                                              ShowFirstLabel="False">
 
-            <Grid ColumnDefinitions="auto, *, auto"
-                  Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5" Padding="10,0,10,0"
-                  IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}">
-                
-                <dx:Chip Text="-1" TapCommand="{Binding RepetitionsMinus1Command}"
-                         BackgroundColor="LightBlue" HeightRequest="30"
-                         Padding="10,5,10,5"/>
-                
-                <dx:DXSlider Grid.Column="1" Margin="5,0,5,0"
-                    MinValue="1" MaxValue="150" VerticalOptions="Center"
-                             TickmarkStep="25" Value="{Binding Repetitions}"/>
+                                <gauge:RadialAxis.Pointers>
+                                    <gauge:ShapePointer Value="{Binding RepetitionAdjustment}"
+                                                        ShapeHeight="50"
+                                                        ShapeWidth="50"
+                                                        Stroke="Black" OverlayRadius="0"
+                                                        BorderWidth="3" StepFrequency=".1"
+                                                        ShapeType="Circle" IsInteractive="True"
+                                                        Fill="LightBlue" />
+                                </gauge:RadialAxis.Pointers>
 
-                <dx:Chip Grid.Column="2" BackgroundColor="LightBlue" HeightRequest="30"
-                         Text="+1" TapCommand="{Binding RepetitionsPlus1Command}"
-                         Padding="10,5,10,5"/>
-            </Grid>
+                                <gauge:RadialAxis.Annotations>
+                                    <gauge:GaugeAnnotation>
+                                        <gauge:GaugeAnnotation.Content>
+                                            <Label Text="{Binding RepetitionTotal}"
+                                                   FontAttributes="Bold"
+                                                   TextColor="Black"
+                                                   FontSize="20" />
+                                        </gauge:GaugeAnnotation.Content>
+                                    </gauge:GaugeAnnotation>
+                                </gauge:RadialAxis.Annotations>
+                            </gauge:RadialAxis>
+                        </gauge:SfRadialGauge.Axes>
+                    </gauge:SfRadialGauge>
+                </Border>
 
-            <dx:Chip Grid.Row="10" Text="+1" Margin="0,5,0,0" AutomationId="PlusOneBtn"
-                     TapCommand="{Binding AddOneSerieCommand}"
+                <dx:Chip
+                    Text="05" AutomationId="Blrgz" Margin="0,150,280,0"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="5"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="10" AutomationId="Blrgz" Margin="0,80,280,0"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="10"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="15" AutomationId="Blrgz" Margin="0,10,280,0"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="15"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="20" AutomationId="Blrgz" Margin="0,0,280,60"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="20"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="25" AutomationId="Blrgz" Margin="0,0,280,130"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="25"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="30" AutomationId="Blrgz" Margin="0,0,280,200"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="30"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="35" AutomationId="Blrgz" Margin="0,0,190,200"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="35"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="40" AutomationId="Blrgz" Margin="190,0,0,200"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="40"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="45" AutomationId="Blrgz" Margin="280,0,0,200"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="45"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="50" AutomationId="Blrgz" Margin="280,0,0,130"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="50"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="60" AutomationId="Blrgz" Margin="280,0,0,60"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="60"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="70" AutomationId="Blrgz" Margin="280,10,0,0"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="70"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="80" AutomationId="Blrgz" Margin="280,80,0,0"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="80"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+
+                <dx:Chip
+                    Text="90" AutomationId="Blrgz" Margin="280,150,0,0"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    TapCommand="{Binding SetNumberRepetitionsCommand}"
+                    TapCommandParameter="90"
+                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
+            </AbsoluteLayout>
+
+            <dx:Chip Grid.Row="10" Grid.ColumnSpan="5" Text="+1" Margin="0,5,0,0" AutomationId="PlusOneBtn"
+                     TapCommand="{Binding AddOneSerieCommand}" HorizontalOptions="Center"
+                     WidthRequest="100" BackgroundColor="YellowGreen"
                      IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
 
             <Button Command="{Binding ExitKeepSessionCommand}"
                     AutomationId="ExitKeepSessionBtn" Text="Sortir de la session"
                     Grid.Row="13" Grid.Column="3" Margin="0,0,5,10" />
-            
-            <Button Command="{Binding CloseSessionCommand}" 
+
+            <Button Command="{Binding CloseSessionCommand}"
                     AutomationId="CloseSessionBtn" Text="Fermer la session"
                     Grid.Row="13" Grid.Column="4" Margin="0,0,0,10" />
             <!--Command="{Binding CloseSessionCommand}" Clicked="Button_OnClicked"-->
