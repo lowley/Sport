@@ -4,6 +4,7 @@ using ClientUtilsProject.Utils;
 using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClientUtilsProject.ViewModels;
 
@@ -45,7 +46,8 @@ public partial class SessionVM : ObservableObject
 
         if (foundExerciseSeries == null)
         {
-            Session.SessionItems.Add(new SessionExerciceSerie(){
+            var sessionToAdd = new SessionExerciceSerie()
+            {
                 ExerciceId = SelectedExercise.Id,
                 Exercice = SelectedExercise,
                 DifficultyId = SelectedDifficulty.Id,
@@ -54,7 +56,10 @@ public partial class SessionVM : ObservableObject
                 Session = Session,
                 Repetitions = Repetitions,
                 Series = 1
-            });
+            };
+            
+            Session.SessionItems.Add(sessionToAdd);
+            Repository.GetContext().Entry(sessionToAdd).State = EntityState.Added;
         }
         else
         {
@@ -89,6 +94,17 @@ public partial class SessionVM : ObservableObject
         
         await Navigation.NavigateBack();
     }
+    
+    [RelayCommand]
+    public async Task ExitKeepSession()
+    {
+        if (Session.SessionItems.Any())
+        {
+            Repository.SaveChangesAsync(CancellationToken.None);
+        }
+        
+        await Navigation.NavigateBack();
+    }
 
     public SessionVM(
         ISportNavigation navigation, 
@@ -102,6 +118,6 @@ public partial class SessionVM : ObservableObject
         Logger = logger;
         
         Session = new Session();
-        Repository.Attach(Session);
+        Repository.GetContext().Entry(Session).State = EntityState.Added;
     }
 }

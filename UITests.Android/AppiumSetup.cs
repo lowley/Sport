@@ -18,9 +18,9 @@ public class AppiumSetup
     //dans l'appli le répertoire de l'appli android pour générer l' apk
 
     //appium -a 192.168.1.173 -p 4723 --session-override ,(appium suffit)
+    
     //java.lang.SecurityException: Permission denial: writing to settings requires:android.permission.WRITE_SECURE_SETTINGS
-
-    //remplacer sxb.wipclient par le nom de l' application (trouvable dans le csproj)
+    //adb kill-server
     //adb shell pm grant sxb.sport android.permission.WRITE_SECURE_SETTINGS
 
 

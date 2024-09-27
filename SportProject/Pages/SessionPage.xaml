@@ -92,7 +92,7 @@
                    Grid.Row="4" Grid.ColumnSpan="5" />
 
             <dx:ChoiceChipGroup SelectedItem="{Binding SelectedExercise}"
-                                ItemsSource="{Binding Exercises}"
+                                ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
                                 DisplayMember="ExerciseName" Margin="0,-15,0,0"
                                 Grid.Row="5" Grid.ColumnSpan="5" IsMultiline="True" />
 
@@ -101,7 +101,7 @@
                    Grid.Row="6" Grid.ColumnSpan="5"
                    IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
 
-            <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}"
+            <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
                                 ItemsSource="{Binding SelectedExercise.ExerciseDifficulties}"
                                 DisplayMember="ShowMeShort" IsMultiline="True" Margin="0,-15,0,0"
                                 Grid.Row="7" Grid.ColumnSpan="5"
@@ -132,11 +132,15 @@
                          Padding="10,5,10,5"/>
             </Grid>
 
-            <dx:Chip Grid.Row="10" Text="+1" Margin="0,5,0,0"
+            <dx:Chip Grid.Row="10" Text="+1" Margin="0,5,0,0" AutomationId="PlusOneBtn"
                      TapCommand="{Binding AddOneSerieCommand}"
                      IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}" />
 
-            <Button Clicked="Button_OnClicked"
+            <Button Command="{Binding ExitKeepSessionCommand}"
+                    AutomationId="ExitKeepSessionBtn" Text="Sortir de la session"
+                    Grid.Row="13" Grid.Column="3" Margin="0,0,5,10" />
+            
+            <Button Command="{Binding CloseSessionCommand}" 
                     AutomationId="CloseSessionBtn" Text="Fermer la session"
                     Grid.Row="13" Grid.Column="4" Margin="0,0,0,10" />
             <!--Command="{Binding CloseSessionCommand}" Clicked="Button_OnClicked"-->

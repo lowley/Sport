@@ -27,10 +27,9 @@
                                      Orientation="Vertical">
                     <dx:DXCollectionView.ItemTemplate>
                         <DataTemplate x:DataType="dataClasses:Session">
-                            <VerticalStackLayout>
+                            <VerticalStackLayout AutomationId="session">
                                 <Label
                                     Text="{Binding SessionStartDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter={x:Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}}"
-                                    AutomationId="session"
                                     Margin="20,5,0,0" FontSize="25" />
 
                                 <Grid ColumnDefinitions="*, auto, *" Margin="20,5,0,0">

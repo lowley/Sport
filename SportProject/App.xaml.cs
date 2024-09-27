@@ -11,7 +11,6 @@ namespace Sport
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NDaF5cWGNCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXZcdXVUR2ldUk1wVkY=");
             ExercisesVM._exercices = [];
-            SessionsVM._sessions = [];
             
 
             InitializeComponent();

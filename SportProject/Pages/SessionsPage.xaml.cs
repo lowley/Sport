@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClientUtilsProject.DataClasses;
+using ClientUtilsProject.Utils.SportRepository;
 using Serilog.Core;
 using ClientUtilsProject.ViewModels;
+using Syncfusion.Maui.DataSource.Extensions;
 
 namespace SportProject.Pages;
 
 public partial class SessionsPage : ContentPage
 {
-    
     public SessionsVM VM { get; set; }
     private Logger Logger { get; set; }
 
@@ -21,9 +23,13 @@ public partial class SessionsPage : ContentPage
         BindingContext = VM;
         Logger = logger;
     }
-    
-    public SessionsPage()
+
+    protected override void OnAppearing()
     {
-        InitializeComponent();
+        base.OnAppearing();
+        
+        VM.Sessions.Clear();
+        VM.Repository.Query<Session>().ToList()
+            .ForEach(s => VM.Sessions.Add(s));
     }
 }
