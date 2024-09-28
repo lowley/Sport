@@ -16,6 +16,8 @@ public partial class Session : SportEntity
 
     [ObservableProperty] public ObservableCollection<SessionExerciceSerie> _sessionItems = [];
 
+    [ObservableProperty] public bool _isOpened;
+    
     [NotMapped] [ObservableProperty] public Groups _groupedSessionItems = [];
 
     public Session()
@@ -25,47 +27,52 @@ public partial class Session : SportEntity
 
         SessionItems.CollectionChanged += (sender, args) =>
         {
-            Groups result = [];
+            ModifySessionItems();
+        };
+    }
 
-            if (SessionItems.Any())
-                result.Add(new Group());
+    public void ModifySessionItems()
+    {
+        Groups result = [];
 
-            foreach (var serie in SessionItems)
+        if (SessionItems.Any())
+            result.Add(new Group());
+
+        foreach (var serie in SessionItems)
+        {
+            if (result.Last().Name.Equals(string.Empty))
             {
-                if (result.Last().Name.Equals(string.Empty))
-                {
-                    result.Last().Name = serie.Exercice.ExerciseName;
-                    result.Last().Series = new() { serie };
+                result.Last().Name = serie.Exercice.ExerciseName;
+                result.Last().Series = new() { serie };
 
-                    continue;
-                }
-
-                if (result.Last().Series.Last().ExerciceId.Equals(serie.Exercice.Id))
-                {
-                    if (result.Last().Series.Last().Difficulty.DifficultyName
-                            .Equals(serie.Difficulty.DifficultyName) &&
-                        result.Last().Series.Last().Difficulty.DifficultyLevel == serie.Difficulty.DifficultyLevel &&
-                        result.Last().Series.Last().Repetitions == serie.Repetitions
-                       )
-
-                        result.Last().Series.Last().Series += 1;
-                    else
-                        result.Last().Series.Add(serie);
-
-                    continue;
-                }
-
-                result.Add(new Group()
-                {
-                    Name = serie.Exercice.ExerciseName,
-                    Series = new() { serie }
-                });
+                continue;
             }
 
-            GroupedSessionItems.Clear();
-            foreach (var grp in result)
-                GroupedSessionItems.Add(grp);
-        };
+            if (result.Last().Series.Last().ExerciceId.Equals(serie.Exercice.Id))
+            {
+                if (result.Last().Series.Last().Difficulty.DifficultyName
+                        .Equals(serie.Difficulty.DifficultyName) &&
+                    result.Last().Series.Last().Difficulty.DifficultyLevel == serie.Difficulty.DifficultyLevel &&
+                    result.Last().Series.Last().Repetitions == serie.Repetitions
+                   )
+
+                    result.Last().Series.Last().Series += 1;
+                else
+                    result.Last().Series.Add(serie);
+
+                continue;
+            }
+
+            result.Add(new Group()
+            {
+                Name = serie.Exercice.ExerciseName,
+                Series = new() { serie }
+            });
+        }
+
+        GroupedSessionItems.Clear();
+        foreach (var grp in result)
+            GroupedSessionItems.Add(grp);
     }
 }
 

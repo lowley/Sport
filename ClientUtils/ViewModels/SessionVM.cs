@@ -101,6 +101,7 @@ public partial class SessionVM : ObservableObject
     public async Task CloseSession()
     {
         Session.SessionEndTime = DateTime.Now.TimeOfDay;
+        Session.IsOpened = false;
 
         if (Session.SessionItems.Any())
         {
@@ -131,8 +132,5 @@ public partial class SessionVM : ObservableObject
         Repository = repository;
         Context = context;
         Logger = logger;
-        
-        Session = new Session();
-        Repository.GetContext().Entry(Session).State = EntityState.Added;
     }
 }

@@ -103,14 +103,12 @@
                            VerticalOptions="Center" Margin="0,10,0,0"
                            Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
                            HorizontalOptions="Center" />
-
-
+                    
                     <dx:ChoiceChipGroup Grid.Row="1" Grid.ColumnSpan="5" Margin="0,-15,0,0"
                                         SelectedItem="{Binding SelectedExercise}"
                                         ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
                                         DisplayMember="ExerciseName"
                                         IsMultiline="True" AllowDeselect="True"
-                                        WidthRequest="{Binding Source={RelativeSource Self}, Path=Width}"
                                         />
 
                     <Label Text="{Binding AvailableDifficultiesText}" FontAttributes="Bold"

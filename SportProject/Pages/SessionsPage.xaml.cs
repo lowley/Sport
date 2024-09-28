@@ -7,6 +7,7 @@ using ClientUtilsProject.DataClasses;
 using ClientUtilsProject.Utils.SportRepository;
 using Serilog.Core;
 using ClientUtilsProject.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Syncfusion.Maui.DataSource.Extensions;
 
 namespace SportProject.Pages;
@@ -29,7 +30,11 @@ public partial class SessionsPage : ContentPage
         base.OnAppearing();
         
         VM.Sessions.Clear();
-        VM.Repository.Query<Session>().ToList()
+        VM.Repository.Query<Session>()
+            .Include(s => s.SessionItems)
+            .ToList()
+            .OrderBy(s => s.SessionStartDate)
+            .ThenBy(s => s.SessionStartTime)
             .ForEach(s => VM.Sessions.Add(s));
     }
 }

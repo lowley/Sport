@@ -14,6 +14,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <SharedUtils:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
+            <SharedUtils:BoolToYesNoConverter x:Key="BoolToYesNoConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -32,7 +33,8 @@
                                     Text="{Binding SessionStartDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter={x:Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}}"
                                     Margin="20,5,0,0" FontSize="25" />
 
-                                <Grid ColumnDefinitions="*, auto, *" Margin="20,5,0,0">
+                                <Grid ColumnDefinitions="*, auto, *" Margin="20,5,0,0"
+                                      RowDefinitions="auto, auto">
                                     <Label Grid.Column="0" Text="{Binding SessionStartTime, 
                                         Converter={StaticResource DateTimeFormatConverter}, 
                                         ConverterParameter={x:Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT2}}"
@@ -46,6 +48,19 @@
                                     ConverterParameter={x:Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT2}}"
                                            AutomationId="endTime"
                                            HorizontalTextAlignment="Center"/>
+                                    
+                                    <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="3"
+                                                           HorizontalOptions="Start"
+                                                           Margin="0,10,5,5">
+                                        <Label Text="Session ouverte: " FontAttributes="Bold"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding IsOpened, Converter={StaticResource BoolToYesNoConverter}}"
+                                               VerticalOptions="Center" AutomationId="isOpened"/>
+                                        <dx:Chip Margin="20,0,0,0" AutomationId="openSessionBtn"
+                                                 Text="Rendre cette session active"
+                                                 TapCommand="{Binding Source={x:Reference Page}, Path=BindingContext.SetSessionAsActiveCommand}"
+                                                 TapCommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
 
                                 </Grid>
 

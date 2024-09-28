@@ -384,14 +384,215 @@ namespace UITests
                 Assert.That(endTime, Is.Not.Null);
                 Assert.That(initialTime, Is.LessThan(endTime.Text));
 
+                var isOpen = FindUIElementsByAutomationId("isOpened")[0];
+                Assert.That(isOpen, Is.EqualTo("non"));
+                
                 AppiumSetup.App.TerminateApp("sxb.sport");
                 AppiumSetup.App.ActivateApp("sxb.sport");
             }
 
-            
-            
-            
-            
+            [Test]
+            public void SessionPage_CreateAndKeepSession()
+            {
+                var EXERCISE_NAME = "Dips";
+                var DIFFICULTY_VALUE = 11;
+
+                ClearDatas();
+
+                ClickButtonWithAutomationId("AddExerciseBtn");
+
+                //EXERCISE PAGE
+                //*************
+
+                AssertPageTitleIs("ExercisePage");
+
+                //act
+                var name = FindUIElementByAutomationId("newExerciseName");
+                name.SendKeys(EXERCISE_NAME);
+                //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
+
+                SetElementValueWithAutomationId("ExerciseValue", DIFFICULTY_VALUE);
+                ClickButtonWithAutomationId("HideKeyboardBtn");
+                ClickButtonWithAutomationId("SaveExerciseBtn");
+                ClickButtonWithAutomationId("BackBtn");
+                
+                //HOME PAGE
+                //*************
+                
+                ClickButtonWithAutomationId("AddSessionBtn");
+                Task.Delay(1500).Wait();
+                
+                //SESSION PAGE
+                //*************
+
+                //stockage pour asserts plus tard
+                var initialDate = FindUIElementByAutomationId("InitialDate").Text;
+                var initialTime = FindUIElementByAutomationId("InitialTime").Text;
+
+                //ajout exercices
+                var exercises = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/ExercisesGroup'][1]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView");
+                var exercise = exercises.FirstOrDefault(elt => elt.Text == EXERCISE_NAME);
+                exercise.Click();
+                Task.Delay(500).Wait();
+                
+                var difficulties = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/DifficultiesGroup']/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView");
+                Assert.That(difficulties.Count, Is.EqualTo(1));
+                var difficulty = difficulties.FirstOrDefault(elt => elt.Text == DIFFICULTY_VALUE.ToString()+"Kg");
+                difficulty.Click();
+                Task.Delay(500).Wait();
+                
+                ClickButtonWithAutomationId("PlusOneBtn");
+                ClickButtonWithAutomationId("ExitKeepSessionBtn");
+                
+                
+                //HOME PAGE
+                //*************
+                
+                AssertPageTitleIs("Accueil");
+                ClickButtonWithAutomationId("SessionsBtn");
+                
+                //SESSIONS PAGE
+                //*************
+                
+                AssertPageTitleIs("Affichage des sessions");
+                
+                // existence de session avec bonne date et bonne heure?
+                var sessions = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/session']");
+                
+                var numberOfSessions = sessions.Count;
+                Assert.That(numberOfSessions, Is.EqualTo(1));
+                
+                //todo: temps de départ et de fin à vérifier
+                AssertThatElementWithAutomationIdHasText("startTime", initialTime);
+                
+                var endTime = FindUIElementByAutomationId("endTime");
+                Assert.That(endTime, Is.Not.Null);
+                Assert.That(initialTime, Is.EqualTo(endTime.Text));
+
+                var isOpen = FindUIElementsByAutomationId("isOpened")[0];
+                Assert.That(isOpen.Text, Is.EqualTo("oui"));
+                
+                AppiumSetup.App.TerminateApp("sxb.sport");
+                AppiumSetup.App.ActivateApp("sxb.sport");
+            }
+
+            [Test]
+            public void SessionPage_Create2SessionsChooseWhichOpened()
+            {
+                var EXERCISE_NAME = "Dips";
+                var DIFFICULTY_VALUE = 11;
+
+                ClearDatas();
+
+                ClickButtonWithAutomationId("AddExerciseBtn");
+
+                //EXERCISE PAGE
+                //*************
+
+                AssertPageTitleIs("ExercisePage");
+
+                //act
+                var name = FindUIElementByAutomationId("newExerciseName");
+                name.SendKeys(EXERCISE_NAME);
+                //var difficulty = FindUIElementByAutomationId("ExerciseDifficulty");
+
+                SetElementValueWithAutomationId("ExerciseValue", DIFFICULTY_VALUE);
+                ClickButtonWithAutomationId("HideKeyboardBtn");
+                ClickButtonWithAutomationId("SaveExerciseBtn");
+                ClickButtonWithAutomationId("BackBtn");
+
+                //HOME PAGE
+                //*************
+
+                ClickButtonWithAutomationId("AddSessionBtn");
+                Task.Delay(1500).Wait();
+
+                //SESSION PAGE : 1st session
+                //*************
+
+                //stockage pour asserts plus tard
+                var initialDate = FindUIElementByAutomationId("InitialDate").Text;
+                var initialTime = FindUIElementByAutomationId("InitialTime").Text;
+
+                //ajout exercices
+                var exercises = FindUIElementsByXPath(
+                    "//android.view.ViewGroup[@resource-id='sxb.sport:id/ExercisesGroup'][1]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView");
+                var exercise = exercises.FirstOrDefault(elt => elt.Text == EXERCISE_NAME);
+                exercise.Click();
+                Task.Delay(500).Wait();
+
+                var difficulties = FindUIElementsByXPath(
+                    "//android.view.ViewGroup[@resource-id='sxb.sport:id/DifficultiesGroup']/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView");
+                Assert.That(difficulties.Count, Is.EqualTo(1));
+                var difficulty = difficulties.FirstOrDefault(elt => elt.Text == DIFFICULTY_VALUE.ToString() + "Kg");
+                difficulty.Click();
+                Task.Delay(500).Wait();
+
+                ClickButtonWithAutomationId("PlusOneBtn");
+                ClickButtonWithAutomationId("CloseSessionBtn");
+
+                //HOME PAGE
+                //*************
+
+                ClickButtonWithAutomationId("AddSessionBtn");
+                Task.Delay(1500).Wait();
+
+                //SESSION PAGE : 2nd session
+                //*************
+
+                //stockage pour asserts plus tard
+                var initialDate2 = FindUIElementByAutomationId("InitialDate").Text;
+                var initialTime2 = FindUIElementByAutomationId("InitialTime").Text;
+
+                //ajout exercices
+                var exercises2 = FindUIElementsByXPath(
+                    "//android.view.ViewGroup[@resource-id='sxb.sport:id/ExercisesGroup'][1]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView");
+                var exercise2 = exercises2.FirstOrDefault(elt => elt.Text == EXERCISE_NAME);
+                exercise2.Click();
+                Task.Delay(500).Wait();
+
+                var difficulties2 = FindUIElementsByXPath(
+                    "//android.view.ViewGroup[@resource-id='sxb.sport:id/DifficultiesGroup']/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView");
+                Assert.That(difficulties.Count, Is.EqualTo(1));
+                var difficulty2 = difficulties2.FirstOrDefault(elt => elt.Text == DIFFICULTY_VALUE.ToString() + "Kg");
+                difficulty2.Click();
+                Task.Delay(500).Wait();
+
+                ClickButtonWithAutomationId("PlusOneBtn");
+                ClickButtonWithAutomationId("ExitKeepSessionBtn");
+
+                //HOME PAGE
+                //*************
+
+                AssertPageTitleIs("Accueil");
+                ClickButtonWithAutomationId("SessionsBtn");
+
+                //SESSIONS PAGE
+                //*************
+
+                AssertPageTitleIs("Affichage des sessions");
+
+                // existence de session correctement ouvertes/fermées?
+                var sessions = FindUIElementsByXPath("//android.view.ViewGroup[@resource-id='sxb.sport:id/session']");
+
+                var numberOfSessions = sessions.Count;
+                Assert.That(numberOfSessions, Is.EqualTo(2));
+
+                //les sessions sont triées de la plus récente à la plus ancienne
+                var isOpen = FindUIElementsByAutomationId("isOpened")
+                    .Reverse().ToList();
+                Assert.That(isOpen[0].Text, Is.EqualTo("non"));
+                Assert.That(isOpen[1].Text, Is.EqualTo("oui"));
+
+                //modification session ouverte
+                var openButtons = FindUIElementsByAutomationId("openSessionBtn")
+                    .Reverse().ToList();
+                openButtons[0].Click();
+
+                Assert.That(isOpen[0].Text, Is.EqualTo("oui"));
+                Assert.That(isOpen[1].Text, Is.EqualTo("non"));
+                
+            }
         }
     }
 }
