@@ -32,8 +32,5 @@ public partial class ExercisesVM : ObservableObject
         Navigation = navigation;
         Repo = repo;
         Logger = logger;
-
-
     }
-
 }

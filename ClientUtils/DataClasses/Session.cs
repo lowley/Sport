@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore.Query;
 using Groups =
     System.Collections.ObjectModel.ObservableCollection<ClientUtilsProject.DataClasses.Group>;
 
@@ -17,7 +18,7 @@ public partial class Session : SportEntity
     [ObservableProperty] public ObservableCollection<SessionExerciceSerie> _sessionItems = [];
 
     [ObservableProperty] public bool _isOpened;
-    
+
     [NotMapped] [ObservableProperty] public Groups _groupedSessionItems = [];
 
     public Session()
@@ -25,53 +26,65 @@ public partial class Session : SportEntity
         Id = Guid.NewGuid();
         _sessionItems = [];
 
-        SessionItems.CollectionChanged += (sender, args) =>
-        {
-            ModifySessionItems();
-        };
+        //SessionItems.CollectionChanged += (sender, args) => { ModifySessionItems(); };
     }
 
     public void ModifySessionItems()
     {
         Groups result = [];
 
-        if (SessionItems.Any())
-            result.Add(new Group());
-
-        foreach (var serie in SessionItems)
+        //1er passage: regroupement par ExerciseName
+        while (result.Sum(g => g.Series.Count) < SessionItems.Count)
         {
-            if (result.Last().Name.Equals(string.Empty))
-            {
-                result.Last().Name = serie.Exercice.ExerciseName;
-                result.Last().Series = new() { serie };
+            var newExerciseName = SessionItems
+                .FirstOrDefault(ses => !result.Select(g => g.Name).Contains(ses.Exercice.ExerciseName))
+                ?.Exercice.ExerciseName;
 
-                continue;
+            //bug théorique
+            if (newExerciseName == null)
+                return;
+            
+            var currentGroup = new Group();
+            currentGroup.Name = newExerciseName;
+
+            foreach (var serie in SessionItems)
+            {
+                if (serie.Exercice.ExerciseName.Equals(newExerciseName))
+                    currentGroup.Series.Add(serie);
             }
-
-            if (result.Last().Series.Last().ExerciceId.Equals(serie.Exercice.Id))
-            {
-                if (result.Last().Series.Last().Difficulty.DifficultyName
-                        .Equals(serie.Difficulty.DifficultyName) &&
-                    result.Last().Series.Last().Difficulty.DifficultyLevel == serie.Difficulty.DifficultyLevel &&
-                    result.Last().Series.Last().Repetitions == serie.Repetitions
-                   )
-
-                    result.Last().Series.Last().Series += 1;
-                else
-                    result.Last().Series.Add(serie);
-
-                continue;
-            }
-
-            result.Add(new Group()
-            {
-                Name = serie.Exercice.ExerciseName,
-                Series = new() { serie }
-            });
+            
+            result.Add(currentGroup);
         }
+        
+        //2e passage dans les groupes: regroupement des (DifficultyLevel*DifficultyName, Repetitions)
+        Groups newResult = [];
+        foreach (var group in result)
+        {
+            var currentNewGroup = new Group();
+            currentNewGroup.Name = group.Name;
+            
+            foreach (var serie in group.Series)
+            {
+                //bug théorique
+                if (serie == null)
+                    return;
 
+                var sameSerie = currentNewGroup.Series
+                    .FirstOrDefault(ses => ses.Difficulty.DifficultyLevel == serie.Difficulty.DifficultyLevel &&
+                                           ses.Difficulty.DifficultyName.Equals(serie.Difficulty.DifficultyName) &&
+                                           ses.Repetitions == serie.Repetitions);
+
+                if (sameSerie != null)
+                    sameSerie.Series += 1;
+                else
+                    currentNewGroup.Series.Add(serie);
+            }
+            
+            newResult.Add(currentNewGroup);
+        }
+        
         GroupedSessionItems.Clear();
-        foreach (var grp in result)
+        foreach (var grp in newResult)
             GroupedSessionItems.Add(grp);
     }
 }

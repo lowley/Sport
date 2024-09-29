@@ -28,11 +28,14 @@ public partial class SessionVM : ObservableObject
     [NotifyPropertyChangedFor(nameof(RepetitionTotal))]
     public int _repetitionAdjustment = 0;
     
+    [ObservableProperty]
+    public int _oneSessionExerciceSerieSelectedIndex = -1;
+    
     public int RepetitionTotal => Repetitions + RepetitionAdjustment;
     
     public string AvailableDifficultiesText
         => $"Difficultés pour {SelectedExercise?.ExerciseName}";
-    
+
     public ISportRepository Repository { get; set; }
     private SportContext Context { get; set; }
     private ISportNavigation Navigation { get; set; }
@@ -47,7 +50,7 @@ public partial class SessionVM : ObservableObject
 
         if (foundExerciseSeries?.ExerciceId == SelectedExercise.Id &&
             foundExerciseSeries?.DifficultyId == _selectedDifficulty.Id &&
-            foundExerciseSeries?.Repetitions == Repetitions)
+            foundExerciseSeries?.Repetitions == RepetitionTotal)
         { }
         else
             foundExerciseSeries = null;
@@ -62,11 +65,12 @@ public partial class SessionVM : ObservableObject
                 Difficulty = SelectedDifficulty,
                 SessionId = Session.Id,
                 Session = Session,
-                Repetitions = Repetitions,
+                Repetitions = RepetitionTotal,
                 Series = 1
             };
             
             Session.SessionItems.Add(sessionToAdd);
+            Session.ModifySessionItems();
             Repository.GetContext().Entry(sessionToAdd).State = EntityState.Added;
         }
         else
@@ -132,5 +136,18 @@ public partial class SessionVM : ObservableObject
         Repository = repository;
         Context = context;
         Logger = logger;
+    }
+
+    public void DeleteSessionExerciceSerie(Guid sessionExerciceSerieId)
+    {
+        var sesToRemove = Session.SessionItems
+            .FirstOrDefault(ses => ses.Id == sessionExerciceSerieId);
+
+        //bug théorique dans ce cas
+        if (sesToRemove == null)
+            return;
+
+        Session.SessionItems.Remove(sesToRemove);
+        Session.ModifySessionItems();
     }
 }

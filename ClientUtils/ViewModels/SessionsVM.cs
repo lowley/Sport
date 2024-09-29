@@ -26,6 +26,23 @@ public partial class SessionsVM : ObservableObject
         Repository.SaveChangesAsync();
     }
     
+    [RelayCommand]
+    public async Task NavigateToSessionPage(Guid sessionId)
+    {
+        // var session = VM.Sessions.FirstOrDefault(s => s.Id == sessionId);
+        //
+        // //bug théorique
+        // if (session == null)
+        //     return;
+
+        var param = new Dictionary<string, object>
+        {
+            {"sessionId", sessionId.ToString() },
+        };
+
+        await Shell.Current.GoToAsync("sessions/session", false, param);
+    }
+    
     public SessionsVM(
         ISportNavigation navigation, 
         SportContext context,

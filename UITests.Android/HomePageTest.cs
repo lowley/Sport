@@ -593,6 +593,17 @@ namespace UITests
                 Assert.That(isOpen[1].Text, Is.EqualTo("non"));
                 
             }
+
+            [Test]
+            public void ModifyExercice()
+            {
+                
+                
+                
+                
+            }
         }
+
+        
     }
 }

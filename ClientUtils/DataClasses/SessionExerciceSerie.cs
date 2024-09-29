@@ -5,6 +5,7 @@ using System.Net.Mime;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Syncfusion.Maui.Buttons;
 using Microsoft.Maui.Graphics;
+using Color = Microsoft.Maui.Graphics.Color;
 using Font = System.Drawing.Font;
 using SizeF = Microsoft.Maui.Graphics.SizeF;
 
@@ -41,9 +42,12 @@ public partial class SessionExerciceSerie : SportEntity
     [NotMapped]
     public ObservableCollection<SfSegmentItem> SegmentedControlItems => new ()
     {
-        new SfSegmentItem(){Text = Difficulty.ShowMeShort, Width = 70},
-        new SfSegmentItem(){Text = Repetitions.ToString(), Width = 60},
-        new SfSegmentItem(){Text = Series.ToString(), Width = 60},
+        new SfSegmentItem(){Text = "\u2207", Width = 30, Background = Colors.Linen, TextStyle = new SegmentTextStyle(){TextColor = Colors.Coral}},
+        new SfSegmentItem(){Text = Difficulty.ShowMeShort, Width = 70, IsEnabled = false, TextStyle = new SegmentTextStyle(){TextColor = Colors.Black}},
+        new SfSegmentItem(){Text = Repetitions.ToString(), Width = 60, IsEnabled = false, TextStyle = new SegmentTextStyle(){TextColor = Colors.Black}},
+        new SfSegmentItem(){Text = Series.ToString(), Width = 60, IsEnabled = false, TextStyle = new SegmentTextStyle(){TextColor = Colors.Black}},
+        new SfSegmentItem(){Text = "-", Width = 30, Background = Colors.Linen, TextStyle = new SegmentTextStyle(){TextColor = Colors.Coral}},
+        new SfSegmentItem(){Text = Id.ToString()}
     };
 
     public void RaisePropertyChanged(string property)
