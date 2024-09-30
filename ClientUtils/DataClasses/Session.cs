@@ -17,7 +17,7 @@ public partial class Session : SportEntity
 
     [ObservableProperty] public ObservableCollection<SessionExerciceSerie> _sessionItems = [];
 
-    [ObservableProperty] public bool _isOpened;
+    [ObservableProperty] public Boolean _isOpened;
 
     [NotMapped] [ObservableProperty] public Groups _groupedSessionItems = [];
 
@@ -87,6 +87,13 @@ public partial class Session : SportEntity
         foreach (var grp in newResult)
             GroupedSessionItems.Add(grp);
     }
+
+    public void RaisePropertyChanged(string prop)
+    {
+        OnPropertyChanged(prop);
+    }
+    
+    
 }
 
 public class Group

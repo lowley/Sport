@@ -23,7 +23,7 @@ public partial class SessionsVM : ObservableObject
             session.IsOpened = false;
 
         toActive.IsOpened = true;
-        Repository.SaveChangesAsync();
+        await Repository.SaveChangesAsync();
     }
     
     [RelayCommand]
@@ -42,6 +42,18 @@ public partial class SessionsVM : ObservableObject
 
         await Shell.Current.GoToAsync("sessions/session", false, param);
     }
+
+    [RelayCommand]
+    public async Task PropChangeAsync()
+    {
+        foreach (var session in Sessions)
+        {
+            session.RaisePropertyChanged(nameof(Session.IsOpened));
+            session.RaisePropertyChanged(nameof(Session.SessionStartDate));
+            session.RaisePropertyChanged(nameof(Session.SessionStartTime));
+            session.RaisePropertyChanged(nameof(Session.SessionEndTime));
+        }
+    }
     
     public SessionsVM(
         ISportNavigation navigation, 
@@ -54,5 +66,11 @@ public partial class SessionsVM : ObservableObject
         Logger = logger;
         Repository = repo;
         Sessions = [];
+    }
+
+    public void RaiseSessionsChanged()
+    {
+        OnPropertyChanged(nameof(Sessions));
+        
     }
 }

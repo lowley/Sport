@@ -10,6 +10,7 @@
              xmlns:dataClasses="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              xmlns:core="http://schemas.syncfusion.com/maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:dx="http://schemas.devexpress.com/maui"
              x:DataType="vm:ExerciseVM"
              Title="ExercisePage"
              x:Name="Page">
@@ -22,39 +23,23 @@
     <Grid RowDefinitions="auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, auto, *, auto, auto"
           Margin="10,5,10,0" RowSpacing="5">
 
-        <Border Stroke="gray" StrokeShape="RoundRectangle 5"
-                BackgroundColor="Transparent" Grid.ColumnSpan="5">
+        <dx:DXBorder Grid.ColumnSpan="5"
+                     BackgroundColor="#F7F7F7"
+                     BorderColor="#F1F1F1" BorderThickness="1"
+                     CornerRadius="10"
+                     WidthRequest="{Binding Source={x:Reference Page}, Path=Width}">
             <VerticalStackLayout>
-                <Label Text="Exercice existant" FontAttributes="Bold"
-                       VerticalOptions="Center" />
+                <Label Text="Modifier un exercice existant" FontAttributes="Bold"
+                       VerticalOptions="Center" Margin="0,10,0,0"
+                       Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
+                       HorizontalOptions="Center" />
 
                 <Picker ItemsSource="{Binding Exercises}"
                         VerticalOptions="Center" Margin="15,0,15,0"
                         x:Name="ExerciseDropdown" AutomationId="ExerciseDropdown"
                         SelectedItem="{Binding SelectedExercise}"
-                        >
-                    
+                        Title="Choisir un exercice existant">
                 </Picker>
-                
-                <!-- <dxe:ComboBoxEdit ItemsSource="{Binding Exercises}" -->
-                <!--                   VerticalOptions="Center" Margin="15,0,15,0" -->
-                <!--                   x:Name="ExerciseDropdown" AutomationId="ExerciseDropdown" -->
-                <!--                   SelectedItem="{Binding SelectedExercise}" -->
-                <!--                   BoxMode="Outlined"> -->
-                <!--     <dxe:ComboBoxEdit.ItemTemplate> -->
-                <!--         <DataTemplate x:DataType="dataClasses:Exercise"> -->
-                <!--             <Grid ColumnDefinitions="auto, *, auto" -->
-                <!--                   Padding="10,0,10,0"> -->
-                <!--                 <Label Text="{Binding ExerciseName}" VerticalOptions="Center" -->
-                <!--                        VerticalTextAlignment="Center" -->
-                <!--                        TextColor="Black" AutomationId="DropdownItem" /> -->
-                <!--                 <Label Text="{Binding ExerciseDifficulties.Count}" VerticalOptions="Center" -->
-                <!--                        VerticalTextAlignment="Center" -->
-                <!--                        Grid.Column="2" TextColor="Black" /> -->
-                <!--             </Grid> -->
-                <!--         </DataTemplate> -->
-                <!--     </dxe:ComboBoxEdit.ItemTemplate> -->
-                <!-- </dxe:ComboBoxEdit> -->
                 
                 <FlexLayout x:Name="DifficultiesLayout"
                             BindableLayout.ItemsSource="{Binding CurrentExercise.ExerciseDifficulties}"
@@ -105,7 +90,7 @@
                        AutomationId="existingExerciseName" TextColor="Black"
                        IsEnabled="{Binding SelectedExercise, Converter={x:StaticResource IsNotNullConverter}}" />
             </VerticalStackLayout>
-        </Border>
+        </dx:DXBorder>
 
         <Entry Text="{Binding NewExerciseName}"
                TextColor="Black" AutomationId="newExerciseName"

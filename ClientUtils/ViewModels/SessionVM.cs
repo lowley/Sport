@@ -78,8 +78,7 @@ public partial class SessionVM : ObservableObject
             foundExerciseSeries.Series += 1;
         }
         
-        OnPropertyChanged(nameof(Session.SessionItems));
-        OnPropertyChanged(nameof(Session.GroupedSessionItems));
+        Session.ModifySessionItems();
     }
 
     [RelayCommand]
@@ -109,10 +108,15 @@ public partial class SessionVM : ObservableObject
 
         if (Session.SessionItems.Any())
         {
-            Repository.SaveChangesAsync(CancellationToken.None);
+            foreach (var session in Repository.GetContext().Sessions.Local)
+            {
+                var asdfgdsfgd = Repository.GetContext().Entry(session).State.ToString();
+            }
+
+            await Repository.SaveChangesAsync(CancellationToken.None);
         }
         
-        await Navigation.NavigateBack();
+        await Shell.Current.Navigation.PopAsync();
     }
     
     [RelayCommand]
@@ -120,7 +124,7 @@ public partial class SessionVM : ObservableObject
     {
         if (Session.SessionItems.Any())
         {
-            Repository.SaveChangesAsync(CancellationToken.None);
+            await Repository.SaveChangesAsync(CancellationToken.None);
         }
         
         await Navigation.NavigateBack();

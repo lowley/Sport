@@ -16,9 +16,9 @@ namespace SportProject.Pages;
 public partial class SessionsPage : ContentPage
 {
     public SessionsVM VM { get; set; }
-    
+
     private Logger Logger { get; set; }
-    
+
     public SessionsPage(SessionsVM vm, Logger logger)
     {
         InitializeComponent();
@@ -30,21 +30,26 @@ public partial class SessionsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
+        Task.Run(async () => await RefreshSessions());
+    }
+
+    private async Task RefreshSessions()
+    {
         VM.Sessions.Clear();
-        VM.Repository.Query<Session>()
-            .Include(s => s.SessionItems)
-            .ThenInclude(ses => ses.Exercice)
-            .Include(s => s.SessionItems)
-            .ThenInclude(ses => ses.Difficulty)            
-            .ToList()
+
+        await VM.Repository.ReloadAsync();
+        (await VM.Repository.Query<Session>()
+                .Include(s => s.SessionItems)
+                .ThenInclude(ses => ses.Exercice)
+                .Include(s => s.SessionItems)
+                .ThenInclude(ses => ses.Difficulty)
+                .ToListAsync())
             .OrderBy(s => s.SessionStartDate)
             .ThenBy(s => s.SessionStartTime)
             .ForEach(s => VM.Sessions.Add(s));
-        
         foreach (var session in VM.Sessions)
-        {
             session?.ModifySessionItems();
-        }
+        VM.RaiseSessionsChanged();
+        await VM.PropChangeAsync();
     }
 }

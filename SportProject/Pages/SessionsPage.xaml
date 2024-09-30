@@ -19,61 +19,63 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.Content>
-        <VerticalStackLayout Margin="10,5,10,0">
-            <Border StrokeShape="RoundRectangle 5"
-                    Stroke="Goldenrod">
+    <VerticalStackLayout Margin="10,5,10,0">
+        <Border StrokeShape="RoundRectangle 5"
+                Stroke="Goldenrod">
 
-                <dx:DXCollectionView ItemsSource="{Binding Sessions}"
-                                     ReduceSizeToContent="True" AllowLiveDataShaping="True"
-                                     Orientation="Vertical">
-                    <dx:DXCollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="dataClasses:Session">
-                            <VerticalStackLayout AutomationId="session">
-                                <VerticalStackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={x:Reference Page}, Path=BindingContext.NavigateToSessionPageCommand}"
-                                                          CommandParameter="{Binding Id}"/>
-                                </VerticalStackLayout.GestureRecognizers>
-                                <Label
-                                    Text="{Binding SessionStartDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter={x:Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}}"
-                                    Margin="20,5,0,0" FontSize="25" />
+            <dx:DXCollectionView ItemsSource="{Binding Sessions}"
+                                 ReduceSizeToContent="True" AllowLiveDataShaping="True"
+                                 Orientation="Vertical">
+                <dx:DXCollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dataClasses:Session">
+                        <VerticalStackLayout AutomationId="session">
+                            <VerticalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.NavigateToSessionPageCommand}"
+                                    CommandParameter="{Binding Id}" />
+                            </VerticalStackLayout.GestureRecognizers>
+                            <Label
+                                Text="{Binding SessionStartDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter={x:Static SharedUtils:SharedUtilDatas.COMPLETE_DATE_FORMAT}}"
+                                Margin="20,5,0,0" FontSize="25" />
 
-                                <Grid ColumnDefinitions="*, auto, *" Margin="20,5,0,0"
-                                      RowDefinitions="auto, auto">
-                                    <Label Grid.Column="0" Text="{Binding SessionStartTime, 
+                            <Grid ColumnDefinitions="*, auto, *" Margin="20,5,0,0"
+                                  RowDefinitions="auto, auto">
+                                <Label Grid.Column="0"
+                                       Text="{Binding SessionStartTime, 
                                         Converter={StaticResource DateTimeFormatConverter}, 
                                         ConverterParameter={x:Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT2}}"
-                                           AutomationId="startTime"
-                                           HorizontalTextAlignment="Center"/>
-                                    
-                                    <Label Grid.Column="1" Text="->"/>
-                                    
-                                    <Label Grid.Column="2" Text="{Binding SessionEndTime, 
+                                       AutomationId="startTime"
+                                       HorizontalTextAlignment="Center" />
+
+                                <Label Grid.Column="1" Text="->" />
+
+                                <Label Grid.Column="2"
+                                       Text="{Binding SessionEndTime, 
                                     Converter={StaticResource DateTimeFormatConverter}, 
                                     ConverterParameter={x:Static SharedUtils:SharedUtilDatas.HOUR_MINUTES_FORMAT2}}"
-                                           AutomationId="endTime"
-                                           HorizontalTextAlignment="Center"/>
-                                    
-                                    <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="3"
-                                                           HorizontalOptions="Start"
-                                                           Margin="0,10,5,5">
-                                        <Label Text="Session ouverte: " FontAttributes="Bold"
-                                               VerticalOptions="Center"/>
-                                        <Label Text="{Binding IsOpened, Converter={StaticResource BoolToYesNoConverter}}"
-                                               VerticalOptions="Center" AutomationId="isOpened"/>
-                                        <dx:Chip Margin="20,0,0,0" AutomationId="openSessionBtn"
-                                                 Text="Rendre cette session active"
-                                                 TapCommand="{Binding Source={x:Reference Page}, Path=BindingContext.SetSessionAsActiveCommand}"
-                                                 TapCommandParameter="{Binding .}"/>
-                                    </HorizontalStackLayout>
+                                       AutomationId="endTime"
+                                       HorizontalTextAlignment="Center" />
 
-                                </Grid>
+                                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="3"
+                                                       HorizontalOptions="Start"
+                                                       Margin="0,10,5,5">
+                                    <Label Text="Session ouverte: " FontAttributes="Bold"
+                                           VerticalOptions="Center" />
+                                    <Label Text="{Binding IsOpened, Converter={StaticResource BoolToYesNoConverter}}"
+                                           VerticalOptions="Center" AutomationId="isOpened" />
+                                    <dx:Chip Margin="20,0,0,0" AutomationId="openSessionBtn"
+                                             Text="Rendre cette session active"
+                                             TapCommand="{Binding Source={x:Reference Page}, Path=BindingContext.SetSessionAsActiveCommand}"
+                                             TapCommandParameter="{Binding .}" />
+                                </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </dx:DXCollectionView.ItemTemplate>
-                </dx:DXCollectionView>
-            </Border>
-        </VerticalStackLayout>
-    </ContentPage.Content>
+                            </Grid>
+
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </dx:DXCollectionView.ItemTemplate>
+            </dx:DXCollectionView>
+        </Border>
+    </VerticalStackLayout>
+
 </ContentPage>
