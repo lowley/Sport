@@ -52,24 +52,25 @@
                                     Grid.Row="1" Grid.ColumnSpan="5"
                                     x:Name="ExercisesChipGroup" />
 
-                <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="5" BackgroundColor="Azure"
-                                       x:Name="TextsLayout">
-                    <HorizontalStackLayout.Triggers>
+                <FlexLayout Grid.Row="2" Grid.ColumnSpan="5"
+                                       x:Name="TextsLayout" Margin="0,-15,0,0"
+                                       AlignContent="SpaceAround">
+                    <FlexLayout.Triggers>
                         <DataTrigger
                             Binding="{Binding Source={x:Reference ExercisesChipGroup}, Path=SelectedIndex, Converter={StaticResource MyIsIntEqualConverter}, ConverterParameter=-1}"
                             Value="True"
-                            TargetType="HorizontalStackLayout">
+                            TargetType="FlexLayout">
                             <DataTrigger.Setters>
                                 <Setter Property="IsVisible"
                                         Value="False" />
                             </DataTrigger.Setters>
                         </DataTrigger>
-                    </HorizontalStackLayout.Triggers>
+                    </FlexLayout.Triggers>
 
+                    <Label Text="Nom: " VerticalOptions="Center" />
                     <Entry Text="{Binding NewExerciseName}"
-                           Placeholder="ou entrer le nom d'un nouvel exercice"
-                           TextColor="Black" AutomationId="newExerciseName"
-                           Margin="15,0,15,0">
+                           Placeholder="Nouvel exercice" FlexLayout.Grow="2" 
+                           TextColor="Black" AutomationId="newExerciseName">
 
                         <Entry.IsVisible>
                             <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
@@ -79,9 +80,9 @@
                         </Entry.IsVisible>
                     </Entry>
 
-                    <Entry Text="{Binding ExistingExerciseName}" Margin="40,0,15,0"
+                    <Entry Text="{Binding ExistingExerciseName}"
                            AutomationId="existingExerciseName" TextColor="Black"
-                           Placeholder="{Binding Source={x:Reference ExercisesChipGroup}, Path=SelectedIndex}"
+                           Placeholder="Exercice existant" FlexLayout.Grow="2"
                            IsEnabled="{Binding CurrentExercise, Converter={x:StaticResource IsNotNullConverter}}">
                         <Entry.IsVisible>
                             <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
@@ -92,9 +93,9 @@
                         </Entry.IsVisible>
                     </Entry>
 
-                    <dx:Chip Text="Valider" HeightRequest="30"
-                             Margin="10,0,0,0" />
-                </HorizontalStackLayout>
+                    <dx:Chip Text="Valider" HeightRequest="30" VerticalOptions="Center"
+                             Margin="10,0,10,0"/>
+                </FlexLayout>
                 <Label Text="Définir une difficulté" FontAttributes="Bold"
                        VerticalOptions="Center" Margin="0,10,0,0"
                        Grid.Row="3" Grid.ColumnSpan="5" FontSize="18"
