@@ -23,107 +23,95 @@
     <Grid RowDefinitions="auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, auto, *, auto, auto"
           Margin="10,5,10,0" RowSpacing="5">
 
-        <dx:DXBorder Grid.ColumnSpan="5"
-                     BackgroundColor="#F7F7F7"
-                     BorderColor="#F1F1F1" BorderThickness="1"
-                     CornerRadius="10"
-                     WidthRequest="{Binding Source={x:Reference Page}, Path=Width}">
-            <VerticalStackLayout>
-                <Label Text="Modifier un exercice existant" FontAttributes="Bold"
-                       VerticalOptions="Center" Margin="0,10,0,0"
-                       Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
-                       HorizontalOptions="Center" />
+        <dx:DXBorder Grid.Row="2" Grid.RowSpan="1" Grid.ColumnSpan="4"
+                         BackgroundColor="#F7F7F7"
+                         BorderColor="#F1F1F1" BorderThickness="1"
+                         CornerRadius="10"
+                         WidthRequest="{Binding Source={x:Reference Page}, Path=Width}">
+                <Grid
+                    RowDefinitions="auto, auto, auto, auto"
+                    ColumnDefinitions="auto, auto, auto, auto, *"
+                    Padding="5,0,5,0"
+                    Margin="0,0,0,10">
 
-                <Picker ItemsSource="{Binding Exercises}"
-                        VerticalOptions="Center" Margin="15,0,15,0"
-                        x:Name="ExerciseDropdown" AutomationId="ExerciseDropdown"
-                        SelectedItem="{Binding SelectedExercise}"
-                        Title="Choisir un exercice existant">
-                </Picker>
-                
-                <FlexLayout x:Name="DifficultiesLayout"
-                            BindableLayout.ItemsSource="{Binding CurrentExercise.ExerciseDifficulties}"
-                            HorizontalOptions="FillAndExpand" Wrap="Wrap"
-                            VerticalOptions="StartAndExpand"
-                            Margin="15,-10,0,0">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="dataClasses:ExerciceDifficulty">
-                            <Grid Margin="0,0,0,5" FlexLayout.Order="{Binding DifficultyLevel}">
-                                <dxe:Chip Text="{Binding ShowMeShort}" IsIconVisible="True"
-                                          AutomationId="selectedDifficulty"
-                                          BackgroundColor="Gold"
-                                          TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ExerciseVM}}, Path= ExistingDifficultyTappedCommand}"
-                                          TapCommandParameter="{Binding Id}"
-                                          TextColor="Black"
-                                          Margin="0,0,5,0">
+                    <Label Text="Définir un exercice" FontAttributes="Bold"
+                           VerticalOptions="Center" Margin="0,10,0,0"
+                           Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
+                           HorizontalOptions="Center" />
+                    
+                    <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="5">
+                        <dx:ChoiceChipGroup Margin="0,-15,0,0"
+                                            SelectedItem="{Binding SelectedExercise}"
+                                            ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
+                                            DisplayMember="ExerciseName"
+                                            IsMultiline="True" AllowDeselect="True"
+                                            />
+                    </HorizontalStackLayout>
+                    <!-- <Label Text="{Binding AvailableDifficultiesText}" FontAttributes="Bold" -->
+                    <!--        VerticalOptions="Center" Margin="0, 0,0,0" -->
+                    <!--        Grid.Row="2" Grid.ColumnSpan="5" -->
+                    <!--        IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" /> -->
 
-                                    <dxe:Chip.BorderColor>
-                                        <MultiBinding Converter="{x:StaticResource MyIsEqualConverter}">
-                                            <Binding Source="{x:Reference Page}"
-                                                     Path="BindingContext.CurrentDifficulty.DifficultyLevel" />
-                                            <Binding Path="DifficultyLevel" />
-                                        </MultiBinding>
-                                    </dxe:Chip.BorderColor>
-
-                                    <dxe:Chip.BorderThickness>
-                                        <MultiBinding Converter="{x:StaticResource MyIsEqualConverter}">
-                                            <Binding Source="{x:Reference Page}"
-                                                     Path="BindingContext.CurrentDifficulty.DifficultyLevel" />
-                                            <Binding Path="DifficultyLevel" />
-                                        </MultiBinding>
-                                    </dxe:Chip.BorderThickness>
-
-                                    <dxe:Chip.Icon>
-                                        <FontImageSource
-                                            Color="Brown"
-                                            FontFamily="FontelloGauge"
-                                            Glyph="{x:StaticResource IconGauge}"
-                                            Size="20" />
-                                    </dxe:Chip.Icon>
-                                </dxe:Chip>
-                            </Grid>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </FlexLayout>
+                    <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
+                                        ItemsSource="{Binding CurrentExercise.ExerciseDifficulties}"
+                                        DisplayMember="ShowMeShort" IsMultiline="True" Margin="0,-15,0,0"
+                                        Grid.Row="3" Grid.ColumnSpan="5" AllowDeselect="True"
+                                        IsVisible="{Binding CurrentExercise, Converter={StaticResource IsNotNullConverter}}" />
 
                 <Entry Text="{Binding ExistingExerciseName}" Margin="15,0,15,0"
                        AutomationId="existingExerciseName" TextColor="Black"
-                       IsEnabled="{Binding SelectedExercise, Converter={x:StaticResource IsNotNullConverter}}" />
-            </VerticalStackLayout>
-        </dx:DXBorder>
+                       IsEnabled="{Binding CurrentExercise, Converter={x:StaticResource IsNotNullConverter}}" />
 
-        <Entry Text="{Binding NewExerciseName}"
-               TextColor="Black" AutomationId="newExerciseName"
-               Grid.Row="1" Margin="15,0,15,0"
-               Grid.ColumnSpan="5">
-            <Entry.Triggers>
-                <DataTrigger Binding="{Binding ExistingExerciseNameInError}"
-                             Value="True" TargetType="Entry">
-                    <DataTrigger.Setters>
-                        <Setter Property="TextColor" Value="Red" />
-                    </DataTrigger.Setters>
-                </DataTrigger>
-            </Entry.Triggers>
-        </Entry>
+                <Entry Text="{Binding NewExerciseName}"
+                       Placeholder="ou entrer le nom d'un nouvel exercice"
+                       TextColor="Black" AutomationId="newExerciseName"
+                       Margin="15,0,15,0">
+                    <Entry.Triggers>
+                        <DataTrigger Binding="{Binding ExistingExerciseNameInError}"
+                                     Value="True" TargetType="Entry">
+                            <DataTrigger.Setters>
+                                <Setter Property="TextColor" Value="Red" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Entry.Triggers>
+                </Entry>
+            </Grid>
+        </dx:DXBorder>
 
         <!-- <Entry Text="{Binding CurrentExercise.ExerciseName}" AutomationId="ExerciseName" -->
         <!--        Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" -->
         <!--        VerticalOptions="Center" Margin="13,0,0,0"/> -->
 
-        <Label Text="Difficulté" FontAttributes="Bold" Grid.Row="2" />
-        <Slider x:Name="slider" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
-                Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}"
-                VerticalOptions="Center" />
-        <Label x:Name="displayLabel" Grid.Row="2" Grid.Column="3" AutomationId="ExerciseDifficulty"
-               Text="{Binding Source={x:Reference slider},Path=Value,
+        <dx:DXBorder Grid.ColumnSpan="5" Grid.Row="1"
+                     BackgroundColor="#F7F7F7"
+                     BorderColor="#F1F1F1" BorderThickness="1"
+                     CornerRadius="10"
+                     WidthRequest="{Binding Source={x:Reference Page}, Path=Width}">
+            <VerticalStackLayout>
+                <Label Text="Difficulté" FontAttributes="Bold"
+                       VerticalOptions="Center" Margin="0,10,0,0"
+                       Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
+                       HorizontalOptions="Center" />
+
+                <Slider x:Name="slider" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                        Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}"
+                        VerticalOptions="Center" />
+                <Label x:Name="displayLabel" Grid.Row="2" Grid.Column="3" AutomationId="ExerciseDifficulty"
+                       Text="{Binding Source={x:Reference slider},Path=Value,
                               StringFormat='{0:F0}'}"
-               Margin="0,0,5,0"
-               HorizontalOptions="Center" VerticalOptions="Center" />
-        <Label Grid.Row="2" Grid.Column="4" Text="{Binding CurrentDifficulty.ShowName}" />
-        <Entry Grid.Row="3" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" Keyboard="Numeric"
-               AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" Focused="DifficultyLevelEntry_Focused" />
-        <Button Grid.Row="3" Grid.Column="3" Text="Cacher"
-                Clicked="HideKeyboard_Clicked" AutomationId="HideKeyboardBtn" />
+                       Margin="0,0,5,0"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+                <Label Grid.Row="2" Grid.Column="4" Text="{Binding CurrentDifficulty.ShowName}" />
+                <Entry Grid.Row="3" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}"
+                       Keyboard="Numeric"
+                       AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry"
+                       Focused="DifficultyLevelEntry_Focused" />
+                <Button Grid.Row="3" Grid.Column="3" Text="Cacher"
+                        Clicked="HideKeyboard_Clicked" AutomationId="HideKeyboardBtn" />
+
+            </VerticalStackLayout>
+        </dx:DXBorder>
+
 
         <!-- Boutons du bas de la page -->
         <Grid ColumnDefinitions="*, auto, auto"
