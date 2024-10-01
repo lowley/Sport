@@ -47,7 +47,7 @@
                 <dx:ChoiceChipGroup Margin="0,-15,0,0"
                                     SelectedItem="{Binding SelectedExercise}"
                                     ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
-                                    DisplayMember="ExerciseName"
+                                    DisplayMember="DisplayedName"
                                     IsMultiline="True" AllowDeselect="True"
                                     Grid.Row="1" Grid.ColumnSpan="5"
                                     x:Name="ExercisesChipGroup" />
@@ -96,6 +96,7 @@
                     <dx:Chip Text="Valider" HeightRequest="30" VerticalOptions="Center"
                              Margin="10,0,10,0"/>
                 </FlexLayout>
+                
                 <Label Text="Définir une difficulté" FontAttributes="Bold"
                        VerticalOptions="Center" Margin="0,10,0,0"
                        Grid.Row="3" Grid.ColumnSpan="5" FontSize="18"
