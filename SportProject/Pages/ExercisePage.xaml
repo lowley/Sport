@@ -34,7 +34,7 @@
                      CornerRadius="10"
                      WidthRequest="{Binding Source={x:Reference Page}, Path=Width}">
             <Grid
-                RowDefinitions="auto, auto, auto, auto"
+                RowDefinitions="auto, auto, auto, auto, auto"
                 ColumnDefinitions="auto, auto, auto, auto, *"
                 Padding="5,0,5,0"
                 Margin="0,0,0,10">
@@ -105,11 +105,10 @@
 
                 <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
                                     ItemsSource="{Binding CurrentExercise.ExerciseDifficulties}"
-                                    DisplayMember="ShowMeShort" IsMultiline="True" Margin="0,-15,0,0"
-                                    Grid.Row="3" Grid.ColumnSpan="5" AllowDeselect="True"
+                                    DisplayMember="DisplayedName" IsMultiline="True" Margin="0,-12,0,0"
+                                    Grid.Row="4" Grid.ColumnSpan="5" AllowDeselect="True"
                                     IsVisible="{Binding CurrentExercise, Converter={StaticResource IsNotNullConverter}}" />
-
-
+                
             </Grid>
         </dx:DXBorder>
 

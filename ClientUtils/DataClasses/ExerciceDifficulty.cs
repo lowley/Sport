@@ -15,19 +15,23 @@ namespace ClientUtilsProject.DataClasses
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
-        private Int32? _difficultyLevel;
+        public Int32? _difficultyLevel;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
         [NotifyPropertyChangedFor(nameof(ShowName))]
-        private Option<string> _difficultyName;
-
+        [NotifyPropertyChangedFor(nameof(DisplayedName))]
+        public Option<string> _difficultyName;
+        
         public Guid ExerciceId { get; set; }
+        
+        public string DisplayedName
+            => string.IsNullOrEmpty(ShowMeShort) ? "Nouvelle" : ShowMeShort;
         
         [ObservableProperty]
         public Exercise _exercice;
-
+        
         public ExerciceDifficulty(
             Int32? difficultyLevel = default, 
             Exercise? exercice = default,
