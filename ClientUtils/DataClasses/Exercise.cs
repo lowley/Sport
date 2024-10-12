@@ -19,7 +19,6 @@ namespace ClientUtilsProject.DataClasses
         [ObservableProperty]
         public ObservableCollection<ExerciceDifficulty> _exerciseDifficulties;
 
-
         public string DisplayedName
             => string.IsNullOrEmpty(ExerciseName) ? "Nouveau" : ExerciseName;
         

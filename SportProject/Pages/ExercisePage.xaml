@@ -19,6 +19,7 @@
         <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
         <SharedUtils:MyIsEqualConverter x:Key="MyIsEqualConverter" />
         <SharedUtils:MyIsIntEqualConverter x:Key="MyIsIntEqualConverter" />
+        <SharedUtils:MyIsNotNullConverter x:Key="MyIsNotNullConverter" />
         <SharedUtils:MyIsIntNotEqualConverter x:Key="MyIsIntNotEqualConverter" />
         <SharedUtils:AllTrueMultiConverter x:Key="AllTrueMultiConverter" />
         <toolkit:IsEqualConverter x:Key="IsEqualConverter" />
@@ -50,25 +51,23 @@
                                     DisplayMember="DisplayedName"
                                     IsMultiline="True" AllowDeselect="True"
                                     Grid.Row="1" Grid.ColumnSpan="5"
-                                    x:Name="ExercisesChipGroup" />
+                                    x:Name="ExercisesChipGroup" ChipTapCommand="{Binding ExerciseTappedCommand}"
+                                    ChipTapCommandParameter="{Binding SelectedExercise}"
+                                    ChipDisabledBackgroundColor="Bisque"/>
 
                 <FlexLayout Grid.Row="2" Grid.ColumnSpan="5"
                                        x:Name="TextsLayout" Margin="0,-15,0,0"
                                        AlignContent="SpaceAround">
-                    <FlexLayout.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Source={x:Reference ExercisesChipGroup}, Path=SelectedIndex, Converter={StaticResource MyIsIntEqualConverter}, ConverterParameter=-1}"
-                            Value="True"
-                            TargetType="FlexLayout">
-                            <DataTrigger.Setters>
-                                <Setter Property="IsVisible"
-                                        Value="False" />
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                    </FlexLayout.Triggers>
+                    <FlexLayout.IsVisible>
+                        <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
+                            <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedItem" Converter="{StaticResource MyIsNotNullConverter}"/>
+                            <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex" Converter="{StaticResource MyIsIntNotEqualConverter}" ConverterParameter="-1"/>
+                        </MultiBinding>
+                    </FlexLayout.IsVisible>
 
                     <Label Text="Nom: " VerticalOptions="Center" />
                     <Entry Text="{Binding NewExerciseName}"
+                           x:Name="NewExerciseNameEntry"
                            Placeholder="Nouvel exercice" FlexLayout.Grow="2" 
                            TextColor="Black" AutomationId="newExerciseName">
 
@@ -81,6 +80,7 @@
                     </Entry>
 
                     <Entry Text="{Binding ExistingExerciseName}"
+                           x:Name="ExistingExerciseNameEntry"
                            AutomationId="existingExerciseName" TextColor="Black"
                            Placeholder="Exercice existant" FlexLayout.Grow="2"
                            IsEnabled="{Binding CurrentExercise, Converter={x:StaticResource IsNotNullConverter}}">
@@ -93,8 +93,27 @@
                         </Entry.IsVisible>
                     </Entry>
 
-                    <dx:Chip Text="Valider" HeightRequest="30" VerticalOptions="Center"
-                             Margin="10,0,10,0"/>
+                    <dx:Chip HeightRequest="30" VerticalOptions="Center"
+                             Margin="10,0,10,0">
+                        <dx:Chip.Triggers>
+                            <DataTrigger TargetType="dx:Chip"
+                                         Binding="{Binding Source={x:Reference NewExerciseNameEntry},Path=IsVisible}"
+                                         Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Text"
+                                            Value="Ajouter"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                            <DataTrigger TargetType="dx:Chip"
+                                         Binding="{Binding Source={x:Reference ExistingExerciseNameEntry},Path=IsVisible}"
+                                         Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Text"
+                                            Value="Modifier"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </dx:Chip.Triggers>
+                    </dx:Chip>
                 </FlexLayout>
                 
                 <Label Text="Définir une difficulté" FontAttributes="Bold"

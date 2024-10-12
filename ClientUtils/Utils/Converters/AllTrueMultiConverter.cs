@@ -4,7 +4,7 @@ namespace ClientUtilsProject.Utils;
 
 public class AllTrueMultiConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object?[] values, Type targetType, object parameter, CultureInfo culture)
     {
         if (values == null || !targetType.IsAssignableFrom(typeof(bool)))
         {
@@ -27,7 +27,7 @@ public class AllTrueMultiConverter : IMultiValueConverter
         return true;
     }
 
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    public object?[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)
     {
         if (!(value is bool b) || targetTypes.Any(t => !t.IsAssignableFrom(typeof(bool))))
         {

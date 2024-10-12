@@ -3,22 +3,12 @@
 using System;
 using System.Globalization;
 
-public class MyIsIntEqualConverter : IValueConverter
+public class MyIsNotNullConverter : IValueConverter
 {
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        if (value is int compareTo)
-        {
-            if (parameter is int compareWith)
-                return compareTo == compareWith;
-            
-            if (parameter is string compareWithString && int.TryParse(compareWithString, out int parsedValue))
-                return compareTo == parsedValue;
-        }
-        return false;
-    }
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        => value != null;
 
-    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
