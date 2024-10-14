@@ -137,12 +137,15 @@ public partial class ExerciseVM : ObservableObject
     [RelayCommand]
     public async Task SetName(string newExistingExerciseName)
     {
-        if (!string.IsNullOrEmpty(newExistingExerciseName) && SelectedExercise is not null)
-            SelectedExercise.ExerciseName = newExistingExerciseName;
-        // OnPropertyChanged(nameof(SelectedExercise));
-        // OnPropertyChanged(nameof(Exercises));
         NewExerciseName = string.Empty;
         ExistingExerciseName = string.Empty;
+        
+        if (!string.IsNullOrEmpty(newExistingExerciseName) && SelectedExercise is not null)
+            SelectedExercise.ExerciseName = newExistingExerciseName;
+
+        var potentialNewExercise = new Exercise();
+        Exercises.Insert(0, potentialNewExercise);
+        Repository.GetContext().Entry(potentialNewExercise).State = EntityState.Added;
     }
 
     /**

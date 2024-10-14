@@ -20,6 +20,7 @@ public partial class ExercisePage : ContentPage
 
     private void DifficultyLevelEntry_Focused(object sender, FocusEventArgs e)
     {
+        // DifficultyLevelEntry.Unfocus();
         Dispatcher.Dispatch(() =>
         {
             DifficultyLevelEntry.Value = 0;

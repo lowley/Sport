@@ -35,7 +35,7 @@
             <!-- WidthRequest="{Binding Source={x:Reference Page}, Path=Width}"> -->
             <dx:DXBorder
                 BackgroundColor="#F7F7F7"
-                BorderColor="#F1F1F1" BorderThickness="1"
+                BorderColor="#D5D5D5" BorderThickness="1"
                 CornerRadius="10">
                 <Grid
                     RowDefinitions="auto, auto, auto"
@@ -144,7 +144,7 @@
             </dx:DXBorder>
 
             <dx:DXBorder BackgroundColor="#F7F7F7" Margin="0,5,0,10"
-                         BorderColor="#F1F1F1" BorderThickness="1"
+                         BorderColor="#D5D5D5" BorderThickness="1"
                          CornerRadius="10"
                          IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}">
                 <Grid
@@ -184,7 +184,7 @@
                                             AffixColor="Grey" CornerRadius="7" MaxValue="200"
                                             IsUpDownIconVisible="True" UpDownIconAlignment="Both"
                                             MaxDecimalDigitCount="0" AllowNullValue="True"
-                                            IconIndent="3"/>
+                                            IconIndent="3" TextHorizontalAlignment="Center"/>
 
                             <Slider x:Name="slider" FlexLayout.Grow="1"
                                     Maximum="200" Value="{Binding SelectedDifficulty.DifficultyLevel}"
