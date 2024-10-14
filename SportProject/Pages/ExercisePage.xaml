@@ -27,114 +27,135 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, auto, *, auto, auto"
-          Margin="10,5,10,0" RowSpacing="5">
+          Margin="10,5,10,0" RowSpacing="5" Padding="0"
+          >
+        
+        <VerticalStackLayout Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="5"
+                             Margin="0,0,0,0"
+                             >
+            <!-- WidthRequest="{Binding Source={x:Reference Page}, Path=Width}"> -->
+            <dx:DXBorder 
+                         BackgroundColor="#F7F7F7"
+                         BorderColor="#F1F1F1" BorderThickness="1"
+                         CornerRadius="10"
+                         >
+                <Grid
+                    RowDefinitions="auto, auto, auto"
+                    ColumnDefinitions="auto, auto, auto, auto, *"
+                    Padding="5,0,5,0"
+                    Margin="0,0,0,10">
 
-        <dx:DXBorder Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="4"
-                     BackgroundColor="#F7F7F7"
-                     BorderColor="#F1F1F1" BorderThickness="1"
-                     CornerRadius="10"
-                     WidthRequest="{Binding Source={x:Reference Page}, Path=Width}">
-            <Grid
-                RowDefinitions="auto, auto, auto, auto, auto, auto"
-                ColumnDefinitions="auto, auto, auto, auto, *"
-                Padding="5,0,5,0"
-                Margin="0,0,0,10">
+                    <Label Text="Définir un exercice" FontAttributes="Bold"
+                           VerticalOptions="Center" Margin="0,10,0,0"
+                           Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
+                           HorizontalOptions="Center" />
 
-                <Label Text="Définir un exercice" FontAttributes="Bold"
-                       VerticalOptions="Center" Margin="0,10,0,0"
-                       Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
-                       HorizontalOptions="Center" />
+                    <dx:ChoiceChipGroup Margin="5,-15,0,0" Padding="0,20,0,0"
+                                        SelectedItem="{Binding SelectedExercise}"
+                                        ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
+                                        DisplayMember="DisplayedName"
+                                        IsMultiline="True" AllowDeselect="True"
+                                        Grid.Row="1" Grid.ColumnSpan="5"
+                                        x:Name="ExercisesChipGroup" ChipTapCommand="{Binding ExerciseTappedCommand}"
+                                        ChipTapCommandParameter="{Binding SelectedExercise}"
+                                        ChipDisabledBackgroundColor="Bisque" />
 
-                <dx:ChoiceChipGroup Margin="5,-15,0,0" Padding="0,20,0,0"
-                                    SelectedItem="{Binding SelectedExercise}"
-                                    ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
-                                    DisplayMember="DisplayedName"
-                                    IsMultiline="True" AllowDeselect="True"
-                                    Grid.Row="1" Grid.ColumnSpan="5"
-                                    x:Name="ExercisesChipGroup" ChipTapCommand="{Binding ExerciseTappedCommand}"
-                                    ChipTapCommandParameter="{Binding SelectedExercise}"
-                                    ChipDisabledBackgroundColor="Bisque" />
-
-                <FlexLayout Grid.Row="2" Grid.ColumnSpan="5" Padding="0"
-                            x:Name="TextsLayout" Margin="5,0,0,0"
-                            AlignContent="Start">
-                    <FlexLayout.IsVisible>
-                        <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
-                            <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedItem"
-                                     Converter="{StaticResource MyIsNotNullConverter}" />
-                            <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex"
-                                     Converter="{StaticResource MyIsIntNotEqualConverter}" ConverterParameter="-1" />
-                        </MultiBinding>
-                    </FlexLayout.IsVisible>
-
-                    <Label Text="Nom: " VerticalOptions="Center" Margin="0" />
-                    <Entry Text="{Binding NewExerciseName}"
-                           x:Name="NewExerciseNameEntry"
-                           Placeholder="Nouvel exercice" FlexLayout.Grow="2"
-                           TextColor="Black" AutomationId="newExerciseName">
-
-                        <Entry.IsVisible>
+                    <FlexLayout Grid.Row="2" Grid.ColumnSpan="5" Padding="0"
+                                x:Name="TextsLayout" Margin="5,0,0,0"
+                                AlignContent="Start">
+                        <FlexLayout.IsVisible>
                             <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
-                                <Binding Source="{x:Reference TextsLayout}" Path="IsVisible" />
-                                <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex"
-                                         Converter="{StaticResource MyIsIntEqualConverter}" ConverterParameter="0" />
-                            </MultiBinding>
-                        </Entry.IsVisible>
-                    </Entry>
-
-                    <Entry Text="{Binding ExistingExerciseName}"
-                           x:Name="ExistingExerciseNameEntry"
-                           AutomationId="existingExerciseName" TextColor="Black"
-                           Placeholder="Exercice existant" FlexLayout.Grow="2"
-                           IsEnabled="{Binding SelectedExercise, Converter={x:StaticResource IsNotNullConverter}}">
-                        <Entry.IsVisible>
-                            <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
-                                <Binding Source="{x:Reference TextsLayout}" Path="IsVisible" />
-                                <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex"
-                                         Converter="{StaticResource MyIsIntNotEqualConverter}" ConverterParameter="0" />
+                                <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedItem"
+                                         Converter="{StaticResource MyIsNotNullConverter}" />
                                 <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex"
                                          Converter="{StaticResource MyIsIntNotEqualConverter}" ConverterParameter="-1" />
                             </MultiBinding>
-                        </Entry.IsVisible>
-                    </Entry>
+                        </FlexLayout.IsVisible>
 
-                    <dx:Chip HeightRequest="30" VerticalOptions="Center"
-                             Margin="10,0,10,0">
-                        <dx:Chip.Triggers>
-                            <DataTrigger TargetType="dx:Chip"
-                                         Binding="{Binding Source={x:Reference NewExerciseNameEntry},Path=IsVisible}"
-                                         Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Text"
-                                            Value="Ajouter" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger TargetType="dx:Chip"
-                                         Binding="{Binding Source={x:Reference ExistingExerciseNameEntry},Path=IsVisible}"
-                                         Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Text"
-                                            Value="Modifier" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </dx:Chip.Triggers>
-                    </dx:Chip>
-                </FlexLayout>
-                
-                <Label Text="Définir une difficulté" FontAttributes="Bold"
-                       VerticalOptions="Center" Margin="0,10,0,0"
-                       Grid.Row="4" Grid.ColumnSpan="5" FontSize="18"
-                       HorizontalOptions="Center"
-                       IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
+                        <Label Text="Nom: " VerticalOptions="Center" Margin="0" />
+                        <Entry Text="{Binding NewExerciseName}"
+                               x:Name="NewExerciseNameEntry"
+                               Placeholder="Nouvel exercice" FlexLayout.Grow="2"
+                               TextColor="Black" AutomationId="newExerciseName">
 
-                <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
-                                    ItemsSource="{Binding SelectedExercise.ExerciseDifficulties}"
-                                    DisplayMember="DisplayedName" IsMultiline="True" Margin="0,-12,0,0"
-                                    Grid.Row="5" Grid.ColumnSpan="5" AllowDeselect="True"
-                                    IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
+                            <Entry.IsVisible>
+                                <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
+                                    <Binding Source="{x:Reference TextsLayout}" Path="IsVisible" />
+                                    <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex"
+                                             Converter="{StaticResource MyIsIntEqualConverter}" ConverterParameter="0" />
+                                </MultiBinding>
+                            </Entry.IsVisible>
+                        </Entry>
 
-            </Grid>
-        </dx:DXBorder>
+                        <Entry Text="{Binding ExistingExerciseName}"
+                               x:Name="ExistingExerciseNameEntry"
+                               AutomationId="existingExerciseName" TextColor="Black"
+                               Placeholder="Exercice existant" FlexLayout.Grow="2"
+                               IsEnabled="{Binding SelectedExercise, Converter={x:StaticResource IsNotNullConverter}}">
+                            <Entry.IsVisible>
+                                <MultiBinding Converter="{StaticResource AllTrueMultiConverter}">
+                                    <Binding Source="{x:Reference TextsLayout}" Path="IsVisible" />
+                                    <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex"
+                                             Converter="{StaticResource MyIsIntNotEqualConverter}"
+                                             ConverterParameter="0" />
+                                    <Binding Source="{x:Reference ExercisesChipGroup}" Path="SelectedIndex"
+                                             Converter="{StaticResource MyIsIntNotEqualConverter}"
+                                             ConverterParameter="-1" />
+                                </MultiBinding>
+                            </Entry.IsVisible>
+                        </Entry>
+
+                        <dx:Chip HeightRequest="30" VerticalOptions="Center"
+                                 Margin="10,0,10,0">
+                            <dx:Chip.Triggers>
+                                <DataTrigger TargetType="dx:Chip"
+                                             Binding="{Binding Source={x:Reference NewExerciseNameEntry},Path=IsVisible}"
+                                             Value="True">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Text"
+                                                Value="Ajouter" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                                <DataTrigger TargetType="dx:Chip"
+                                             Binding="{Binding Source={x:Reference ExistingExerciseNameEntry},Path=IsVisible}"
+                                             Value="True">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Text"
+                                                Value="Modifier" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </dx:Chip.Triggers>
+                        </dx:Chip>
+                    </FlexLayout>
+                </Grid>
+            </dx:DXBorder>
+
+            <dx:DXBorder BackgroundColor="#F7F7F7" Margin="0,5,0,10"
+                         BorderColor="#F1F1F1" BorderThickness="1"
+                         CornerRadius="10"
+                         IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}">
+                <Grid
+                    RowDefinitions="auto, auto, auto"
+                    ColumnDefinitions="auto, auto, auto, auto, *"
+                    Padding="5,0,5,0">
+
+                    <Label Text="Définir une difficulté" FontAttributes="Bold"
+                           VerticalOptions="Center" Margin="0,10,0,0"
+                           Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
+
+                    <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
+                                        ItemsSource="{Binding SelectedExercise.ExerciseDifficulties}"
+                                        DisplayMember="DisplayedName" IsMultiline="True" Margin="5,-12,0,0"
+                                        Grid.Row="1" Grid.ColumnSpan="5" AllowDeselect="True"
+                                        IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}"
+                                        Padding="0,20,0,0" />
+
+                </Grid>
+            </dx:DXBorder>
+        </VerticalStackLayout>
+
 
         <!-- <Entry Text="{Binding CurrentExercise.ExerciseName}" AutomationId="ExerciseName" -->
         <!--        Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" -->
