@@ -163,7 +163,8 @@
                                         IsMultiline="True" Margin="5,-12,0,0"
                                         Grid.Row="1" Grid.ColumnSpan="5" AllowDeselect="True"
                                         IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}"
-                                        Padding="0,20,0,0">
+                                        Padding="0,20,0,0"
+                                        ChipTapCommand="{Binding  DifficultyTappedCommand}">
                         <dx:ChoiceChipGroup.ChipContentTemplate>
                             <DataTemplate x:DataType="dataClasses:ExerciceDifficulty">
                                 <Label Text="{Binding DisplayedName}"

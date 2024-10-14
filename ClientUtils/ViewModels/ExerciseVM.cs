@@ -4,9 +4,6 @@ using ClientUtilsProject.Utils;
 using ClientUtilsProject.Utils.SportRepository;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.Generic;
-using System.Diagnostics;
-using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClientUtilsProject.ViewModels;
@@ -148,6 +145,23 @@ public partial class ExerciseVM : ObservableObject
         Repository.GetContext().Entry(potentialNewExercise).State = EntityState.Added;
     }
 
+    [RelayCommand]
+    public async Task DifficultyTapped()
+    {
+        if (SelectedDifficulty.Id != SelectedExercise.ExerciseDifficulties[0].Id)
+            return;
+        
+        SelectedDifficulty.DifficultyLevel = 0;
+        SelectedDifficulty.DifficultyName = "Kg";
+
+        var newDifficulty = new ExerciceDifficulty();
+        SelectedExercise.ExerciseDifficulties.Insert(0, newDifficulty);
+        Repository.GetContext().Entry(newDifficulty).State = EntityState.Added;
+    }
+    
+    
+    
+    
     /**
      * CurrentExercise:
      * - l' exercice sélectionné<br/>
