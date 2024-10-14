@@ -312,7 +312,13 @@ public partial class ExerciseVM : ObservableObject
             .Include(e => e.ExerciseDifficulties)
             .AsNoTracking()
             .ToList();
-        newExercises.ForEach(e => Exercises.Add(e));
+        newExercises.ForEach(e =>
+        {
+            var eNewDifficulty = new ExerciceDifficulty();
+            Repository.GetContext().Entry(eNewDifficulty).State = EntityState.Added;
+            e.ExerciseDifficulties.Insert(0,eNewDifficulty);
+            Exercises.Add(e);
+        });
 
         Repository.GetContext().Entry(potentialNewExercise).State = EntityState.Added;
 

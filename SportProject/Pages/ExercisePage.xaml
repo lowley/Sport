@@ -120,12 +120,7 @@
                         </dx:Chip.Triggers>
                     </dx:Chip>
                 </FlexLayout>
-
-                <Border Grid.Row="3"
-                        Stroke="LightGrey"
-                        Grid.ColumnSpan="5" WidthRequest="200"
-                        HeightRequest="1" />
-
+                
                 <Label Text="Définir une difficulté" FontAttributes="Bold"
                        VerticalOptions="Center" Margin="0,10,0,0"
                        Grid.Row="4" Grid.ColumnSpan="5" FontSize="18"
@@ -145,34 +140,34 @@
         <!--        Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" -->
         <!--        VerticalOptions="Center" Margin="13,0,0,0"/> -->
 
-        <dx:DXBorder Grid.ColumnSpan="5" Grid.Row="1"
-                     BackgroundColor="#F7F7F7"
-                     BorderColor="#F1F1F1" BorderThickness="1"
-                     CornerRadius="10"
-                     WidthRequest="{Binding Source={x:Reference Page}, Path=Width}">
-            <VerticalStackLayout>
-                <Label Text="Difficulté" FontAttributes="Bold"
-                       VerticalOptions="Center" Margin="0,10,0,0"
-                       Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
-                       HorizontalOptions="Center" />
-
-                <Slider x:Name="slider" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
-                        Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}"
-                        VerticalOptions="Center" />
-                <Label x:Name="displayLabel" Grid.Row="2" Grid.Column="3" AutomationId="ExerciseDifficulty"
-                       Text="{Binding Source={x:Reference slider},Path=Value,
-                              StringFormat='{0:F0}'}"
-                       Margin="0,0,5,0"
-                       HorizontalOptions="Center" VerticalOptions="Center" />
-                <Label Grid.Row="2" Grid.Column="4" Text="{Binding CurrentDifficulty.ShowName}" />
-                <Entry Grid.Row="3" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}"
-                       Keyboard="Numeric"
-                       AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry"
-                       Focused="DifficultyLevelEntry_Focused" />
-
-
-            </VerticalStackLayout>
-        </dx:DXBorder>
+        <!-- <dx:DXBorder Grid.ColumnSpan="5" Grid.Row="1" -->
+        <!--              BackgroundColor="#F7F7F7" -->
+        <!--              BorderColor="#F1F1F1" BorderThickness="1" -->
+        <!--              CornerRadius="10" -->
+        <!--              WidthRequest="{Binding Source={x:Reference Page}, Path=Width}"> -->
+        <!--     <VerticalStackLayout> -->
+        <!--         <Label Text="Difficulté" FontAttributes="Bold" -->
+        <!--                VerticalOptions="Center" Margin="0,10,0,0" -->
+        <!--                Grid.Row="0" Grid.ColumnSpan="5" FontSize="18" -->
+        <!--                HorizontalOptions="Center" /> -->
+        <!-- -->
+        <!--         <Slider x:Name="slider" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" -->
+        <!--                 Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}" -->
+        <!--                 VerticalOptions="Center" /> -->
+        <!--         <Label x:Name="displayLabel" Grid.Row="2" Grid.Column="3" AutomationId="ExerciseDifficulty" -->
+        <!--                Text="{Binding Source={x:Reference slider},Path=Value, -->
+        <!--                       StringFormat='{0:F0}'}" -->
+        <!--                Margin="0,0,5,0" -->
+        <!--                HorizontalOptions="Center" VerticalOptions="Center" /> -->
+        <!--         <Label Grid.Row="2" Grid.Column="4" Text="{Binding CurrentDifficulty.ShowName}" /> -->
+        <!--         <Entry Grid.Row="3" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" -->
+        <!--                Keyboard="Numeric" -->
+        <!--                AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" -->
+        <!--                Focused="DifficultyLevelEntry_Focused" /> -->
+        <!-- -->
+        <!-- -->
+        <!--     </VerticalStackLayout> -->
+        <!-- </dx:DXBorder> -->
 
         <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="5">
             <Button Grid.Row="3" Grid.Column="3" Text="Cacher"

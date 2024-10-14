@@ -17,13 +17,13 @@ public partial class ExercisePage : ContentPage
         Logger = logger;
     }
 
-    private void DifficultyLevelEntry_Focused(object sender, FocusEventArgs e)
-    {
-        Dispatcher.Dispatch(() =>
-        {
-            DifficultyLevelEntry.Text = "";
-        });
-    }
+    // private void DifficultyLevelEntry_Focused(object sender, FocusEventArgs e)
+    // {
+    //     Dispatcher.Dispatch(() =>
+    //     {
+    //         DifficultyLevelEntry.Text = "";
+    //     });
+    // }
 
     private void HideKeyboard_Clicked(object sender, EventArgs e)
     {
