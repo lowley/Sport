@@ -134,6 +134,17 @@ public partial class ExerciseVM : ObservableObject
         LastSelectedExerciseId = exercise?.Id;
     }
 
+    [RelayCommand]
+    public async Task SetName(string newExistingExerciseName)
+    {
+        if (!string.IsNullOrEmpty(newExistingExerciseName) && SelectedExercise is not null)
+            SelectedExercise.ExerciseName = newExistingExerciseName;
+        // OnPropertyChanged(nameof(SelectedExercise));
+        // OnPropertyChanged(nameof(Exercises));
+        NewExerciseName = string.Empty;
+        ExistingExerciseName = string.Empty;
+    }
+
     /**
      * CurrentExercise:
      * - l' exercice sélectionné<br/>

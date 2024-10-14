@@ -22,6 +22,7 @@
         <SharedUtils:MyIsNotNullConverter x:Key="MyIsNotNullConverter" />
         <SharedUtils:MyIsIntNotEqualConverter x:Key="MyIsIntNotEqualConverter" />
         <SharedUtils:AllTrueMultiConverter x:Key="AllTrueMultiConverter" />
+        <SharedUtils:FirstNotEmptyConverter x:Key="FirstNotEmptyConverter" />
         <toolkit:IsEqualConverter x:Key="IsEqualConverter" />
         <toolkit:IsNotEqualConverter x:Key="IsNotEqualConverter" />
     </ContentPage.Resources>
@@ -53,12 +54,18 @@
                     <dx:ChoiceChipGroup Margin="5,-15,0,0" Padding="0,20,0,0"
                                         SelectedItem="{Binding SelectedExercise}"
                                         ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
-                                        DisplayMember="DisplayedName"
                                         IsMultiline="True" AllowDeselect="True"
                                         Grid.Row="1" Grid.ColumnSpan="5"
                                         x:Name="ExercisesChipGroup" ChipTapCommand="{Binding ExerciseTappedCommand}"
                                         ChipTapCommandParameter="{Binding SelectedExercise}"
-                                        ChipDisabledBackgroundColor="Bisque" />
+                                        ChipDisabledBackgroundColor="Bisque" >
+                            <dx:ChoiceChipGroup.ChipContentTemplate>
+                                <DataTemplate x:DataType="dataClasses:Exercise">
+                                    <Label Text="{Binding DisplayedName}"
+                                           FontAttributes="Bold"/>
+                                </DataTemplate>
+                            </dx:ChoiceChipGroup.ChipContentTemplate>
+                        </dx:ChoiceChipGroup>
 
                     <FlexLayout Grid.Row="2" Grid.ColumnSpan="5" Padding="0"
                                 x:Name="TextsLayout" Margin="5,0,0,0"
@@ -106,7 +113,16 @@
                         </Entry>
 
                         <dx:Chip HeightRequest="30" VerticalOptions="Center"
-                                 Margin="10,0,10,0">
+                                 Margin="10,0,10,0"
+                                 TapCommand="{Binding SetNameCommand}">
+                            
+                            <dx:Chip.TapCommandParameter>
+                                <MultiBinding Converter="{StaticResource FirstNotEmptyConverter}">
+                                    <Binding Source="{x:Reference NewExerciseNameEntry}" Path="Text"/>
+                                    <Binding Source="{x:Reference ExistingExerciseNameEntry}" Path="Text"/>
+                                </MultiBinding>
+                            </dx:Chip.TapCommandParameter>
+                            
                             <dx:Chip.Triggers>
                                 <DataTrigger TargetType="dx:Chip"
                                              Binding="{Binding Source={x:Reference NewExerciseNameEntry},Path=IsVisible}"
@@ -147,10 +163,17 @@
 
                     <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
                                         ItemsSource="{Binding SelectedExercise.ExerciseDifficulties}"
-                                        DisplayMember="DisplayedName" IsMultiline="True" Margin="5,-12,0,0"
+                                        IsMultiline="True" Margin="5,-12,0,0"
                                         Grid.Row="1" Grid.ColumnSpan="5" AllowDeselect="True"
                                         IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}"
-                                        Padding="0,20,0,0" />
+                                        Padding="0,20,0,0" >
+                        <dx:ChoiceChipGroup.ChipContentTemplate>
+                            <DataTemplate x:DataType="dataClasses:ExerciceDifficulty">
+                                <Label Text="{Binding DisplayedName}"
+                                       FontAttributes="Bold"/>
+                            </DataTemplate>
+                        </dx:ChoiceChipGroup.ChipContentTemplate>
+                    </dx:ChoiceChipGroup>
 
                 </Grid>
             </dx:DXBorder>
