@@ -28,18 +28,15 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, auto, *, auto, auto"
-          Margin="10,5,10,0" RowSpacing="5" Padding="0"
-          >
-        
+          Margin="10,5,10,0" RowSpacing="5" Padding="0">
+
         <VerticalStackLayout Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="5"
-                             Margin="0,0,0,0"
-                             >
+                             Margin="0,0,0,0">
             <!-- WidthRequest="{Binding Source={x:Reference Page}, Path=Width}"> -->
-            <dx:DXBorder 
-                         BackgroundColor="#F7F7F7"
-                         BorderColor="#F1F1F1" BorderThickness="1"
-                         CornerRadius="10"
-                         >
+            <dx:DXBorder
+                BackgroundColor="#F7F7F7"
+                BorderColor="#F1F1F1" BorderThickness="1"
+                CornerRadius="10">
                 <Grid
                     RowDefinitions="auto, auto, auto"
                     ColumnDefinitions="auto, auto, auto, auto, *"
@@ -58,14 +55,14 @@
                                         Grid.Row="1" Grid.ColumnSpan="5"
                                         x:Name="ExercisesChipGroup" ChipTapCommand="{Binding ExerciseTappedCommand}"
                                         ChipTapCommandParameter="{Binding SelectedExercise}"
-                                        ChipDisabledBackgroundColor="Bisque" >
-                            <dx:ChoiceChipGroup.ChipContentTemplate>
-                                <DataTemplate x:DataType="dataClasses:Exercise">
-                                    <Label Text="{Binding DisplayedName}"
-                                           FontAttributes="Bold"/>
-                                </DataTemplate>
-                            </dx:ChoiceChipGroup.ChipContentTemplate>
-                        </dx:ChoiceChipGroup>
+                                        ChipDisabledBackgroundColor="Bisque">
+                        <dx:ChoiceChipGroup.ChipContentTemplate>
+                            <DataTemplate x:DataType="dataClasses:Exercise">
+                                <Label Text="{Binding DisplayedName}"
+                                       FontAttributes="Bold" />
+                            </DataTemplate>
+                        </dx:ChoiceChipGroup.ChipContentTemplate>
+                    </dx:ChoiceChipGroup>
 
                     <FlexLayout Grid.Row="2" Grid.ColumnSpan="5" Padding="0"
                                 x:Name="TextsLayout" Margin="5,0,0,0"
@@ -115,14 +112,14 @@
                         <dx:Chip HeightRequest="30" VerticalOptions="Center"
                                  Margin="10,0,10,0"
                                  TapCommand="{Binding SetNameCommand}">
-                            
+
                             <dx:Chip.TapCommandParameter>
                                 <MultiBinding Converter="{StaticResource FirstNotEmptyConverter}">
-                                    <Binding Source="{x:Reference NewExerciseNameEntry}" Path="Text"/>
-                                    <Binding Source="{x:Reference ExistingExerciseNameEntry}" Path="Text"/>
+                                    <Binding Source="{x:Reference NewExerciseNameEntry}" Path="Text" />
+                                    <Binding Source="{x:Reference ExistingExerciseNameEntry}" Path="Text" />
                                 </MultiBinding>
                             </dx:Chip.TapCommandParameter>
-                            
+
                             <dx:Chip.Triggers>
                                 <DataTrigger TargetType="dx:Chip"
                                              Binding="{Binding Source={x:Reference NewExerciseNameEntry},Path=IsVisible}"
@@ -166,14 +163,40 @@
                                         IsMultiline="True" Margin="5,-12,0,0"
                                         Grid.Row="1" Grid.ColumnSpan="5" AllowDeselect="True"
                                         IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}"
-                                        Padding="0,20,0,0" >
+                                        Padding="0,20,0,0">
                         <dx:ChoiceChipGroup.ChipContentTemplate>
                             <DataTemplate x:DataType="dataClasses:ExerciceDifficulty">
                                 <Label Text="{Binding DisplayedName}"
-                                       FontAttributes="Bold"/>
+                                       FontAttributes="Bold" />
                             </DataTemplate>
                         </dx:ChoiceChipGroup.ChipContentTemplate>
                     </dx:ChoiceChipGroup>
+
+                    <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="5" Margin="0,15,0,0">
+
+                        <FlexLayout AlignContent="Start" Margin="5,0,0,5"
+                                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}">
+                            <dx:NumericEdit Value="{Binding SelectedDifficulty.DifficultyLevel}"
+                                            Focused="DifficultyLevelEntry_Focused"
+                                            AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry"
+                                            Suffix="{Binding SelectedDifficulty.ShowName}"
+                                            BoxPadding="0,3,0,0" WidthRequest="120" HeightRequest="30"
+                                            AffixColor="Grey" CornerRadius="7" MaxValue="200"
+                                            IsUpDownIconVisible="True" UpDownIconAlignment="Both"
+                                            MaxDecimalDigitCount="0" AllowNullValue="True"
+                                            IconIndent="3"/>
+
+                            <Slider x:Name="slider" FlexLayout.Grow="1"
+                                    Maximum="200" Value="{Binding SelectedDifficulty.DifficultyLevel}"
+                                    VerticalOptions="Center" />
+                        </FlexLayout>
+                        <!-- <Label x:Name="displayLabel"  AutomationId="ExerciseDifficulty" -->
+                        <!--        Text="{Binding Source={x:Reference slider},Path=Value, -->
+                        <!--             StringFormat='{0:F0}'}" -->
+                        <!--        Margin="0,0,5,0" -->
+                        <!--        HorizontalOptions="Center" VerticalOptions="Center" /> -->
+
+                    </VerticalStackLayout>
 
                 </Grid>
             </dx:DXBorder>
@@ -195,19 +218,19 @@
         <!--                Grid.Row="0" Grid.ColumnSpan="5" FontSize="18" -->
         <!--                HorizontalOptions="Center" /> -->
         <!-- -->
-        <!--         <Slider x:Name="slider" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" -->
-        <!--                 Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}" -->
-        <!--                 VerticalOptions="Center" /> -->
-        <!--         <Label x:Name="displayLabel" Grid.Row="2" Grid.Column="3" AutomationId="ExerciseDifficulty" -->
-        <!--                Text="{Binding Source={x:Reference slider},Path=Value, -->
-        <!--                       StringFormat='{0:F0}'}" -->
-        <!--                Margin="0,0,5,0" -->
-        <!--                HorizontalOptions="Center" VerticalOptions="Center" /> -->
-        <!--         <Label Grid.Row="2" Grid.Column="4" Text="{Binding CurrentDifficulty.ShowName}" /> -->
-        <!--         <Entry Grid.Row="3" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" -->
-        <!--                Keyboard="Numeric" -->
-        <!--                AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" -->
-        <!--                Focused="DifficultyLevelEntry_Focused" /> -->
+        <!-- <Slider x:Name="slider" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" -->
+        <!--         Maximum="150" Value="{Binding CurrentDifficulty.DifficultyLevel}" -->
+        <!--         VerticalOptions="Center" /> -->
+        <!-- <Label x:Name="displayLabel" Grid.Row="2" Grid.Column="3" AutomationId="ExerciseDifficulty" -->
+        <!--        Text="{Binding Source={x:Reference slider},Path=Value, -->
+        <!--               StringFormat='{0:F0}'}" -->
+        <!--        Margin="0,0,5,0" -->
+        <!--        HorizontalOptions="Center" VerticalOptions="Center" /> -->
+        <!-- <Label Grid.Row="2" Grid.Column="4" Text="{Binding CurrentDifficulty.ShowName}" /> -->
+        <!-- <Entry Grid.Row="3" Grid.Column="1" Text="{Binding CurrentDifficulty.DifficultyLevel}" -->
+        <!--        Keyboard="Numeric" -->
+        <!--        AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry" -->
+        <!--        Focused="DifficultyLevelEntry_Focused" /> -->
         <!-- -->
         <!-- -->
         <!--     </VerticalStackLayout> -->

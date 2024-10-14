@@ -1,12 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using LanguageExt;
-using LanguageExt.TypeClasses;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientUtilsProject.DataClasses
 {
@@ -15,6 +8,7 @@ namespace ClientUtilsProject.DataClasses
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ShowMe))]
         [NotifyPropertyChangedFor(nameof(ShowMeShort))]
+        [NotifyPropertyChangedFor(nameof(DisplayedName))]
         public Int32? _difficultyLevel;
 
         [ObservableProperty]
