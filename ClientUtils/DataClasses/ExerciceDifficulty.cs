@@ -31,17 +31,19 @@ namespace ClientUtilsProject.DataClasses
             Exercise? exercice = default,
             string? difficultyName = default)
         {
+            var theExercise = exercice ?? new Exercise();  
+            
             DifficultyLevel = difficultyLevel;
-            Exercice = exercice ?? new Exercise();
+            Exercice = theExercise;
             DifficultyName = difficultyName == null ? Option<string>.None : Option<string>.Some(difficultyName);
             Id = Guid.NewGuid();
-            ExerciceId = Guid.Empty;
+            ExerciceId = theExercise.Id;
         }
 
         public ExerciceDifficulty()
         {
             Exercice = new Exercise();
-            DifficultyName = string.Empty;
+            DifficultyName = Option<string>.None;
             Id = Guid.NewGuid();
             ExerciceId = Guid.NewGuid();
         }
@@ -131,6 +133,9 @@ namespace ClientUtilsProject.DataClasses
             if (ReferenceEquals(this, other))
                 return true;
 
+            if (Exercice is null)
+                return false;
+            
             return DifficultyLevel == other.DifficultyLevel
                 && DifficultyName.Equals(other.DifficultyName)
                 && Exercice.ExerciseName.Equals(other.Exercice.ExerciseName);

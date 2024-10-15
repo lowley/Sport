@@ -14,8 +14,7 @@ public partial class ExerciseVM : ObservableObject
     [ObservableProperty] public ObservableCollection<Exercise> _exercises = [];
 
     //un exercice
-    [ObservableProperty]
-    public Exercise? _selectedExercise;
+    [ObservableProperty] public Exercise? _selectedExercise;
 
     //une difficulté
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CurrentDifficulty))]
@@ -43,7 +42,7 @@ public partial class ExerciseVM : ObservableObject
     private ISportRepository Repository { get; set; }
     private ISportNavigation Navigation { get; set; }
     private ISportLogger Logger { get; set; }
-    
+
     // partial void OnSelectedExerciseChanged(Exercise value)
     // {
     //     if (value is null || EditingNewExerciseName)
@@ -127,9 +126,10 @@ public partial class ExerciseVM : ObservableObject
             ExistingExerciseName = string.Empty;
             SelectedExercise = null;
             AnyExerciseTappedState = !AnyExerciseTappedState;
-        } else if (!AnyExerciseTappedState)
-             AnyExerciseTappedState = true;
-        
+        }
+        else if (!AnyExerciseTappedState)
+            AnyExerciseTappedState = true;
+
         LastSelectedExerciseId = exercise?.Id;
     }
 
@@ -138,9 +138,12 @@ public partial class ExerciseVM : ObservableObject
     {
         NewExerciseName = string.Empty;
         ExistingExerciseName = string.Empty;
-        
+
         if (!string.IsNullOrEmpty(newExistingExerciseName) && SelectedExercise is not null)
             SelectedExercise.ExerciseName = newExistingExerciseName;
+
+        if (SelectedExercise.Id != Exercises.FirstOrDefault()?.Id)
+            return;
 
         var potentialNewExercise = new Exercise();
         var potentialNewDifficulty = new ExerciceDifficulty();
@@ -156,18 +159,19 @@ public partial class ExerciseVM : ObservableObject
     public async Task DifficultyTapped(ExerciceDifficulty difficulty)
     {
         if (AnyDifficultyTappedState && LastSelectedDifficultyId == difficulty?.Id
-            && difficulty?.Id != SelectedExercise?.ExerciseDifficulties[0].Id)
+                                     && difficulty?.Id != SelectedExercise?.ExerciseDifficulties[0].Id)
         {
             SelectedDifficulty = null;
             AnyDifficultyTappedState = !AnyDifficultyTappedState;
-        } else if (!AnyDifficultyTappedState)
+        }
+        else if (!AnyDifficultyTappedState)
             AnyDifficultyTappedState = true;
-        
+
         LastSelectedDifficultyId = difficulty?.Id;
-        
+
         if (SelectedDifficulty.Id != SelectedExercise.ExerciseDifficulties[0].Id)
             return;
-        
+
         SelectedDifficulty.DifficultyLevel = 10;
         SelectedDifficulty.DifficultyName = "Kg";
 
@@ -175,7 +179,7 @@ public partial class ExerciseVM : ObservableObject
         SelectedExercise.ExerciseDifficulties.Insert(0, newDifficulty);
         Repository.GetContext().Entry(newDifficulty).State = EntityState.Added;
     }
-    
+
     /**
      * CurrentExercise:
      * - l' exercice sélectionné<br/>
@@ -190,11 +194,40 @@ public partial class ExerciseVM : ObservableObject
     [RelayCommand]
     public async Task Save()
     {
-        
-        
-        
-        
-        
+        var newExercise = Exercises.FirstOrDefault();
+
+        //bug théorique
+        if (newExercise is null)
+            return;
+
+        var newExerciseState = Repository.GetContext()
+            .Entry(newExercise).State;
+
+        //premier exercice non modifié => pas d'ajout => suppression car inutile
+        if (newExerciseState == EntityState.Added)
+        {
+            Repository.GetContext().Entry(newExercise).State = EntityState.Detached;
+            Exercises.RemoveAt(0);
+        }
+
+        foreach (var exercise in Exercises)
+        {
+            var newDifficulty = exercise.ExerciseDifficulties.FirstOrDefault();
+            //bug théorique
+            if (newDifficulty is null)
+                return;
+            var newDifficultyState = Repository.GetContext()
+                .Entry(newDifficulty).State;
+            if (newDifficultyState == EntityState.Added)
+            {
+                Repository.GetContext().Entry(newDifficulty).State = EntityState.Detached;
+                exercise.ExerciseDifficulties.RemoveAt(0);
+            }
+        }
+
+        await Repository.SaveChangesAsync();
+        await LoadExercises();
+
         // Guid recoveryId = Guid.Empty;
         //
         // if (IsCreationExercise())
@@ -353,17 +386,16 @@ public partial class ExerciseVM : ObservableObject
         PotentialNewDifficulty = new();
         potentialNewExercise.ExerciseDifficulties.Insert(0, PotentialNewDifficulty);
         Repository.GetContext().Entry(PotentialNewDifficulty).State = EntityState.Added;
-        
+
         Exercises.Add(potentialNewExercise);
         var newExercises = Repository.Query<Exercise>()
             .Include(e => e.ExerciseDifficulties)
-            .AsNoTracking()
             .ToList();
         newExercises.ForEach(e =>
         {
             var eNewDifficulty = new ExerciceDifficulty();
             Repository.GetContext().Entry(eNewDifficulty).State = EntityState.Added;
-            e.ExerciseDifficulties.Insert(0,eNewDifficulty);
+            e.ExerciseDifficulties.Insert(0, eNewDifficulty);
             Exercises.Add(e);
         });
 
