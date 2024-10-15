@@ -23,6 +23,7 @@
         <SharedUtils:MyIsIntNotEqualConverter x:Key="MyIsIntNotEqualConverter" />
         <SharedUtils:AllTrueMultiConverter x:Key="AllTrueMultiConverter" />
         <SharedUtils:FirstNotEmptyConverter x:Key="FirstNotEmptyConverter" />
+        <SharedUtils:IsNotNullAndHasNameConverter x:Key="IsNotNullAndHasNameConverter" />
         <toolkit:IsEqualConverter x:Key="IsEqualConverter" />
         <toolkit:IsNotEqualConverter x:Key="IsNotEqualConverter" />
     </ContentPage.Resources>
@@ -47,7 +48,7 @@
                            VerticalOptions="Center" Margin="0,10,0,0"
                            Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
                            HorizontalOptions="Center" />
-
+                    
                     <dx:ChoiceChipGroup Margin="5,-15,0,0" Padding="0,20,0,0"
                                         SelectedItem="{Binding SelectedExercise}"
                                         ItemsSource="{Binding Exercises}" AutomationId="ExercisesGroup"
@@ -145,8 +146,14 @@
 
             <dx:DXBorder BackgroundColor="#F7F7F7" Margin="0,5,0,10"
                          BorderColor="#D5D5D5" BorderThickness="1"
-                         CornerRadius="10"
-                         IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}">
+                         CornerRadius="10">
+                <dx:DXBorder.IsVisible>
+                    <MultiBinding Converter="{StaticResource IsNotNullAndHasNameConverter}">
+                        <Binding Path="SelectedExercise"/>
+                        <Binding Path="SelectedExercise.ExerciseName"/>
+                    </MultiBinding>
+                </dx:DXBorder.IsVisible>
+                    
                 <Grid
                     RowDefinitions="auto, auto, auto"
                     ColumnDefinitions="auto, auto, auto, auto, *"
@@ -155,16 +162,28 @@
                     <Label Text="Définir une difficulté" FontAttributes="Bold"
                            VerticalOptions="Center" Margin="0,10,0,0"
                            Grid.Row="0" Grid.ColumnSpan="5" FontSize="18"
-                           HorizontalOptions="Center"
-                           IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}" />
+                           HorizontalOptions="Center">
+                        <Label.IsVisible>
+                            <MultiBinding Converter="{StaticResource IsNotNullAndHasNameConverter}">
+                                <Binding Path="SelectedExercise"/>
+                                <Binding Path="SelectedExercise.ExerciseName"/>
+                            </MultiBinding>
+                        </Label.IsVisible>
+                    </Label>
 
                     <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
                                         ItemsSource="{Binding SelectedExercise.ExerciseDifficulties}"
                                         IsMultiline="True" Margin="5,-12,0,0"
                                         Grid.Row="1" Grid.ColumnSpan="5" AllowDeselect="True"
-                                        IsVisible="{Binding SelectedExercise, Converter={StaticResource IsNotNullConverter}}"
                                         Padding="0,20,0,0"
                                         ChipTapCommand="{Binding  DifficultyTappedCommand}">
+                        <dx:ChoiceChipGroup.IsVisible>
+                            <MultiBinding Converter="{StaticResource IsNotNullAndHasNameConverter}">
+                                <Binding Path="SelectedExercise"/>
+                                <Binding Path="SelectedExercise.ExerciseName"/>
+                            </MultiBinding>
+                        </dx:ChoiceChipGroup.IsVisible>
+                        
                         <dx:ChoiceChipGroup.ChipContentTemplate>
                             <DataTemplate x:DataType="dataClasses:ExerciceDifficulty">
                                 <Label Text="{Binding DisplayedName}"
@@ -175,8 +194,15 @@
 
                     <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="5" Margin="0,15,0,0">
 
-                        <FlexLayout AlignContent="Start" Margin="5,0,0,5"
-                                    IsVisible="{Binding SelectedDifficulty, Converter={StaticResource IsNotNullConverter}}">
+                        <FlexLayout AlignContent="Start" Margin="5,0,0,5">
+                            <FlexLayout.IsVisible>
+                                <MultiBinding Converter="{StaticResource IsNotNullAndHasNameConverter}" ConverterParameter="2">
+                                    <Binding Path="SelectedExercise"/>
+                                    <Binding Path="SelectedDifficulty"/>
+                                    <Binding Path="SelectedExercise.ExerciseName"/>
+                                </MultiBinding>
+                            </FlexLayout.IsVisible>
+                            
                             <dx:NumericEdit Value="{Binding SelectedDifficulty.DifficultyLevel}"
                                             Focused="DifficultyLevelEntry_Focused"
                                             AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry"
@@ -198,7 +224,6 @@
                         <!--        HorizontalOptions="Center" VerticalOptions="Center" /> -->
 
                     </VerticalStackLayout>
-
                 </Grid>
             </dx:DXBorder>
         </VerticalStackLayout>

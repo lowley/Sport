@@ -12,16 +12,14 @@ namespace ClientUtilsProject.DataClasses
 {
     public partial class Exercise : SportEntity, IEquatable<Exercise>
     {
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(DisplayedName))]
+        [ObservableProperty] [NotifyPropertyChangedFor(nameof(DisplayedName))]
         public string _exerciseName;
-        
-        [ObservableProperty]
-        public ObservableCollection<ExerciceDifficulty> _exerciseDifficulties;
+
+        [ObservableProperty] public ObservableCollection<ExerciceDifficulty> _exerciseDifficulties;
 
         public string DisplayedName
             => string.IsNullOrEmpty(ExerciseName) ? "Nouveau" : ExerciseName;
-        
+
         public Exercise()
         {
             ExerciseName = string.Empty;
@@ -40,6 +38,9 @@ namespace ClientUtilsProject.DataClasses
             return $"*{ExerciseName}/{difficulties}*";
             //return $"*{Id.ToString().Substring(0,5)}/{ExerciseName}/{difficulties}*";
         }
+        
+        public void RaisePropertyChanged(string property)
+            => OnPropertyChanged(property);
 
         #region equality check
 
@@ -60,7 +61,7 @@ namespace ClientUtilsProject.DataClasses
                 return true;
 
             return ExerciseName == other.ExerciseName
-                && ExerciseDifficulties.Equals(other.ExerciseDifficulties);
+                   && ExerciseDifficulties.Equals(other.ExerciseDifficulties);
         }
 
         /**
@@ -76,7 +77,7 @@ namespace ClientUtilsProject.DataClasses
 
             return string.Equals(ExerciseName, other.ExerciseName, StringComparison.CurrentCultureIgnoreCase);
         }
-        
+
         public static bool operator ==(Exercise left, Exercise right)
         {
             if (left is null || right is null)
@@ -88,6 +89,5 @@ namespace ClientUtilsProject.DataClasses
         public static bool operator !=(Exercise left, Exercise right) => !(left == right);
 
         #endregion equality check
-
     }
 }
