@@ -139,9 +139,24 @@ public partial class ExerciseVM : ObservableObject
         NewExerciseName = string.Empty;
         ExistingExerciseName = string.Empty;
 
-        if (!string.IsNullOrEmpty(newExistingExerciseName) && SelectedExercise is not null)
+        if (string.IsNullOrEmpty(newExistingExerciseName))
+            return;
+
+        if (Exercises.Select(e => e.ExerciseName).Contains(newExistingExerciseName))
+        {
+            //toast d'info de nom existant
+            newExistingExerciseName = string.Empty;
+            return;
+        }
+        
+        //code commun aux 2 cas
+        
+        //SelectedExercise ne peut pas être nul par construction du XAML normalement
+        if (SelectedExercise is not null)
             SelectedExercise.ExerciseName = newExistingExerciseName;
 
+        //cas spécifique du nouvel exercice
+        
         if (SelectedExercise.Id != Exercises.FirstOrDefault()?.Id)
             return;
 
@@ -206,8 +221,8 @@ public partial class ExerciseVM : ObservableObject
         //premier exercice non modifié => pas d'ajout => suppression car inutile
         if (newExerciseState == EntityState.Added)
         {
-            Repository.GetContext().Entry(newExercise).State = EntityState.Detached;
             Exercises.RemoveAt(0);
+            Repository.GetContext().Entry(newExercise).State = EntityState.Detached;
         }
 
         foreach (var exercise in Exercises)
@@ -220,8 +235,8 @@ public partial class ExerciseVM : ObservableObject
                 .Entry(newDifficulty).State;
             if (newDifficultyState == EntityState.Added)
             {
-                Repository.GetContext().Entry(newDifficulty).State = EntityState.Detached;
                 exercise.ExerciseDifficulties.RemoveAt(0);
+                Repository.GetContext().Entry(newDifficulty).State = EntityState.Detached;
             }
         }
 
@@ -383,6 +398,7 @@ public partial class ExerciseVM : ObservableObject
         Exercises.Clear();
 
         var potentialNewExercise = new Exercise();
+        Repository.GetContext().Entry(potentialNewExercise).State = EntityState.Added;
         PotentialNewDifficulty = new();
         potentialNewExercise.ExerciseDifficulties.Insert(0, PotentialNewDifficulty);
         Repository.GetContext().Entry(PotentialNewDifficulty).State = EntityState.Added;
@@ -399,10 +415,9 @@ public partial class ExerciseVM : ObservableObject
             Exercises.Add(e);
         });
 
-        Repository.GetContext().Entry(potentialNewExercise).State = EntityState.Added;
 
-        SelectedExercise = null;
         SelectedDifficulty = null;
+        SelectedExercise = null;
         NewExerciseName = string.Empty;
         ExistingExerciseName = string.Empty;
 
