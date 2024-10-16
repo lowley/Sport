@@ -39,6 +39,8 @@ public partial class ExerciseVM : ObservableObject
     public Guid? LastSelectedExerciseId;
     [ObservableProperty] public bool _anyDifficultyTappedState;
     [ObservableProperty] public bool _difficultiesChanged_ForBackEnd;
+    [ObservableProperty] public bool _exercicesChanged_ForBackEnd;
+    
     public Guid? LastSelectedDifficultyId;
     public bool DuringDifficultiesChange { get; set; } = false;
     public PropertyChangedEventHandler InSelectedExerciseChangedHandler { get; set; }
@@ -255,13 +257,13 @@ public partial class ExerciseVM : ObservableObject
             Exercises.Add(e);
         });
 
-
         SelectedDifficulty = null;
         SelectedExercise = null;
         NewExerciseName = string.Empty;
         ExistingExerciseName = string.Empty;
         DifficultiesChanged_ForBackEnd = !DifficultiesChanged_ForBackEnd;
-
+        ExercicesChanged_ForBackEnd = !ExercicesChanged_ForBackEnd;
+        
         // var trackedEntities = Repository.GetContext().ExerciceDifficulties.Local;
         // Console.WriteLine(trackedEntities.Count);
     }

@@ -38,6 +38,20 @@ public partial class ExercisePage : ContentPage
                 if (chip is not null)
                     chip.BackgroundColor = Colors.Beige;
             }
+
+            if (args.PropertyName.Equals(nameof(VM.ExercicesChanged_ForBackEnd)))
+            {
+                if (VM.Exercises is null || VM.Exercises.Count == 0)
+                    return;
+
+                await WaitUntil(() => 
+                    VM.Exercises.FirstOrDefault()?.Id
+                    == ExercisesChipGroup.ItemsSource?.ToList<Exercise>().FirstOrDefault()?.Id, 30);
+                
+                var chip = ExercisesChipGroup.GetChipByItem(VM.Exercises[0]);
+                if (chip is not null)
+                    chip.BackgroundColor = Colors.Beige;
+            }
         };
     }
 
