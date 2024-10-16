@@ -5,7 +5,6 @@ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Serilog.Events;
 using Serilog;
-using Sport.Pages;
 using ClientUtilsProject.ViewModels;
 using Serilog.Core;
 using DevExpress.Maui;

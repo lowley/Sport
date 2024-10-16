@@ -3,13 +3,13 @@
     x:Class="Sport.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Sport.Pages"
+    xmlns:pages="clr-namespace:SportProject.Pages"
     Shell.FlyoutBehavior="Disabled"
     Title="SportApp">
 
     <TabBar>
         <Tab Title="Home" Icon="dotnet_bot.png">
-            <ShellContent Title="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
+            <ShellContent Title="HomePage" ContentTemplate="{DataTemplate pages:HomePage}" />
         </Tab>
     </TabBar>
 </Shell>

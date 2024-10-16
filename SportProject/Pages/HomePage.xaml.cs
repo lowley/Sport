@@ -1,9 +1,7 @@
-﻿using Serilog.Core;
-using System.Diagnostics;
-using ClientUtilsProject.ViewModels;
-using LanguageExt;
+﻿using ClientUtilsProject.ViewModels;
+using Serilog.Core;
 
-namespace Sport.Pages;
+namespace SportProject.Pages;
 
 public partial class HomePage : ContentPage
 {

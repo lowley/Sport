@@ -1,5 +1,4 @@
-﻿using Sport.Pages;
-using SportProject.Pages;
+﻿using SportProject.Pages;
 
 namespace Sport
 {

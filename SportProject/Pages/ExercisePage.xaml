@@ -2,7 +2,7 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Sport.Pages.ExercisePage"
+             x:Class="SportProject.Pages.ExercisePage"
              xmlns:vm="clr-namespace:ClientUtilsProject.ViewModels;assembly=ClientUtilsProject"
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:sfe="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
@@ -12,9 +12,15 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:dx="http://schemas.devexpress.com/maui"
              x:DataType="vm:ExerciseVM"
+             BackgroundColor="{DynamicResource SixtyColor}"
              Title="ExercisePage"
              x:Name="Page">
 
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}" 
+                                   StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+    </ContentPage.Behaviors>
+    
     <ContentPage.Resources>
         <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
         <SharedUtils:MyIsEqualConverter x:Key="MyIsEqualConverter" />

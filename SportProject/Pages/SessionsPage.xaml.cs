@@ -8,7 +8,6 @@ using ClientUtilsProject.Utils.SportRepository;
 using Serilog.Core;
 using ClientUtilsProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using Sport.Pages;
 using Syncfusion.Maui.DataSource.Extensions;
 
 namespace SportProject.Pages;

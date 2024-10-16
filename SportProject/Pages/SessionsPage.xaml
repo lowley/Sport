@@ -9,9 +9,15 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:dataClasses="clr-namespace:ClientUtilsProject.DataClasses;assembly=ClientUtilsProject"
              x:DataType="vm:SessionsVM"
+             BackgroundColor="{DynamicResource SixtyColor}"
              Title="Affichage des sessions"
              x:Name="Page">
 
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}" 
+                                   StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+    </ContentPage.Behaviors>
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <SharedUtils:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />

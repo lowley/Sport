@@ -1,14 +1,12 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using ClientUtilsProject.DataClasses;
-using Serilog.Core;
 using ClientUtilsProject.ViewModels;
-using DevExpress.Maui.Core.Internal;
 using Microsoft.EntityFrameworkCore;
+using Serilog.Core;
 using Syncfusion.Maui.Buttons;
 using SelectionChangedEventArgs = Syncfusion.Maui.Buttons.SelectionChangedEventArgs;
 
-namespace Sport.Pages;
+namespace SportProject.Pages;
 
 [QueryProperty(nameof(SessionId), "sessionId")]
 public partial class SessionPage : ContentPage

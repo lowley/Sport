@@ -1,11 +1,9 @@
-using System.ComponentModel;
 using ClientUtilsProject.DataClasses;
-using Serilog.Core;
 using ClientUtilsProject.ViewModels;
-using SportProject.Platforms.Android;
+using Serilog.Core;
 using Syncfusion.Maui.DataSource.Extensions;
 
-namespace Sport.Pages;
+namespace SportProject.Pages;
 
 public partial class ExercisePage : ContentPage
 {

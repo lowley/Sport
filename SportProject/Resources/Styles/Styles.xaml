@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Courses.Resources.Styles.Styles">
+             x:Class="SportProject.Resources.Styles.Styles">
     <Style TargetType="Border">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource ThirtyColor}, Dark={StaticResource ThirtyColor}}" />
         <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource ThirtyTwoColor}, Dark={StaticResource ThirtyTwoColor}}" />
@@ -36,11 +36,11 @@
 
     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}" />
-        <Setter Property="Shell.BackButtonBehavior">
-            <Setter.Value>
-                <BackButtonBehavior IsEnabled="False" IsVisible="False" />
-            </Setter.Value>
-        </Setter>
+        <!-- <Setter Property="Shell.BackButtonBehavior"> -->
+        <!--     <Setter.Value> -->
+        <!--         <BackButtonBehavior IsEnabled="False" IsVisible="False" /> -->
+        <!--     </Setter.Value> -->
+        <!-- </Setter> -->
     </Style>
 
 </ResourceDictionary>
