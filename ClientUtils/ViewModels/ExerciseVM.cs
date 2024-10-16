@@ -38,9 +38,9 @@ public partial class ExerciseVM : ObservableObject
     [ObservableProperty] public bool _anyExerciseTappedState;
     public Guid? LastSelectedExerciseId;
     [ObservableProperty] public bool _anyDifficultyTappedState;
+    [ObservableProperty] public bool _difficultiesChanged_ForBackEnd;
     public Guid? LastSelectedDifficultyId;
     public bool DuringDifficultiesChange { get; set; } = false;
-
     public PropertyChangedEventHandler InSelectedExerciseChangedHandler { get; set; }
 
     private ISportRepository Repository { get; set; }
@@ -59,6 +59,7 @@ public partial class ExerciseVM : ObservableObject
             {
                 if (!DuringDifficultiesChange && args.PropertyName.Equals(nameof(Exercise.ExerciseDifficulties)))
                 {
+                    //tri des difficultés + réassignement SelectedDifficulty
                     var oldSelectedDifficultyId = SelectedDifficulty.Id;
                     DuringDifficultiesChange = true;
                     SelectedExercise.ExerciseDifficulties =
@@ -67,6 +68,7 @@ public partial class ExerciseVM : ObservableObject
                     DuringDifficultiesChange = false;
                     SelectedDifficulty = SelectedExercise.ExerciseDifficulties
                         .FirstOrDefault(d => d.Id == oldSelectedDifficultyId);
+                    
                 }
             };
 
@@ -75,6 +77,8 @@ public partial class ExerciseVM : ObservableObject
 
         if (newValue is not null)
             newValue.PropertyChanged += InSelectedExerciseChangedHandler;
+        
+        DifficultiesChanged_ForBackEnd = !DifficultiesChanged_ForBackEnd;
     }
 
     [RelayCommand]
@@ -128,6 +132,7 @@ public partial class ExerciseVM : ObservableObject
         Repository.GetContext().Entry(potentialNewExercise).State = EntityState.Added;
 
         SelectedExercise.RaisePropertyChanged(nameof(Exercise.ExerciseName));
+        DifficultiesChanged_ForBackEnd = !DifficultiesChanged_ForBackEnd;
     }
 
     [RelayCommand]
@@ -140,7 +145,8 @@ public partial class ExerciseVM : ObservableObject
             AnyDifficultyTappedState = !AnyDifficultyTappedState;
             return;
         }
-        else if (!AnyDifficultyTappedState)
+        
+        if (!AnyDifficultyTappedState)
             AnyDifficultyTappedState = true;
 
         LastSelectedDifficultyId = difficulty?.Id;
@@ -159,6 +165,7 @@ public partial class ExerciseVM : ObservableObject
         var newDifficulty = new ExerciceDifficulty();
         SelectedExercise.ExerciseDifficulties.Insert(0, newDifficulty);
         Repository.GetContext().Entry(newDifficulty).State = EntityState.Added;
+        DifficultiesChanged_ForBackEnd = !DifficultiesChanged_ForBackEnd;
     }
 
     /**
@@ -253,6 +260,7 @@ public partial class ExerciseVM : ObservableObject
         SelectedExercise = null;
         NewExerciseName = string.Empty;
         ExistingExerciseName = string.Empty;
+        DifficultiesChanged_ForBackEnd = !DifficultiesChanged_ForBackEnd;
 
         // var trackedEntities = Repository.GetContext().ExerciceDifficulties.Local;
         // Console.WriteLine(trackedEntities.Count);
