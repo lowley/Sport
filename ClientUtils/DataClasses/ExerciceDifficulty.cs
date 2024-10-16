@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 using LanguageExt;
 
 namespace ClientUtilsProject.DataClasses
@@ -31,6 +32,7 @@ namespace ClientUtilsProject.DataClasses
             Exercise? exercice = default,
             string? difficultyName = default)
         {
+            DetectShowMeShortChanges();
             var theExercise = exercice ?? new Exercise();  
             
             DifficultyLevel = difficultyLevel;
@@ -42,6 +44,7 @@ namespace ClientUtilsProject.DataClasses
 
         public ExerciceDifficulty()
         {
+            DetectShowMeShortChanges();
             Exercice = new Exercise();
             DifficultyName = Option<string>.None;
             Id = Guid.NewGuid();
@@ -50,6 +53,7 @@ namespace ClientUtilsProject.DataClasses
 
         public ExerciceDifficulty(Exercise exercice)
         {
+            DetectShowMeShortChanges();
             DifficultyName = "Kg";
             DifficultyLevel = 0;
             Exercice = exercice;
@@ -59,6 +63,7 @@ namespace ClientUtilsProject.DataClasses
         
         public ExerciceDifficulty(string exerciceName, int level)
         {
+            DetectShowMeShortChanges();
             DifficultyName = "Kg";
             DifficultyLevel = level;
             Exercice = new Exercise
@@ -72,12 +77,28 @@ namespace ClientUtilsProject.DataClasses
         
         public ExerciceDifficulty(int level, string difficultyName)
         {
+            DetectShowMeShortChanges();
             DifficultyName = difficultyName;
             DifficultyLevel = level;
             Exercice = new Exercise();
             Id = Guid.NewGuid();
             ExerciceId = Exercice.Id;
         }
+
+        public void DetectShowMeShortChanges()
+        {
+            PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(DifficultyLevel))
+                {
+                    if (Exercice is null)
+                        return;
+                    
+                    Exercice.RaisePropertyChanged(nameof(Exercice.ExerciseDifficulties));
+                }
+            };
+        }
+        
 
         public string ShowMe
         {

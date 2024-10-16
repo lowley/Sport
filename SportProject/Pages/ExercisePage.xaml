@@ -173,9 +173,9 @@
 
                     <dx:ChoiceChipGroup SelectedItem="{Binding SelectedDifficulty}" AutomationId="DifficultiesGroup"
                                         ItemsSource="{Binding SelectedExercise.ExerciseDifficulties}"
-                                        IsMultiline="True" Margin="5,-12,0,0"
+                                        IsMultiline="True" Margin="5,-12,0,0" x:Name="DifficultiesChipGroup"
                                         Grid.Row="1" Grid.ColumnSpan="5" AllowDeselect="True"
-                                        Padding="0,20,0,0"
+                                        Padding="0,20,0,0" ChildAdded="Element_OnChildAdded"
                                         ChipTapCommand="{Binding  DifficultyTappedCommand}">
                         <dx:ChoiceChipGroup.IsVisible>
                             <MultiBinding Converter="{StaticResource IsNotNullAndHasNameConverter}">
@@ -204,7 +204,6 @@
                             </FlexLayout.IsVisible>
                             
                             <dx:NumericEdit Value="{Binding SelectedDifficulty.DifficultyLevel}"
-                                            Focused="DifficultyLevelEntry_Focused"
                                             AutomationId="ExerciseValue" x:Name="DifficultyLevelEntry"
                                             Suffix="{Binding SelectedDifficulty.ShowName}"
                                             BoxPadding="0,3,0,0" WidthRequest="120" HeightRequest="30"

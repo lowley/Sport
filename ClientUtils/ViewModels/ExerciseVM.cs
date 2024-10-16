@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using ClientUtilsProject.DataClasses;
 using ClientUtilsProject.Utils;
 using ClientUtilsProject.Utils.SportRepository;
@@ -38,84 +39,43 @@ public partial class ExerciseVM : ObservableObject
     public Guid? LastSelectedExerciseId;
     [ObservableProperty] public bool _anyDifficultyTappedState;
     public Guid? LastSelectedDifficultyId;
+    public bool DuringDifficultiesChange { get; set; } = false;
+
+    public PropertyChangedEventHandler InSelectedExerciseChangedHandler { get; set; }
 
     private ISportRepository Repository { get; set; }
     private ISportNavigation Navigation { get; set; }
     private ISportLogger Logger { get; set; }
 
-    // partial void OnSelectedExerciseChanged(Exercise value)
-    // {
-    //     if (value is null || EditingNewExerciseName)
-    //     {
-    //         CurrentExercise = new();
-    //     }
-    //     else
-    //     {
-    //         CurrentExercise = value;
-    //
-    //         EditingSelectedExercise = true;
-    //         NewExerciseName = string.Empty;
-    //         EditingSelectedExercise = false;
-    //     }
-    //
-    //     CurrentDifficulty = new ExerciceDifficulty(0, "Kg");
-    // }
+    partial void OnSelectedExerciseChanged(Exercise? oldValue, Exercise? newValue)
+    {
+        //old perd suivi
+        //new gagne suivi de sa ExerciseDifficulties
+        //qd elle est modifiée, il la trie 
+        //redéfinit SelectedExercise après le tri, avec sauvegarde
 
-    // partial void OnNewExerciseNameChanged(string value)
-    // {
-    //     if (value is null || EditingSelectedExercise)
-    //         return;
-    //
-    //     var existingExercice = Exercises
-    //         .FirstOrDefault(e => e.ExerciseName.Equals(value));
-    //
-    //     if (existingExercice is null)
-    //     {
-    //         ExistingExerciseNameInError = false;
-    //
-    //         EditingNewExerciseName = true;
-    //         SelectedExercise = null;
-    //         EditingNewExerciseName = false;
-    //
-    //         CurrentExercise = new Exercise()
-    //         {
-    //             ExerciseName = value,
-    //             Id = Guid.NewGuid(),
-    //             ExerciseDifficulties = []
-    //         };
-    //     }
-    //     else
-    //     {
-    //         ExistingExerciseNameInError = true;
-    //     }
-    // }
+        if (InSelectedExerciseChangedHandler == null)
+            InSelectedExerciseChangedHandler = (object? sender, PropertyChangedEventArgs args) =>
+            {
+                if (!DuringDifficultiesChange && args.PropertyName.Equals(nameof(Exercise.ExerciseDifficulties)))
+                {
+                    var oldSelectedDifficultyId = SelectedDifficulty.Id;
+                    DuringDifficultiesChange = true;
+                    SelectedExercise.ExerciseDifficulties =
+                        new ObservableCollection<ExerciceDifficulty>(
+                            SelectedExercise.ExerciseDifficulties.OrderBy(d => d.DifficultyLevel));
+                    DuringDifficultiesChange = false;
+                    SelectedDifficulty = SelectedExercise.ExerciseDifficulties
+                        .FirstOrDefault(d => d.Id == oldSelectedDifficultyId);
+                }
+            };
 
-    // [RelayCommand]
-    // public async Task ExistingDifficultyTapped(Guid id)
-    // {
-    //     if (CurrentDifficulty.DifficultyLevel != 0)
-    //     {
-    //         CurrentDifficulty = new();
-    //         return;
-    //     }
-    //     
-    //     var difficulty = SelectedExercise.ExerciseDifficulties
-    //         .FirstOrDefault(d => d.Id == id);
-    //
-    //     if (difficulty is null)
-    //         return;
-    //
-    //     CurrentDifficulty = new()
-    //     {
-    //         Id = difficulty.Id,
-    //         DifficultyName = difficulty.DifficultyName,
-    //         DifficultyLevel = difficulty.DifficultyLevel,
-    //         Exercice = difficulty.Exercice,
-    //         ExerciceId = difficulty.ExerciceId
-    //     };
-    //
-    //     Repository.GetContext().Entry(CurrentDifficulty).State = EntityState.Unchanged;
-    // }
+        if (oldValue is not null)
+            oldValue.PropertyChanged -= InSelectedExerciseChangedHandler;
+
+        if (newValue is not null)
+            newValue.PropertyChanged += InSelectedExerciseChangedHandler;
+    }
 
     [RelayCommand]
     public async Task ExerciseTapped(Exercise exercise)
@@ -148,15 +108,15 @@ public partial class ExerciseVM : ObservableObject
             newExistingExerciseName = string.Empty;
             return;
         }
-        
+
         //code commun aux 2 cas
-        
+
         //SelectedExercise ne peut pas être nul par construction du XAML normalement
         if (SelectedExercise is not null)
             SelectedExercise.ExerciseName = newExistingExerciseName;
 
         //cas spécifique du nouvel exercice
-        
+
         if (SelectedExercise.Id != Exercises.FirstOrDefault()?.Id)
             return;
 
@@ -178,17 +138,23 @@ public partial class ExerciseVM : ObservableObject
         {
             SelectedDifficulty = null;
             AnyDifficultyTappedState = !AnyDifficultyTappedState;
+            return;
         }
         else if (!AnyDifficultyTappedState)
             AnyDifficultyTappedState = true;
 
         LastSelectedDifficultyId = difficulty?.Id;
 
-        if (SelectedDifficulty.Id != SelectedExercise.ExerciseDifficulties[0].Id)
+        if (SelectedDifficulty?.Id != SelectedExercise.ExerciseDifficulties[0].Id)
             return;
 
         SelectedDifficulty.DifficultyLevel = 10;
         SelectedDifficulty.DifficultyName = "Kg";
+        SelectedDifficulty.Exercice = SelectedExercise;
+
+        var collect = SelectedExercise.ExerciseDifficulties.ToList();
+        collect = collect.OrderBy(d => d.ShowMeShort).ToList();
+        SelectedExercise.ExerciseDifficulties = new(collect);
 
         var newDifficulty = new ExerciceDifficulty();
         SelectedExercise.ExerciseDifficulties.Insert(0, newDifficulty);
@@ -242,153 +208,18 @@ public partial class ExerciseVM : ObservableObject
 
         await Repository.SaveChangesAsync();
         await LoadExercises();
-
-        // Guid recoveryId = Guid.Empty;
-        //
-        // if (IsCreationExercise())
-        // {
-        //     var savedNewExercise = await CreateExerciseAsync();
-        //     recoveryId = savedNewExercise?.Id ?? Guid.Empty;
-        //
-        //     //the exercise is created
-        //     //because CreationExercise tests if datas are valid
-        //     if (IsCreationDifficulty() && savedNewExercise is not null)
-        //         await CreateDifficulty(savedNewExercise);
-        // }
-        // else
-        // {
-        //     if (IsModificationExercise())
-        //     {
-        //         Exercise exercise = CurrentExercise;
-        //
-        //         if (IsModificationExerciseName())
-        //             exercise = await ModifyExerciseName();
-        //
-        //         recoveryId = exercise.Id;
-        //
-        //         if (IsModificationDifficulty())
-        //             await ModifyDifficulty(exercise);
-        //         else if (IsCreationDifficulty())
-        //             await CreateDifficulty(exercise);
-        //     }
-        //
-        //     await Repository.SaveChangesAsync();
-        // }
-        //
-        // bool IsCreationExercise()
-        // {
-        //     var bad = string.IsNullOrEmpty(NewExerciseName)
-        //               || Exercises.Any(e => e.ExerciseName == NewExerciseName);
-        //     return !bad;
-        // }
-        //
-        // bool IsCreationDifficulty()
-        // {
-        //     var result = CurrentDifficulty is not null
-        //                  && CurrentDifficulty.DifficultyLevel > 0
-        //                  && CurrentDifficulty.DifficultyName.IsSome;
-        //     return result;
-        // }
-        //
-        // bool IsModificationExercise()
-        // {
-        //     var result = Exercises.Any(e => e.Id == CurrentExercise.Id);
-        //     return result;
-        // }
-        //
-        // bool IsModificationExerciseName()
-        // {
-        //     var result = !string.IsNullOrEmpty(ExistingExerciseName);
-        //     return result;
-        // }
-        //
-        // bool IsModificationDifficulty()
-        // {
-        //     var result = CurrentDifficulty is not null
-        //                  && CurrentExercise.ExerciseDifficulties
-        //                      .Any(d => d.Id == CurrentDifficulty.Id)
-        //                  && CurrentDifficulty.DifficultyLevel > 0
-        //                  && CurrentDifficulty.DifficultyName.IsSome;
-        //
-        //     return result;
-        // }
-        //
-        // async Task<Exercise> CreateExerciseAsync()
-        // {
-        //     var newExercise = new Exercise()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         ExerciseName = NewExerciseName,
-        //         ExerciseDifficulties = []
-        //     };
-        //
-        //     var savedExercise = await Repository.AddAsync(newExercise);
-        //     await Repository.SaveChangesAsync(CancellationToken.None);
-        //     await Repository.ReloadAsync();
-        //
-        //     var state = Repository.GetContext()?.Entry(savedExercise).State;
-        //     if (state is not null)
-        //         state = EntityState.Unchanged;
-        //
-        //     foreach (var d in savedExercise.ExerciseDifficulties)
-        //     {
-        //         state = Repository.GetContext()?.Entry(d).State;
-        //         if (state is not null)
-        //             state = EntityState.Detached;
-        //     }
-        //
-        //     return savedExercise;
-        // }
-        //
-        // async Task<ExerciceDifficulty> CreateDifficulty(Exercise savedNewExercise)
-        // {
-        //     CurrentDifficulty.ExerciceId = savedNewExercise.Id;
-        //     CurrentDifficulty.Exercice = null;
-        //     var savedDifficulty = await Repository.AddAsync(CurrentDifficulty);
-        //
-        //     await Repository.SaveChangesAsync(CancellationToken.None);
-        //     return savedDifficulty;
-        // }
-        //
-        // async Task<Exercise> ModifyExerciseName()
-        // {
-        //     Repository.Attach(CurrentExercise);
-        //     CurrentExercise.ExerciseName = ExistingExerciseName;
-        //     await Repository.SaveChangesAsync();
-        //     await Repository.ReloadAsync();
-        //     CurrentExercise = Repository.Query<Exercise>()
-        //         .Include(e => e.ExerciseDifficulties)
-        //         .AsNoTracking()
-        //         .FirstOrDefault(e => e.Id == CurrentExercise.Id);
-        //
-        //     if (CurrentExercise is null)
-        //         return null;
-        //
-        //     return CurrentExercise;
-        // }
-        //
-        // async Task ModifyDifficulty(Exercise exercise)
-        // {
-        //     Repository.Attach(CurrentDifficulty);
-        //     CurrentDifficulty.Exercice = exercise;
-        //     await Repository.SaveChangesAsync(CancellationToken.None);
-        //     await Repository.ReloadAsync();
-        //     CurrentDifficulty = Repository.Query<ExerciceDifficulty>()
-        //         .Include(d => d.Exercice)
-        //         .AsNoTracking()
-        //         .FirstOrDefault(e => e.Id == CurrentDifficulty.Id);
-        // }
-        //
-        // await LoadExercises();
-        // CurrentDifficulty = new(0, "Kg");
-        // SelectedExercise = Exercises
-        //     .FirstOrDefault(e => e.Id == recoveryId);
     }
 
     [RelayCommand]
     public async Task Back()
     {
-        await Navigation.NavigateBack();
+        // await Navigation.NavigateBack();
+
+        var temp = SelectedExercise.ExerciseDifficulties[0];
+        SelectedExercise.ExerciseDifficulties[0] = SelectedExercise.ExerciseDifficulties[1];
+        SelectedExercise.ExerciseDifficulties[1] = temp;
+
+        SelectedExercise.RaisePropertyChanged(nameof(Exercise.ExerciseDifficulties));
     }
 
     [RelayCommand]
@@ -409,6 +240,8 @@ public partial class ExerciseVM : ObservableObject
             .ToList();
         newExercises.ForEach(e =>
         {
+            e.ExerciseDifficulties =
+                new ObservableCollection<ExerciceDifficulty>(e.ExerciseDifficulties.OrderBy(d => d.DifficultyLevel));
             var eNewDifficulty = new ExerciceDifficulty();
             Repository.GetContext().Entry(eNewDifficulty).State = EntityState.Added;
             e.ExerciseDifficulties.Insert(0, eNewDifficulty);

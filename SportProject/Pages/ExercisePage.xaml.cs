@@ -37,4 +37,9 @@ public partial class ExercisePage : ContentPage
         base.OnAppearing();
         VM.LoadExercises();
     }
+
+    private void Element_OnChildAdded(object? sender, ElementEventArgs e)
+    {
+        DifficultiesChipGroup.RefreshData();
+    }
 }
