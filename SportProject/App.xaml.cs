@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core;
 using Microsoft.Maui.Controls;
+using SportProject;
 using SportProject.Resources.Styles;
 using Syncfusion.Maui.DataSource.Extensions;
 
@@ -79,13 +80,17 @@ namespace Sport
                     .Values.First();
                 
                 var pagesStyle = new Style(typeof(ContentPage));
-                pagesStyle.Behaviors.Add(new StatusBarBehavior()
-                {
-                    StatusBarColor = sixtyColor,
-                    StatusBarStyle = StatusBarStyle.LightContent
-                });
+                // pagesStyle.Behaviors.Add(new CommunityToolkit.Maui.Behaviors.StatusBarBehavior()
+                // {
+                //     StatusBarColor = sixtyColor,
+                //     //StatusBarStyle = StatusBarStyle.DarkContent
+                // });
 
                 var shellStyle = new Style(typeof(Shell));
+                // shellStyle.Behaviors.Add(new CommunityToolkit.Maui.Behaviors.StatusBarBehavior
+                // {
+                //     StatusBarColor = sixtyColor,
+                // });
                 shellStyle.Setters.Add(new Setter()
                 {
                     Property = Shell.TabBarBackgroundColorProperty,
@@ -96,7 +101,43 @@ namespace Sport
                     Property = Shell.TabBarTitleColorProperty,
                     Value = textColor
                 });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.TabBarForegroundColorProperty,
+                    Value = textColor
+                });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.TabBarUnselectedColorProperty,
+                    Value = textColor
+                });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.BackgroundColorProperty,
+                    Value = sixtyColor
+                });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.ForegroundColorProperty,
+                    Value = textColor
+                });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.UnselectedColorProperty,
+                    Value = textColor
+                });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.DisabledColorProperty,
+                    Value = textColor
+                });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.TitleColorProperty,
+                    Value = textColor
+                });
                 dicos.Add(new (){pagesStyle, shellStyle});
+                
                 
                 //Shell.SetTabBarBackgroundColor(this, sixtyColor);
             }

@@ -16,16 +16,7 @@
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}" />
-        <Setter Property="ForegroundColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Default={StaticResource TextColor}}" />
-        <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColor}}" />
-        <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColor}}" />
-        <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColor}}" />
         <Setter Property="Shell.NavBarHasShadow" Value="False" />
-        <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}" />
-        <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light={StaticResource TenColor}, Dark={StaticResource TenColor}}" />
-        <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource TenColor}, Dark={StaticResource TenColor}}" />
-        <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource TextColor}, Dark={StaticResource TextColor}}" />
     </Style>
 
     <Style TargetType="Button">

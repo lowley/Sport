@@ -2,10 +2,12 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="Sport.Pages"
+             xmlns:local="SportProject.Pages"
+             xmlns:sport="clr-namespace:SportProject"
              xmlns:vm="clr-namespace:ClientUtilsProject.ViewModels;assembly=ClientUtilsProject"
              xmlns:converters="clr-namespace:Sport.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pages="clr-namespace:SportProject.Pages"
              x:DataType="vm:HomeVM"
              x:Class="SportProject.Pages.HomePage"
              x:Name="Page"
@@ -13,7 +15,13 @@
 
     <ContentPage.Resources>
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble" />
+        
     </ContentPage.Resources>
+    
+    <ContentPage.Behaviors>
+        <sport:StatusBarBehavior />
+    </ContentPage.Behaviors>
+
 
     <FlexLayout Direction="Column">
         <Button Text="Session" AutomationId="AddSessionBtn"

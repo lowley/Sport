@@ -2,7 +2,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SportProject.Resources.Styles.LightTheme">
-    <Color x:Key="SixtyColor">White</Color>
+    <Color x:Key="SixtyColor">Beige</Color>
     <Color x:Key="ThirtyColor">Beige</Color>
     <Color x:Key="ThirtyTwoColor">#DEDBA0</Color>
     <Color x:Key="TenColor">#960840</Color>
