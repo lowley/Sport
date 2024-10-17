@@ -47,7 +47,7 @@
 
         <Button Text="Exercice" AutomationId="AddExerciseBtn"
                 BackgroundColor="Transparent" BorderColor="Transparent"
-                Command="{Binding AddExerciseCommand}" Grid.Row="1" />
+                Command="{Binding AddExerciseCommand}" />
 
         <Border BackgroundColor="Transparent" HeightRequest="1"
                 Stroke="Transparent"
@@ -58,7 +58,7 @@
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="Transparent"
                                       Offset="0.0" />
-                        <GradientStop Color="Beige"
+                        <GradientStop Color="{AppThemeBinding Light={StaticResource TenColor}, Dark={StaticResource TenColor}}"
                                       Offset="0.5" />
                         <GradientStop Color="Transparent"
                                       Offset="1.0" />

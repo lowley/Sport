@@ -1,12 +1,5 @@
-﻿using ClientUtilsProject.DataClasses;
-using ClientUtilsProject.ViewModels;
-using System.Collections.ObjectModel;
-using CommunityToolkit.Maui.Behaviors;
-using CommunityToolkit.Maui.Core;
-using Microsoft.Maui.Controls;
-using SportProject;
+﻿using ClientUtilsProject.ViewModels;
 using SportProject.Resources.Styles;
-using Syncfusion.Maui.DataSource.Extensions;
 
 namespace Sport
 {
@@ -18,27 +11,18 @@ namespace Sport
             ExercisesVM._exercices = [];
             
             InitializeComponent();
-            
-            if (RequestedTheme == AppTheme.Dark)
-            {
-                SetDarkTheme();
-            }
-            else
-            {
-                SetLightTheme();
-            }
 
-            RequestedThemeChanged += (s, a) =>
-            {
-                if (a.RequestedTheme == AppTheme.Dark)
-                {
-                    SetDarkTheme();
-                }
-                else
-                {
-                    SetLightTheme();
-                }
-            };
+            // RequestedThemeChanged += (s, a) =>
+            // {
+            //     if (a.RequestedTheme == AppTheme.Dark)
+            //     {
+            //         SetDarkTheme();
+            //     }
+            //     else
+            //     {
+            //         SetLightTheme();
+            //     }
+            // };
             
             MainPage = new AppShell();
         }
@@ -47,24 +31,14 @@ namespace Sport
         {
             ICollection<ResourceDictionary> mergedDictionaries = Resources.MergedDictionaries;
             if (mergedDictionaries != null)
-            {
-                mergedDictionaries.Clear();
-                mergedDictionaries.Add(new DarkTheme());
-                mergedDictionaries.Add(new Styles());
                 AddRemainder(mergedDictionaries);
-            }
         }
 
         private void SetLightTheme()
         {
             ICollection<ResourceDictionary> mergedDictionaries = Resources.MergedDictionaries;
             if (mergedDictionaries != null)
-            {
-                mergedDictionaries.Clear();
-                mergedDictionaries.Add(new LightTheme());
-                mergedDictionaries.Add(new Styles());
                 AddRemainder(mergedDictionaries);
-            }
         }
 
         public void AddRemainder(ICollection<ResourceDictionary> dicos)
@@ -136,9 +110,8 @@ namespace Sport
                     Property = Shell.TitleColorProperty,
                     Value = textColor
                 });
-                dicos.Add(new (){pagesStyle, shellStyle});
-                
-                
+                dicos.Add(new() { pagesStyle, shellStyle });
+
                 //Shell.SetTabBarBackgroundColor(this, sixtyColor);
             }
         }

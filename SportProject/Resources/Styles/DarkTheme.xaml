@@ -2,13 +2,13 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SportProject.Resources.Styles.DarkTheme">
-    <Color x:Key="SixtyColor">#064789</Color>
-    <Color x:Key="ThirtyColor">#427aa1</Color>
-    <Color x:Key="ThirtyTwoColor">#5186AC</Color>
-    <Color x:Key="TenColor">#9381ff</Color>
-    <Color x:Key="TwelveColor">#8470FF</Color>
-    <Color x:Key="AltTenColor">#ebf2fa</Color>
-    <Color x:Key="TextColor">#B6C8D6</Color>
-    <Color x:Key="TransparentColor">Transparent</Color>
-    <Color x:Key="ShadedColor">#dce0d9</Color>
+    <Color x:Key="SixtyColorDark">#064789</Color>
+    <Color x:Key="ThirtyColorDark">#427aa1</Color>
+    <Color x:Key="ThirtyTwoColorDark">#5186AC</Color>
+    <Color x:Key="TenColorDark">#9381ff</Color>
+    <Color x:Key="TwelveColorDark">#8470FF</Color>
+    <Color x:Key="AltTenColorDark">#ebf2fa</Color>
+    <Color x:Key="TextColorDark">#B6C8D6</Color>
+    <Color x:Key="TransparentColorDark">Transparent</Color>
+    <Color x:Key="ShadedColorDark">#dce0d9</Color>
 </ResourceDictionary>

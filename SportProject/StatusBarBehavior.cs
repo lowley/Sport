@@ -17,19 +17,22 @@ public class StatusBarBehavior : Behavior<ContentPage>
     protected override void OnAttachedTo(ContentPage bindable)
     {
         base.OnAttachedTo(bindable);
-        DefineColor();
+        DefineColor(Application.Current.RequestedTheme);
 
-        Application.Current.RequestedThemeChanged += (s, a) => { DefineColor(); };
+        Application.Current.RequestedThemeChanged += (s, a) => { DefineColor(a.RequestedTheme); };
     }
 
-    private void DefineColor()
+    private void DefineColor(AppTheme theme)
     {
-        if (Application.Current.Resources.MergedDictionaries.Any(d => d.ContainsKey("SixtyColor")))
+        if (Application.Current.Resources.MergedDictionaries.SelectMany(d => d.Keys).Contains("SixtyColor")
+            && Application.Current.Resources.MergedDictionaries.SelectMany(d => d.Keys).Contains("SixtyColorDark"))
         {
-            Application.Current.Resources.MergedDictionaries.First(d => d.ContainsKey("SixtyColor"))
+            Application.Current.Resources.MergedDictionaries.First(d => d.Keys.Contains("SixtyColor"))
                 .TryGetValue("SixtyColor", out var valeur);
+            Application.Current.Resources.MergedDictionaries.First(d => d.Keys.Contains("SixtyColorDark"))
+                .TryGetValue("SixtyColorDark", out var valeurDark);
 
-            StatusBarColor = (Color)valeur;
+            StatusBarColor = theme == AppTheme.Light ? (Color)valeur! : (Color)valeurDark!;
             UpdateStatusBarColor();
         }
     }
