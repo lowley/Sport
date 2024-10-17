@@ -41,18 +41,11 @@ public class StatusBarBehavior : Behavior<ContentPage>
 
     private void UpdateStatusBarColor()
     {
-        // if (StatusBarColor != Color.Default)
-        // {
-        // Android-specific code
         if (DeviceInfo.Platform == DevicePlatform.Android)
         {
             var window = Platform.CurrentActivity.Window;
             window.SetStatusBarColor(StatusBarColor.ToPlatform());
             window.SetNavigationBarColor(StatusBarColor.ToPlatform());
-            // window.DecorView.WindowVisibility =
-            //     (StatusBarVisibility)SystemUiFlags.LayoutStable;
-            window.SetNavigationBarColor(StatusBarColor.ToPlatform());
         }
-        // }
     }
 }

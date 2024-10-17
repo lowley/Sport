@@ -15,7 +15,6 @@
 
     <ContentPage.Resources>
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble" />
-        
     </ContentPage.Resources>
     
     <ContentPage.Behaviors>
