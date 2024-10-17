@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="Sport.Pages"
@@ -12,32 +13,108 @@
              Title="Accueil">
 
     <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}" 
-                                   StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:StatusBarBehavior
+            StatusBarColor="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}"
+            StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
     </ContentPage.Behaviors>
-    
+
     <ContentPage.Resources>
-        <converters:TruncateLocationDouble x:Key="TruncateLocationDouble"/>
+        <converters:TruncateLocationDouble x:Key="TruncateLocationDouble" />
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, auto, auto, auto, auto, *, auto" ColumnDefinitions="auto, *"
-          BackgroundColor="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}">
+    <FlexLayout Direction="Column">
+
+        <Button Text="Session" AutomationId="AddSessionBtn"
+                BackgroundColor="Transparent" BorderColor="Transparent"
+                Command="{Binding AddSessionCommand}" />
+
+        <Border BackgroundColor="Transparent" HeightRequest="1"
+                Stroke="Transparent"
+                 FlexLayout.AlignSelf="Center">
+            <Frame HeightRequest="1" WidthRequest="100" 
+                   Padding="0" HasShadow="False" Margin="0">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="Transparent"
+                                      Offset="0.0" />
+                        <GradientStop Color="Beige"
+                                      Offset="0.5" />
+                        <GradientStop Color="Transparent"
+                                      Offset="1.0" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
+        </Border>
+
+        <Button Text="Exercice" AutomationId="AddExerciseBtn"
+                BackgroundColor="Transparent" BorderColor="Transparent"
+                Command="{Binding AddExerciseCommand}" Grid.Row="1" />
+
+        <Border BackgroundColor="Transparent" HeightRequest="1"
+                Stroke="Transparent"
+                FlexLayout.AlignSelf="Center">
+            <Frame HeightRequest="1" WidthRequest="100" 
+                   Padding="0" HasShadow="False" Margin="0">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="Transparent"
+                                      Offset="0.0" />
+                        <GradientStop Color="Beige"
+                                      Offset="0.5" />
+                        <GradientStop Color="Transparent"
+                                      Offset="1.0" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
+        </Border>
         
-        <Button Text="Ajouter une séance" AutomationId="AddSessionBtn"
-                Command="{Binding AddSessionCommand}" Grid.Row="0"/>
+        <Button Text="Exercices" AutomationId="ExercisesBtn"
+                BackgroundColor="Transparent" BorderColor="Transparent"
+                Command="{Binding ListExercisesCommand}" Grid.Row="2" />
 
-        <Button Text="Ajouter un exercice" AutomationId="AddExerciseBtn"
-            Command="{Binding AddExerciseCommand}" Grid.Row="1"/>
-
-        <Button Text="Liste des exercices" AutomationId="ExercisesBtn"
-            Command="{Binding ListExercisesCommand}" Grid.Row="2"/>
+        <Border BackgroundColor="Transparent" HeightRequest="1"
+                Stroke="Transparent"
+                FlexLayout.AlignSelf="Center">
+            <Frame HeightRequest="1" WidthRequest="100" 
+                   Padding="0" HasShadow="False" Margin="0">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="Transparent"
+                                      Offset="0.0" />
+                        <GradientStop Color="Beige"
+                                      Offset="0.5" />
+                        <GradientStop Color="Transparent"
+                                      Offset="1.0" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
+        </Border>
         
-        <Button Text="Liste des séances" AutomationId="SessionsBtn"
-                Command="{Binding ListSessionsCommand}" Grid.Row="3"/>
+        <Button Text="Sessions" AutomationId="SessionsBtn"
+                BackgroundColor="Transparent" BorderColor="Transparent"
+                Command="{Binding ListSessionsCommand}" Grid.Row="3" />
 
-        <Button Text="Clear" AutomationId="ClearBtn"
-            Command="{Binding ClearCommand}" Grid.Row="4"
-            />
-    </Grid>
-    
+        <Border BackgroundColor="Transparent" HeightRequest="1"
+                Stroke="Transparent"
+                FlexLayout.AlignSelf="Center">
+            <Frame HeightRequest="1" WidthRequest="100" 
+                   Padding="0" HasShadow="False" Margin="0">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="Transparent"
+                                      Offset="0.0" />
+                        <GradientStop Color="Beige"
+                                      Offset="0.5" />
+                        <GradientStop Color="Transparent"
+                                      Offset="1.0" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
+        </Border>
+        
+        <Button Text="Vider" AutomationId="ClearBtn"
+                BackgroundColor="Transparent" BorderColor="Transparent"
+                Command="{Binding ClearCommand}" Grid.Row="4" />
+    </FlexLayout>
+
 </ContentPage>
