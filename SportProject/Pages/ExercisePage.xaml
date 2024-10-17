@@ -12,14 +12,8 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:dx="http://schemas.devexpress.com/maui"
              x:DataType="vm:ExerciseVM"
-             BackgroundColor="{DynamicResource SixtyColor}"
              Title="ExercisePage"
              x:Name="Page">
-
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Light={StaticResource SixtyColor}, Dark={StaticResource SixtyColor}}" 
-                                   StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
-    </ContentPage.Behaviors>
     
     <ContentPage.Resources>
         <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />

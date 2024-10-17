@@ -1,8 +1,11 @@
 ﻿using ClientUtilsProject.DataClasses;
 using ClientUtilsProject.ViewModels;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
 using Microsoft.Maui.Controls;
 using SportProject.Resources.Styles;
+using Syncfusion.Maui.DataSource.Extensions;
 
 namespace Sport
 {
@@ -13,9 +16,7 @@ namespace Sport
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NDaF5cWGNCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXZcdXVUR2ldUk1wVkY=");
             ExercisesVM._exercices = [];
             
-
             InitializeComponent();
-            MainPage = new AppShell();
             
             if (RequestedTheme == AppTheme.Dark)
             {
@@ -37,6 +38,8 @@ namespace Sport
                     SetLightTheme();
                 }
             };
+            
+            MainPage = new AppShell();
         }
         
         private void SetDarkTheme()
@@ -47,7 +50,7 @@ namespace Sport
                 mergedDictionaries.Clear();
                 mergedDictionaries.Add(new DarkTheme());
                 mergedDictionaries.Add(new Styles());
-                Addremainder(mergedDictionaries);
+                AddRemainder(mergedDictionaries);
             }
         }
 
@@ -59,13 +62,44 @@ namespace Sport
                 mergedDictionaries.Clear();
                 mergedDictionaries.Add(new LightTheme());
                 mergedDictionaries.Add(new Styles());
-                Addremainder(mergedDictionaries);
+                AddRemainder(mergedDictionaries);
             }
         }
 
-        public void Addremainder(ICollection<ResourceDictionary> dicos)
+        public void AddRemainder(ICollection<ResourceDictionary> dicos)
         {
             dicos.Add(new RemainderThemeContent());
+            
+            if (dicos.Any(rd => rd.ContainsKey("SixtyColor"))
+                && dicos.Any(rd => rd.ContainsKey("TextColor")))
+            {
+                var sixtyColor = (Color)dicos.First(rd => rd.ContainsKey("SixtyColor"))
+                    .Values.First();
+                var textColor = (Color)dicos.First(rd => rd.ContainsKey("TextColor"))
+                    .Values.First();
+                
+                var pagesStyle = new Style(typeof(ContentPage));
+                pagesStyle.Behaviors.Add(new StatusBarBehavior()
+                {
+                    StatusBarColor = sixtyColor,
+                    StatusBarStyle = StatusBarStyle.LightContent
+                });
+
+                var shellStyle = new Style(typeof(Shell));
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.TabBarBackgroundColorProperty,
+                    Value = sixtyColor
+                });
+                shellStyle.Setters.Add(new Setter()
+                {
+                    Property = Shell.TabBarTitleColorProperty,
+                    Value = textColor
+                });
+                dicos.Add(new (){pagesStyle, shellStyle});
+                
+                //Shell.SetTabBarBackgroundColor(this, sixtyColor);
+            }
         }
     }
 }
