@@ -24,14 +24,10 @@ public partial class HomePage : ContentPage
 
         Application.Current!.UserAppTheme = AppTheme.Unspecified;
         themeChangeDetector.ThemeChanged += OnThemeChangedWithDark;
-        // Application.Current!.UserAppTheme = AppTheme.Light;
-        // OnThemeChanged(true);
     }
 
     private void SfSwitch_OnStateChanged(object? sender, SwitchStateChangedEventArgs e)
     {
-        //OnThemeChanged(Application.Current!.UserAppTheme == AppTheme.Light ? true : false);
-
         switch (e.NewValue)
         {
             case null:
@@ -65,17 +61,13 @@ public partial class HomePage : ContentPage
         {
             Application.Current!.UserAppTheme = AppTheme.Dark;
             if (sixtyColorDark is not null)
-            {
                 ModifyShellWith(mergedDictionaries, sixtyColorDark, textColorDark);
-            }
         }
         else
         {
             Application.Current!.UserAppTheme = AppTheme.Light;
             if (sixtyColor is not null)
-            {
                 ModifyShellWith(mergedDictionaries, sixtyColor, textColor);
-            }
         }
     }
 
