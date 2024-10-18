@@ -1,4 +1,8 @@
-﻿namespace ClientUtilsProject.Utils;
+﻿using System.Linq;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
+
+namespace ClientUtilsProject.Utils;
 
 using System;
 using System.Globalization;

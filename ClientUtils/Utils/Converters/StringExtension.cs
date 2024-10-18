@@ -1,4 +1,7 @@
-﻿namespace ClientUtilsProject.Utils.Converters;
+﻿using System;
+using Microsoft.Maui.Controls.Xaml;
+
+namespace ClientUtilsProject.Utils.Converters;
 
 public class StringExtension : IMarkupExtension
 {

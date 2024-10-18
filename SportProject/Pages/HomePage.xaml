@@ -8,6 +8,7 @@
              xmlns:converters="clr-namespace:Sport.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:pages="clr-namespace:SportProject.Pages"
+             xmlns:buttons="http://schemas.syncfusion.com/maui"
              x:DataType="vm:HomeVM"
              x:Class="SportProject.Pages.HomePage"
              x:Name="Page"
@@ -16,10 +17,69 @@
     <ContentPage.Resources>
         <converters:TruncateLocationDouble x:Key="TruncateLocationDouble" />
     </ContentPage.Resources>
-    
+
     <ContentPage.Behaviors>
         <sport:StatusBarBehavior />
     </ContentPage.Behaviors>
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="*, auto">
+            <Label Text="Accueil" FontAttributes="Bold" FontSize="18"
+                   HorizontalOptions="Center" VerticalOptions="Center"
+                   Grid.ColumnSpan="2" Margin="0,0,15,0"/>
+            <buttons:SfSwitch AllowIndeterminateState="True"
+                              IsOn="{Binding IsDarkThemeRequired}"
+                              Grid.Column="1"
+                              Margin="0,0,10,0"
+                              StateChanged="SfSwitch_OnStateChanged">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="On">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <buttons:SwitchSettings
+                                            ThumbBackground="#FF029BFF"
+                                            ThumbStroke="#FF029BFF"
+                                            TrackBackground="#22029BFF"
+                                            TrackStroke="#FF029BFF" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Off">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <buttons:SwitchSettings
+                                            ThumbBackground="#FFFF0199"
+                                            ThumbStroke="#FFFF0199"
+                                            TrackBackground="#22FF0199"
+                                            TrackStroke="#FFFF0199" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Indeterminate">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <buttons:SwitchSettings
+                                            ThumbBackground="#9ACB0D"
+                                            ThumbStroke="#9ACB0D"
+                                            TrackBackground="#DEF991"
+                                            TrackStroke="#9ACB0D" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </buttons:SfSwitch>
+        </Grid>
+
+
+    </Shell.TitleView>
 
 
     <FlexLayout Direction="Column">
@@ -29,8 +89,8 @@
 
         <Border BackgroundColor="Transparent" HeightRequest="1"
                 Stroke="Transparent"
-                 FlexLayout.AlignSelf="Center">
-            <Frame HeightRequest="1" WidthRequest="100" 
+                FlexLayout.AlignSelf="Center">
+            <Frame HeightRequest="1" WidthRequest="100"
                    Padding="0" HasShadow="False" Margin="0">
                 <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -52,21 +112,22 @@
         <Border BackgroundColor="Transparent" HeightRequest="1"
                 Stroke="Transparent"
                 FlexLayout.AlignSelf="Center">
-            <Frame HeightRequest="1" WidthRequest="100" 
+            <Frame HeightRequest="1" WidthRequest="100"
                    Padding="0" HasShadow="False" Margin="0">
                 <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="Transparent"
                                       Offset="0.0" />
-                        <GradientStop Color="{AppThemeBinding Light={StaticResource TenColor}, Dark={StaticResource TenColor}}"
-                                      Offset="0.5" />
+                        <GradientStop
+                            Color="{AppThemeBinding Light={StaticResource TenColor}, Dark={StaticResource TenColor}}"
+                            Offset="0.5" />
                         <GradientStop Color="Transparent"
                                       Offset="1.0" />
                     </LinearGradientBrush>
                 </Frame.Background>
             </Frame>
         </Border>
-        
+
         <Button Text="Exercices" AutomationId="ExercisesBtn"
                 BackgroundColor="Transparent" BorderColor="Transparent"
                 Command="{Binding ListExercisesCommand}" Grid.Row="2" />
@@ -74,7 +135,7 @@
         <Border BackgroundColor="Transparent" HeightRequest="1"
                 Stroke="Transparent"
                 FlexLayout.AlignSelf="Center">
-            <Frame HeightRequest="1" WidthRequest="100" 
+            <Frame HeightRequest="1" WidthRequest="100"
                    Padding="0" HasShadow="False" Margin="0">
                 <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -88,7 +149,7 @@
                 </Frame.Background>
             </Frame>
         </Border>
-        
+
         <Button Text="Sessions" AutomationId="SessionsBtn"
                 BackgroundColor="Transparent" BorderColor="Transparent"
                 Command="{Binding ListSessionsCommand}" Grid.Row="3" />
@@ -96,7 +157,7 @@
         <Border BackgroundColor="Transparent" HeightRequest="1"
                 Stroke="Transparent"
                 FlexLayout.AlignSelf="Center">
-            <Frame HeightRequest="1" WidthRequest="100" 
+            <Frame HeightRequest="1" WidthRequest="100"
                    Padding="0" HasShadow="False" Margin="0">
                 <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -110,7 +171,7 @@
                 </Frame.Background>
             </Frame>
         </Border>
-        
+
         <Button Text="Vider" AutomationId="ClearBtn"
                 BackgroundColor="Transparent" BorderColor="Transparent"
                 Command="{Binding ClearCommand}" Grid.Row="4" />

@@ -1,5 +1,8 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 using ClientUtilsProject.DataClasses;
+using Microsoft.Maui.Controls;
 
 namespace ClientUtilsProject.Utils;
 

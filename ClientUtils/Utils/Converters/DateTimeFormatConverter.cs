@@ -1,4 +1,6 @@
-﻿namespace ClientUtilsProject.Utils;
+﻿using Microsoft.Maui.Controls;
+
+namespace ClientUtilsProject.Utils;
 
 using System;
 using System.Globalization;

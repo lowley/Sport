@@ -1,4 +1,6 @@
-﻿namespace ClientUtilsProject.Utils;
+﻿using System.Threading.Tasks;
+
+namespace ClientUtilsProject.Utils;
 
 public interface ISportLogger
 {
