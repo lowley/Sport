@@ -218,6 +218,10 @@ public partial class ExerciseVM : ObservableObject
             }
         }
 
+        AnyExerciseTappedState = false;
+        LastSelectedDifficultyId = null;
+        AnyDifficultyTappedState = false;
+        LastSelectedDifficultyId = null;
         await Repository.SaveChangesAsync();
         await LoadExercises();
     }

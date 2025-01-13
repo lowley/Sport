@@ -115,5 +115,16 @@
         </MauiXaml>
     </ItemGroup>
 
+    <ItemGroup>
+      <AndroidResource Update="Platforms\Android\Resources\values_sombre\styles.xml">
+        <SubType>Designer</SubType>
+        <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      </AndroidResource>
+      <AndroidResource Update="Platforms\Android\Resources\values\styles.xml">
+        <SubType>Designer</SubType>
+        <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      </AndroidResource>
+    </ItemGroup>
+
 
 </Project>

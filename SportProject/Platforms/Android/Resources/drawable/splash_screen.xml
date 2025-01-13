@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+    <item android:drawable="@android:color/white"/>
+    <item
+            android:width="512dp"
+            android:height="896dp"
+            android:gravity="center">
+        <bitmap
+                android:src="@drawable/muscu_clair"
+                android:gravity="fill"/>
+    </item>
+</layer-list>

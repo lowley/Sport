@@ -25,8 +25,8 @@ public partial class ExercisePage : ContentPage
                     return;
 
                 await WaitUntil(() => 
-                    VM.SelectedExercise.ExerciseDifficulties.FirstOrDefault()?.Id
-                    == DifficultiesChipGroup.ItemsSource?.ToList<ExerciceDifficulty>().FirstOrDefault()?.Id, 30); 
+                    VM?.SelectedExercise?.ExerciseDifficulties?.FirstOrDefault()?.Id
+                    == DifficultiesChipGroup?.ItemsSource?.ToList<ExerciceDifficulty>()?.FirstOrDefault()?.Id, 30); 
                 DifficultiesChipGroup.ItemsSource?.ForEach<ExerciceDifficulty>(d =>
                 {
                     DifficultiesChipGroup.GetChipByItem(d)
